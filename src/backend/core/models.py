@@ -1,7 +1,7 @@
-
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with registration number authentication."""
@@ -41,6 +41,33 @@ class UserManager(BaseUserManager):
 
         return self._create_user(registration_number, password, **extra_fields)
 
+    def create_from_college_data(self, college_data_id):
+        """Create a User from CollegeData, generating a default password.
+        # Added to support async user creation tasks with Celery, ensuring seamless conversion
+        # from CollegeData to User with a secure default password.
+        """
+        from .models import CollegeData
+        college_data = CollegeData.objects.get(id=college_data_id)
+        if college_data.is_used:
+            raise ValueError('College data already used')
+        
+        # Generate random password
+        import secrets
+        default_password = secrets.token_hex(8)
+        
+        user = self.create_user(
+            registration_number=college_data.registration_number,
+            password=default_password,
+            first_name=college_data.first_name,  # Split full_name
+            last_name=college_data.last_name,
+            course=college_data.course,
+            email=college_data.email,
+            is_verified=False  # Require manual verification
+        )
+        
+        college_data.mark_as_used()
+        return user, default_password
+
 class State(models.Model):
     """Model representing a state/region."""
     name = models.CharField(max_length=100, unique=True)
@@ -53,6 +80,9 @@ class State(models.Model):
     class Meta:
         db_table = 'state_majimbo'
         ordering = ['name']
+        indexes = [
+            models.Index(fields=['name']),  # Added index for faster lookups in analytics tasks
+        ]
 
 class Course(models.Model):
     """Model representing a course offered by the university."""
@@ -67,6 +97,9 @@ class Course(models.Model):
     class Meta:
         db_table = 'course'
         ordering = ['code']
+        indexes = [
+            models.Index(fields=['code']),  # Added index for faster lookups in tasks
+        ]
 
 class User(AbstractUser):
     """Custom User model with registration number authentication."""
@@ -83,45 +116,65 @@ class User(AbstractUser):
         (ROLE_COMMISSIONER, 'Commissioner'),
     ]
     
+    GENDER_MALE = 'male'
+    GENDER_FEMALE = 'female'
+    GENDER_OTHER = 'other'
+    
+    GENDER_CHOICES = [
+        (GENDER_MALE, 'Male'),
+        (GENDER_FEMALE, 'Female'),
+        (GENDER_OTHER, 'Other'),
+    ]
+    
     # Remove username field and use registration_number for authentication
     username = None
     
     # Fields
     registration_number = models.CharField(
-        max_length=20, 
+        max_length=20,
         unique=True,
-        help_text="University registration number used for login"
+        validators=[RegexValidator(
+            regex=r'^[A-Z0-9/]+$',
+            message='Registration number must contain only uppercase letters, numbers, or slashes.'
+        )],  # Added validator for consistent format
+        help_text="University registration number (e.g., MWU/1234/2023)"
     )
     email = models.EmailField(
-        _('email address'), 
-        null=True, 
-        blank=True,
-        help_text="Optional email for notifications only"
+        _('email address'),
+        unique=True,  # Made unique to prevent duplicates and support notifications
+        help_text="Required email for notifications and password resets"
     )
     voter_id = models.CharField(
-        max_length=20, 
-        unique=True, 
-        null=True, 
+        max_length=20,
+        unique=True,
+        null=True,
         blank=True,
         help_text="Optional voter identification number"
     )
+    gender = models.CharField(
+        max_length=10,
+        choices=GENDER_CHOICES,
+        null=True,
+        blank=True,
+        help_text="User's gender for position eligibility"  # Added to support Position.gender_restriction
+    )
     state = models.ForeignKey(
-        State, 
-        on_delete=models.SET_NULL, 
-        null=True, 
+        State,
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         help_text="User's state/region"
     )
     course = models.ForeignKey(
-        Course, 
-        on_delete=models.SET_NULL, 
-        null=True, 
+        Course,
+        on_delete=models.SET_NULL,
+        null=True,
         blank=True,
         help_text="User's academic course"
     )
     role = models.CharField(
-        max_length=20, 
-        choices=ROLE_CHOICES, 
+        max_length=20,
+        choices=ROLE_CHOICES,
         default=ROLE_VOTER,
         help_text="User's role in the election system"
     )
@@ -133,10 +186,11 @@ class User(AbstractUser):
     # Timestamps
     date_verified = models.DateTimeField(null=True, blank=True)
     last_login_ip = models.GenericIPAddressField(null=True, blank=True)
+    last_voted = models.DateTimeField(null=True, blank=True)  # Added to track voting activity for debugging
     
     # Authentication settings
     USERNAME_FIELD = 'registration_number'
-    REQUIRED_FIELDS = []  # Email is optional
+    REQUIRED_FIELDS = ['email']  # Made email required
     
     objects = UserManager()
     
@@ -185,15 +239,28 @@ class User(AbstractUser):
             models.Index(fields=['role', 'is_verified']),
             models.Index(fields=['state', 'course']),
             models.Index(fields=['email']),
+            models.Index(fields=['gender']),  # Added for Position gender restriction queries
         ]
 
 class CollegeData(models.Model):
     """Model for storing pre-uploaded college data by Class Leaders."""
-    registration_number = models.CharField(max_length=20, unique=True)
-    full_name = models.CharField(max_length=100)
+    registration_number = models.CharField(
+        max_length=20,
+        unique=True,
+        validators=[RegexValidator(
+            regex=r'^[A-Z0-9/]+$',
+            message='Registration number must contain only uppercase letters, numbers, or slashes.'
+        )]  # Added validator for consistency with User
+    )
+    first_name = models.CharField(max_length=50)  # Split full_name for User compatibility
+    last_name = models.CharField(max_length=50)  # Split full_name
+    email = models.EmailField(
+        unique=True,  # Added to ensure valid user creation
+        help_text="Required email for user account creation"
+    )
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     uploaded_by = models.ForeignKey(
-        User, 
+        User,
         on_delete=models.CASCADE,
         limit_choices_to={'role__in': [User.ROLE_CLASS_LEADER, User.ROLE_COMMISSIONER]},
         help_text="Class leader or commissioner who uploaded this data"
@@ -203,14 +270,25 @@ class CollegeData(models.Model):
         help_text="Whether this data has been used to create a user account"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=[
+            ('pending', 'Pending'),
+            ('processed', 'Processed'),
+            ('failed', 'Failed'),
+        ],
+        default='pending',
+        help_text="Processing status for async tasks"  # Added for Celery task tracking
+    )
     
     def __str__(self):
-        return f"{self.full_name} ({self.registration_number})"
+        return f"{self.first_name} {self.last_name} ({self.registration_number})"
     
     def mark_as_used(self):
         """Mark this college data as used for user creation."""
         self.is_used = True
-        self.save(update_fields=['is_used'])
+        self.status = 'processed'
+        self.save(update_fields=['is_used', 'status'])
     
     class Meta:
         db_table = 'college_data'
@@ -219,4 +297,5 @@ class CollegeData(models.Model):
         indexes = [
             models.Index(fields=['registration_number']),
             models.Index(fields=['course', 'is_used']),
+            models.Index(fields=['status']),  # Added for task status queries
         ]
