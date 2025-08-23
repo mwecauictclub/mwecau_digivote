@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+import secrets
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with registration number authentication."""
@@ -13,7 +14,7 @@ class UserManager(BaseUserManager):
         if not registration_number:
             raise ValueError('The given registration number must be set')
         
-        # Normalize email if provided
+        # Normalize email
         email = extra_fields.get('email')
         if email:
             extra_fields['email'] = self.normalize_email(email)
@@ -42,27 +43,28 @@ class UserManager(BaseUserManager):
         return self._create_user(registration_number, password, **extra_fields)
 
     def create_from_college_data(self, college_data_id):
-        """Create a User from CollegeData, generating a default password.
-        # Added to support async user creation tasks with Celery, ensuring seamless conversion
-        # from CollegeData to User with a secure default password.
+        """Create a User from CollegeData, generating a default password and voter ID.
+        # Modified to generate voter_id for anonymity in voting, supporting VoterToken creation.
+        # Ensures async user creation tasks with Celery are robust and secure.
         """
         from .models import CollegeData
         college_data = CollegeData.objects.get(id=college_data_id)
         if college_data.is_used:
             raise ValueError('College data already used')
         
-        # Generate random password
-        import secrets
+        # Generate random password and voter_id
         default_password = secrets.token_hex(8)
+        voter_id = secrets.token_hex(16)  # Unique voter_id for anonymity
         
         user = self.create_user(
             registration_number=college_data.registration_number,
             password=default_password,
-            first_name=college_data.first_name,  # Split full_name
+            first_name=college_data.first_name,
             last_name=college_data.last_name,
             course=college_data.course,
             email=college_data.email,
-            is_verified=False  # Require manual verification
+            voter_id=voter_id,  # Set voter_id
+            is_verified=False
         )
         
         college_data.mark_as_used()
@@ -81,7 +83,7 @@ class State(models.Model):
         db_table = 'state_majimbo'
         ordering = ['name']
         indexes = [
-            models.Index(fields=['name']),  # Added index for faster lookups in analytics tasks
+            models.Index(fields=['name']),
         ]
 
 class Course(models.Model):
@@ -98,7 +100,7 @@ class Course(models.Model):
         db_table = 'course'
         ordering = ['code']
         indexes = [
-            models.Index(fields=['code']),  # Added index for faster lookups in tasks
+            models.Index(fields=['code']),
         ]
 
 class User(AbstractUser):
@@ -126,7 +128,6 @@ class User(AbstractUser):
         (GENDER_OTHER, 'Other'),
     ]
     
-    # Remove username field and use registration_number for authentication
     username = None
     
     # Fields
@@ -136,27 +137,27 @@ class User(AbstractUser):
         validators=[RegexValidator(
             regex=r'^[A-Z0-9/]+$',
             message='Registration number must contain only uppercase letters, numbers, or slashes.'
-        )],  # Added validator for consistent format
+        )],
         help_text="University registration number (e.g., MWU/1234/2023)"
     )
     email = models.EmailField(
         _('email address'),
-        unique=True,  # Made unique to prevent duplicates and support notifications
+        unique=True,
         help_text="Required email for notifications and password resets"
     )
     voter_id = models.CharField(
-        max_length=20,
+        max_length=32,  # Increased length for secure random voter_id
         unique=True,
         null=True,
         blank=True,
-        help_text="Optional voter identification number"
+        help_text="Unique voter ID for anonymous voting, auto-generated"
     )
     gender = models.CharField(
         max_length=10,
         choices=GENDER_CHOICES,
         null=True,
         blank=True,
-        help_text="User's gender for position eligibility"  # Added to support Position.gender_restriction
+        help_text="User's gender for position eligibility"
     )
     state = models.ForeignKey(
         State,
@@ -186,11 +187,10 @@ class User(AbstractUser):
     # Timestamps
     date_verified = models.DateTimeField(null=True, blank=True)
     last_login_ip = models.GenericIPAddressField(null=True, blank=True)
-    last_voted = models.DateTimeField(null=True, blank=True)  # Added to track voting activity for debugging
     
     # Authentication settings
     USERNAME_FIELD = 'registration_number'
-    REQUIRED_FIELDS = ['email']  # Made email required
+    REQUIRED_FIELDS = ['email']
     
     objects = UserManager()
     
@@ -206,7 +206,6 @@ class User(AbstractUser):
         """Return the short name for the user."""
         return self.first_name or self.registration_number
     
-    # Role checking methods
     def is_voter(self):
         return self.role == self.ROLE_VOTER
     
@@ -219,10 +218,11 @@ class User(AbstractUser):
     def is_commissioner(self):
         return self.role == self.ROLE_COMMISSIONER
     
-    # Permission helpers
     def can_vote(self):
-        """Check if user can participate in voting."""
-        return self.is_verified and (self.is_voter() or self.is_candidate())
+        """Check if user can participate in voting.
+        # Modified to require voter_id for anonymous voting eligibility.
+        """
+        return self.is_verified and self.voter_id and (self.is_voter() or self.is_candidate())
     
     def can_manage_elections(self):
         """Check if user can manage elections."""
@@ -239,7 +239,8 @@ class User(AbstractUser):
             models.Index(fields=['role', 'is_verified']),
             models.Index(fields=['state', 'course']),
             models.Index(fields=['email']),
-            models.Index(fields=['gender']),  # Added for Position gender restriction queries
+            models.Index(fields=['gender']),
+            models.Index(fields=['voter_id']),  # Added for faster VoterToken lookups
         ]
 
 class CollegeData(models.Model):
@@ -250,13 +251,20 @@ class CollegeData(models.Model):
         validators=[RegexValidator(
             regex=r'^[A-Z0-9/]+$',
             message='Registration number must contain only uppercase letters, numbers, or slashes.'
-        )]  # Added validator for consistency with User
+        )]
     )
-    first_name = models.CharField(max_length=50)  # Split full_name for User compatibility
-    last_name = models.CharField(max_length=50)  # Split full_name
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
     email = models.EmailField(
-        unique=True,  # Added to ensure valid user creation
+        unique=True,
         help_text="Required email for user account creation"
+    )
+    voter_id = models.CharField(
+        max_length=32,  # Increased length for secure voter_id
+        unique=True,
+        null=True,
+        blank=True,
+        help_text="Unique voter ID for anonymous voting, auto-generated"  # Added for VoterToken
     )
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     uploaded_by = models.ForeignKey(
@@ -278,7 +286,7 @@ class CollegeData(models.Model):
             ('failed', 'Failed'),
         ],
         default='pending',
-        help_text="Processing status for async tasks"  # Added for Celery task tracking
+        help_text="Processing status for async tasks"
     )
     
     def __str__(self):
@@ -297,5 +305,6 @@ class CollegeData(models.Model):
         indexes = [
             models.Index(fields=['registration_number']),
             models.Index(fields=['course', 'is_used']),
-            models.Index(fields=['status']),  # Added for task status queries
+            models.Index(fields=['status']),
+            models.Index(fields=['voter_id']),  # Added for VoterToken integration
         ]
