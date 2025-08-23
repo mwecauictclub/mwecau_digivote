@@ -149,3 +149,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Authentication & Authorization Model
 AUTH_USER_MODEL = 'core.User'
+
+# MAil Settings
+EMAIL_BACKEND = 'django_celery_email.backends.CeleryEmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'clevengodsontech@gmail.com'
+EMAIL_HOST_PASSWORD = 'ipx ihef eocq bceb'
+CELERY_EMAIL_TASK_CONFIG = {'queue': 'email_queue'}
