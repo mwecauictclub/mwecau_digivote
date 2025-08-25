@@ -34,7 +34,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',  # For logout
-    'django_celery_email',  # For async emails
+    # 'django_celery_email'
 ]
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
@@ -51,13 +51,41 @@ ROOT_URLCONF = 'mw_es.urls'
 
 WSGI_APPLICATION = 'mw_es.wsgi.application'
 
+
+
 # Database
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'election_sys',
+        'HOST' : 'localhost',
+        'USER': 'election_sys',
+        'PASSWORD': '123',
+        'PORT' : 3306,
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [ ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -122,13 +150,40 @@ CELERY_TASK_DEFAULT_QUEUE = 'email_queue'
 CELERY_TIMEZONE = 'Africa/Nairobi'
 
 # Email Settings
-EMAIL_BACKEND = 'django_celery_email.backends.CeleryEmailBackend'
+# EMAIL_BACKEND = 'django_celery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'clevengodsontech@gmail.com'
 EMAIL_HOST_PASSWORD = 'ipx ihef eocq bceb'
 CELERY_EMAIL_TASK_CONFIG = {'queue': 'email_queue'}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Prev settings.py : some bugs exist
 # """
