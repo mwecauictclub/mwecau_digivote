@@ -37,6 +37,7 @@ class UserLogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        from rest_framework_simplejwt.exceptions import TokenError
         try:
             refresh_token = request.data.get("refresh")
             if not refresh_token:
@@ -44,8 +45,26 @@ class UserLogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist()
             return Response({'message': 'Successfully logged out'}, status=status.HTTP_205_RESET_CONTENT)
+        except TokenError:
+            return Response({'error': 'Invalid or expired refresh token'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"Logout error: {str(e)}")
+            return Response({'error': 'Logout failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+# class UserLogoutView(APIView):
+#     """API endpoint to logout by blacklisting refresh token."""
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request):
+#         try:
+#             refresh_token = request.data.get("refresh")
+#             if not refresh_token:
+#                 return Response({'error': 'Refresh token is required'}, status=status.HTTP_400_BAD_REQUEST)
+#             token = RefreshToken(refresh_token)
+#             token.blacklist()
+#             return Response({'message': 'Successfully logged out'}, status=status.HTTP_205_RESET_CONTENT)
+#         except Exception as e:
+#             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 class UserRegisterView(APIView):
     """API endpoint to validate registration number via CollegeData."""
