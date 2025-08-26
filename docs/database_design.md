@@ -5,14 +5,14 @@ This document outlines the database structure for a comprehensive election manag
 
 ## Core Entities
 
-### 1. Geographic Regions (states)
+### 1. Geographic states (states)
 **Purpose:** Manages geographical/administrative divisions within the institution
-- `region_id` (Primary Key, Auto-increment)
-- `region_name` (Varchar 100, Unique) - Name of the region/state
+- `state_id` (Primary Key, Auto-increment)
+- `state_name` (Varchar 100, Unique) - Name of the state/state
 - `created_timestamp` (DateTime) - Record creation time
 - `modified_timestamp` (DateTime) - Last modification time
 
-**Sample Data:** Kifumbu region
+**Sample Data:** Kifumbu state
 
 ### 2. Academic Programs (courses)
 **Purpose:** Stores information about academic courses and programs
@@ -33,7 +33,7 @@ This document outlines the database structure for a comprehensive election manag
 - `first_name` (Varchar 150)
 - `last_name` (Varchar 150)
 - `gender_type` (Varchar 10, Nullable) - male/female/other
-- `region_ref` (Foreign Key to Geographic Regions)
+- `state_ref` (Foreign Key to Geographic states)
 - `program_ref` (Foreign Key to Academic Programs)
 - `user_role` (Varchar 20) - voter/candidate/coordinator/administrator
 - `verification_status` (Boolean) - Account verification flag
@@ -48,7 +48,7 @@ This document outlines the database structure for a comprehensive election manag
 
 **Key Roles:**
 - **Administrator:** Full system access with elevated privileges
-- **Coordinator:** Regional/program-specific management rights
+- **Coordinator:** stateal/program-specific management rights
 - **Voter:** Standard participant with voting rights
 - **Candidate:** Eligible for election positions
 
@@ -96,7 +96,7 @@ This document outlines the database structure for a comprehensive election manag
 - `position_description` (Text) - Role responsibilities
 - `gender_requirement` (Varchar 10) - Gender restrictions if any
 - `program_restriction` (Foreign Key to Academic Programs, Nullable)
-- `region_restriction` (Foreign Key to Geographic Regions, Nullable)
+- `state_restriction` (Foreign Key to Geographic states, Nullable)
 - `category_ref` (Foreign Key to Election Categories)
 
 ### 8. Election Candidates (election_candidate)
@@ -138,11 +138,11 @@ This document outlines the database structure for a comprehensive election manag
 **Purpose:** Role-based access control groupings
 - Currently unused but available for future role hierarchies
 
-### 13. Content Classification (django_content_type)
+### 13. Content Classification (server_content_type)
 **Purpose:** System metadata for entity type management
 - Maps each database table to its corresponding system module
 
-### 14. Session Management (django_session)
+### 14. Session Management (server_session)
 **Purpose:** Handles user session persistence and security
 - Secure session token storage with expiration tracking
 
@@ -151,18 +151,18 @@ This document outlines the database structure for a comprehensive election manag
 - Outstanding tokens: Valid authentication tokens in circulation
 - Blacklisted tokens: Revoked or expired tokens for security
 
-### 16. System Audit (django_admin_log)
+### 16. System Audit (server_admin_log)
 **Purpose:** Tracks administrative actions and changes
 - Comprehensive audit trail of system modifications
 
-### 17. Database Evolution (django_migrations)
+### 17. Database Evolution (server_migrations)
 **Purpose:** Manages database schema versioning
 - Tracks all structural changes and updates to the database
 
 ## Relationships and Data Flow
 
 ### Primary Relationships:
-1. **Users ↔ Regions:** One region contains multiple users
+1. **Users ↔ states:** One state contains multiple users
 2. **Users ↔ Programs:** One program has multiple enrolled users
 3. **Student Registry ↔ Programs:** Pre-registration data linked to academic programs
 4. **Voting Tokens ↔ Users:** One-to-many relationship for election participation
@@ -191,13 +191,3 @@ This document outlines the database structure for a comprehensive election manag
 - Unique constraints on all critical identifiers
 - Foreign key relationships maintain referential integrity
 - Timestamp tracking for all major operations
-
-## Current System State
-Based on the database dump:
-- **3 users registered** (1 administrator, 2 regular users)
-- **2 academic programs** (Computer Science variants)
-- **2 geographic regions** (including Kifumbu)
-- **1 active election** (Student Election 2025)
-- **3 student registry entries** awaiting processing
-
-The system appears to be in initial deployment phase with basic configuration complete and ready for full-scale election management.
