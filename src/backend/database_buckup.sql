@@ -198,9 +198,9 @@ CREATE TABLE `college_data` (
   KEY `college_dat_course__1baf12_idx` (`course_id`,`is_used`),
   KEY `college_dat_status_24a8f1_idx` (`status`),
   KEY `college_dat_voter_i_fbb903_idx` (`voter_id`),
-  CONSTRAINT `college_data_course_id_4ebcfa59_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
+  CONSTRAINT `college_data_course_id_4ebcfa59_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
   CONSTRAINT `college_data_uploaded_by_id_51056561_fk_users_id` FOREIGN KEY (`uploaded_by_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,18 +210,22 @@ CREATE TABLE `college_data` (
 LOCK TABLES `college_data` WRITE;
 /*!40000 ALTER TABLE `college_data` DISABLE KEYS */;
 set autocommit=0;
+INSERT INTO `college_data` VALUES
+(1,'T/DEG/2000/0001','Cleven','Godson','cleven@mail.com',NULL,0,'2025-08-25 16:03:10.172225','pending',2,1),
+(2,'T/DEG/2020/0003','Neema','John','neema@mail.com',NULL,0,'2025-08-25 21:29:37.533163','pending',4,2),
+(3,'T/DEG/1/1','Klevin','Omari','kev@me.com',NULL,0,'2025-08-26 09:00:38.497572','pending',4,2);
 /*!40000 ALTER TABLE `college_data` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
 
 --
--- Table structure for table `course`
+-- Table structure for table `courses`
 --
 
-DROP TABLE IF EXISTS `course`;
+DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `course` (
+CREATE TABLE `courses` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `code` varchar(20) NOT NULL,
@@ -229,18 +233,21 @@ CREATE TABLE `course` (
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code` (`code`),
-  KEY `course_code_83d7d9_idx` (`code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  KEY `courses_code_fa42f1_idx` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `course`
+-- Dumping data for table `courses`
 --
 
-LOCK TABLES `course` WRITE;
-/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+LOCK TABLES `courses` WRITE;
+/*!40000 ALTER TABLE `courses` DISABLE KEYS */;
 set autocommit=0;
-/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+INSERT INTO `courses` VALUES
+(1,'Computer Science','CS101','2025-08-25 16:02:37.892219','2025-08-25 20:52:36.234196'),
+(2,'Computer Science','CS100','2025-08-25 21:28:15.005369','2025-08-25 21:28:15.005417');
+/*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
 
@@ -265,7 +272,7 @@ CREATE TABLE `django_admin_log` (
   KEY `django_admin_log_user_id_c564eba6_fk_users_id` (`user_id`),
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_users_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -275,6 +282,9 @@ CREATE TABLE `django_admin_log` (
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
 set autocommit=0;
+INSERT INTO `django_admin_log` VALUES
+(1,'2025-08-26 08:59:49.036848','4','T/ADMIN/2020/0002 (T/ADMIN/2020/0002)',2,'[{\"changed\": {\"fields\": [\"Last login\", \"Gender\", \"State\", \"Course\", \"Role\", \"Is verified\", \"Date verified\"]}}]',8,1),
+(2,'2025-08-26 09:00:38.498343','3','Klevin Omari (T/DEG/1/1)',1,'[{\"added\": {}}]',9,1);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
@@ -337,7 +347,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -381,7 +391,8 @@ INSERT INTO `django_migrations` VALUES
 (31,'token_blacklist','0010_fix_migrate_to_bigautofield','2025-08-25 08:54:52.931255'),
 (32,'token_blacklist','0011_linearizes_history','2025-08-25 08:54:53.068540'),
 (33,'token_blacklist','0012_alter_outstandingtoken_user','2025-08-25 08:54:53.101821'),
-(34,'token_blacklist','0013_alter_blacklistedtoken_options_and_more','2025-08-25 08:54:53.158405');
+(34,'token_blacklist','0013_alter_blacklistedtoken_options_and_more','2025-08-25 08:54:53.158405'),
+(35,'core','0003_rename_course_code_83d7d9_idx_courses_code_fa42f1_idx_and_more','2025-08-26 12:13:06.801470');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
@@ -409,6 +420,8 @@ CREATE TABLE `django_session` (
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
 set autocommit=0;
+INSERT INTO `django_session` VALUES
+('76aiyn8m2r6m3kssvdv68utyni5zdcpa','.eJxVjEEOwiAQRe_C2pCBoYAu3fcMZGBGqZo2Ke3KeHdD0oVu_3vvv1Wifatpb7KmidVFGXX63TKVp8wd8IPm-6LLMm_rlHVX9EGbHheW1_Vw_w4qtdrraDgMEINH49FhyQXQ0yDIbEqIxSGBBCaH1lkbWW4CPho4ZwYgVJ8vyXQ3WA:1uqpUX:lR9Wg7Rm2ixJ5WI9OGge1nEldijLv2aIzt-kiNZ2SkA','2025-09-09 08:57:21.392940');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
@@ -468,7 +481,7 @@ CREATE TABLE `election_election` (
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `election_el_is_acti_17f51b_idx` (`is_active`,`start_date`,`end_date`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -478,6 +491,8 @@ CREATE TABLE `election_election` (
 LOCK TABLES `election_election` WRITE;
 /*!40000 ALTER TABLE `election_election` DISABLE KEYS */;
 set autocommit=0;
+INSERT INTO `election_election` VALUES
+(1,'Student Election 2025','','2025-07-31 21:00:00.000000','2025-08-29 21:00:00.000000',1,0,'2025-08-25 21:30:55.068966','2025-08-25 21:30:55.069006');
 /*!40000 ALTER TABLE `election_election` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
@@ -531,9 +546,9 @@ CREATE TABLE `election_position` (
   KEY `election_po_electio_4b8711_idx` (`election_level_id`,`state_id`,`course_id`),
   KEY `election_position_course_id_08e04d99_fk_course_id` (`course_id`),
   KEY `election_position_state_id_b32b8dfe_fk_state_majimbo_id` (`state_id`),
-  CONSTRAINT `election_position_course_id_08e04d99_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
+  CONSTRAINT `election_position_course_id_08e04d99_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
   CONSTRAINT `election_position_election_level_id_2c923c7a_fk_election_` FOREIGN KEY (`election_level_id`) REFERENCES `election_electionlevel` (`id`),
-  CONSTRAINT `election_position_state_id_b32b8dfe_fk_state_majimbo_id` FOREIGN KEY (`state_id`) REFERENCES `state_majimbo` (`id`)
+  CONSTRAINT `election_position_state_id_b32b8dfe_fk_state_majimbo_id` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -620,31 +635,34 @@ UNLOCK TABLES;
 commit;
 
 --
--- Table structure for table `state_majimbo`
+-- Table structure for table `states`
 --
 
-DROP TABLE IF EXISTS `state_majimbo`;
+DROP TABLE IF EXISTS `states`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `state_majimbo` (
+CREATE TABLE `states` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `created_at` datetime(6) NOT NULL,
   `updated_at` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
-  KEY `state_majim_name_285bbd_idx` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  KEY `states_name_9db832_idx` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `state_majimbo`
+-- Dumping data for table `states`
 --
 
-LOCK TABLES `state_majimbo` WRITE;
-/*!40000 ALTER TABLE `state_majimbo` DISABLE KEYS */;
+LOCK TABLES `states` WRITE;
+/*!40000 ALTER TABLE `states` DISABLE KEYS */;
 set autocommit=0;
-/*!40000 ALTER TABLE `state_majimbo` ENABLE KEYS */;
+INSERT INTO `states` VALUES
+(1,'Change State','2025-08-25 16:02:00.787669','2025-08-25 16:02:00.787715'),
+(2,'Kifumbu','2025-08-25 21:28:03.236486','2025-08-25 21:28:03.236533');
+/*!40000 ALTER TABLE `states` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
 
@@ -746,9 +764,9 @@ CREATE TABLE `users` (
   KEY `users_gender_c12881_idx` (`gender`),
   KEY `users_voter_i_c1d34a_idx` (`voter_id`),
   KEY `users_course_id_ef7a18fa_fk_course_id` (`course_id`),
-  CONSTRAINT `users_course_id_ef7a18fa_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `course` (`id`),
-  CONSTRAINT `users_state_id_0521d641_fk_state_majimbo_id` FOREIGN KEY (`state_id`) REFERENCES `state_majimbo` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  CONSTRAINT `users_course_id_ef7a18fa_fk_course_id` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
+  CONSTRAINT `users_state_id_0521d641_fk_state_majimbo_id` FOREIGN KEY (`state_id`) REFERENCES `states` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -758,6 +776,10 @@ CREATE TABLE `users` (
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 set autocommit=0;
+INSERT INTO `users` VALUES
+(1,'pbkdf2_sha256$1000000$DrkdKwkwfPzpZui5QkyCnw$vhgSiwiO3kirocdueIzdzBtv+2T1jPfGcIi0z49X/cc=','2025-08-26 08:57:21.364533',1,'','',1,1,'2025-08-25 13:28:00.198674','T/DEG/100/1','admin@me.com',NULL,NULL,'voter',0,NULL,NULL,NULL,NULL),
+(2,'pbkdf2_sha256$1000000$mNOWax0YiB4akeIxWele2H$4MFZMTyuaVLCjGROJePPZqC35T9fT0zhKQH7p5pxVc0=',NULL,1,'','',1,1,'2025-08-25 16:01:59.812138','T/ADMIN/2020/001','admin@example.com',NULL,NULL,'voter',0,NULL,NULL,NULL,NULL),
+(4,'pbkdf2_sha256$1000000$DDGIrEPljhjCBpBl6fXkFJ$axOul85CnIcPu/mQ2dE82SUmKGAZyOVvvaF5CIoPsOg=','2025-08-26 08:59:19.000000',1,'','',1,1,'2025-08-25 21:27:48.000000','T/ADMIN/2020/0002','admin@mail.com',NULL,'male','commissioner',1,'2025-08-26 08:59:43.000000',NULL,2,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
@@ -831,4 +853,4 @@ commit;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2025-08-25  8:51:06
+-- Dump completed on 2025-08-26  8:13:25
