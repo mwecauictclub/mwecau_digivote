@@ -83,7 +83,7 @@ class UserRegisterView(APIView):
                 'registration_number': reg_number,
                 'first_name': college_data.first_name,
                 'last_name': college_data.last_name,
-                'course': college_data.course.id
+                'course': college_data.course.pk
             })
             if serializer.is_valid():
                 return Response(serializer.data, status=status.HTTP_200_OK)

@@ -164,9 +164,11 @@ class User(AbstractUser):
         help_text="University registration number (e.g., T/XXX/202X/XXX)"
     )
     email = models.EmailField(
-        _('email address'),
+        ('email address'),
         unique=True,
-        help_text="Required email for notifications and password resets"
+        null=True,
+        blank=True,
+        help_text="Required email for notifications and password resets",
     )
     voter_id = models.CharField(
         max_length=36,  # Increased to fit UUID format
@@ -288,8 +290,8 @@ class CollegeData(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(
-        unique=True,
-        help_text="Required email for user account creation"
+        help_text="Required email for user account creation",
+        blank=True
     )
     voter_id = models.CharField(
         max_length=36,  # Increased to fit UUID format
