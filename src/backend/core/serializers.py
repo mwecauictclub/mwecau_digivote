@@ -5,7 +5,7 @@ from django.contrib.auth import authenticate
 
 class UserSerializer(serializers.ModelSerializer):
     # Override course field to return name instead of ID
-    course = serializers.CharField(source='course.name', read_only=True)
+    # course = serializers.CharField(source='course.name', read_only=True)
 
     class Meta:
         model = User
