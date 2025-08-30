@@ -1,3 +1,4 @@
+# core/views.py
 import logging
 import secrets
 from django.utils import timezone
@@ -10,21 +11,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from django.conf import settings
 
+# Import your serializers and models
 from core import serializers
 from .models import User, CollegeData, State, Course
 from .serializers import UserSerializer, ForgotPasswordSerializer
-from election.models import Election, ElectionLevel, VoterToken
+# Note: Election imports removed from UserDashboardView logic
+# from election.models import Election, ElectionLevel, VoterToken 
 from .tasks import send_verification_email, send_password_reset_email, send_commissioner_contact_email
 
 logger = logging.getLogger(__name__)
 
-# API Views
+# --- API Views ---
+
 class UserLoginView(APIView):
     """API endpoint for user login with registration_number and password."""
     permission_classes = [AllowAny]
 
     def post(self, request):
-        # Validate login credentials using serializer
         serializer = serializers.CustomTokenObtainPairSerializer(data=request.data, context={'request': request})
         try:
             serializer.is_valid(raise_exception=True)
@@ -69,6 +72,8 @@ class UserRegisterView(APIView):
             if not college_data.course:
                 logger.error(f"No course associated with registration {reg_number}")
                 return Response({'error': 'No course associated with this registration'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Prepare data for UserSerializer (email can be optional initially)
             email = college_data.email if college_data.email and college_data.email.strip() else None
             serializer_data = {
                 'registration_number': reg_number,
@@ -77,7 +82,7 @@ class UserRegisterView(APIView):
                 'email': email,
                 'is_verified': False,
                 'role': 'voter',
-                'course': college_data.course.pk
+                'course': college_data.course.pk # Pass course ID
             }
             logger.debug(f"Serializer data: {serializer_data}")
             serializer = UserSerializer(data=serializer_data)
@@ -97,16 +102,15 @@ class CompleteRegistrationView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        # Validate input using serializer
         serializer = UserSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         reg_number = request.data.get('registration_number')
-        state_id = request.data.get('state')
+        state_id = request.data.get('state') # Expecting state ID
         email = request.data.get('email', '').lower()
         password = request.data.get('password')
-        course_id = request.data.get('course_id')
+        course_id = request.data.get('course') # Expecting course ID
 
         if not all([reg_number, state_id, email, password, course_id]):
             return Response({'error': 'All fields are required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -118,30 +122,29 @@ class CompleteRegistrationView(APIView):
             college_data = CollegeData.objects.get(registration_number=reg_number, is_used=False)
             state = State.objects.get(id=state_id)
             course = Course.objects.get(id=course_id)
+            
+            # Create user using the manager method
             user, generated_password = User.objects.create_from_college_data(college_data.id)
             user.email = email
             user.state = state
             user.course = course
-            user.set_password(password)
+            user.set_password(password) # Use provided password, not generated one
             user.is_verified = True
             user.date_verified = timezone.now()
             user.save()
 
-            # Generate VoterToken for active elections
-            active_elections = Election.objects.filter(is_active=True, has_ended=False)
-            voter_tokens = []
-            for election in active_elections:
-                token = User.objects.generate_voter_token(user.id, election.id)
-                voter_tokens.append({'election_title': election.title, 'token': str(token.token)})
-
-            # Send verification email via Celery
-            send_verification_email.delay(user.id, voter_tokens[0] if voter_tokens else None)
+            # Send welcome email WITHOUT voter tokens (as per updated logic)
+            send_verification_email.delay(user.id) # Pass only user ID
 
             return Response({
-                'message': 'Registration successful, verification email sent',
+                'message': 'Registration successful, welcome email sent',
                 'voter_id': user.voter_id,
-                'voter_tokens': voter_tokens
+                # 'voter_tokens': [] # Removed voter tokens from registration response
             }, status=status.HTTP_201_CREATED)
+        except CollegeData.DoesNotExist:
+             return Response({'error': 'College data not found or already used'}, status=status.HTTP_404_NOT_FOUND)
+        except (State.DoesNotExist, Course.DoesNotExist):
+             return Response({'error': 'Invalid state or course selected'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error(f"Error during registration: {str(e)}")
             return Response({'error': 'Registration failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -155,9 +158,12 @@ class VerificationRequestView(APIView):
         if user.is_verified:
             return Response({'message': 'User already verified'}, status=status.HTTP_400_BAD_REQUEST)
         try:
+            # Assuming CollegeData needs to be re-verified or status updated
             college_data = CollegeData.objects.get(registration_number=user.registration_number, is_used=True)
-            college_data.status = 'pending'
+            # Example: Update status to pending review
+            college_data.status = 'pending' 
             college_data.save()
+            # Notify commissioners
             send_commissioner_contact_email.delay(
                 user.id,
                 f"Verification request for {user.registration_number}"
@@ -173,26 +179,22 @@ class VerifyUserView(APIView):
     def post(self, request):
         if not request.user.can_manage_elections():
             return Response({'error': 'Permission denied'}, status=status.HTTP_403_FORBIDDEN)
+        
         reg_number = request.data.get('registration_number')
         try:
             user = User.objects.get(registration_number=reg_number)
             if user.is_verified:
                 return Response({'message': 'User already verified'}, status=status.HTTP_400_BAD_REQUEST)
+            
             user.is_verified = True
             user.date_verified = timezone.now()
             user.save()
 
-            # Generate VoterToken for active elections
-            active_elections = Election.objects.filter(is_active=True, has_ended=False)
-            voter_tokens = []
-            for election in active_elections:
-                token = User.objects.generate_voter_token(user.id, election.id)
-                voter_tokens.append({'election_title': election.title, 'token': str(token.token)})
+            # Send welcome email WITH voter tokens IF elections are active
+            # This task will handle checking for active elections internally
+            send_verification_email.delay(user.id) # Pass only user ID
 
-            # Send verification email via Celery
-            send_verification_email.delay(user.id, voter_tokens[0] if voter_tokens else None)
-
-            return Response({'message': 'User verified, email sent'}, status=status.HTTP_200_OK)
+            return Response({'message': 'User verified, welcome email sent'}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -213,7 +215,6 @@ class ForgotPasswordView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        # Validate input using serializer
         serializer = ForgotPasswordSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -232,10 +233,11 @@ class ForgotPasswordView(APIView):
                 state_id=state_id,
                 course_id=course_id
             )
-            if first_name and user.first_name != first_name:
-                return Response({'error': 'First name does not match'}, status=status.HTTP_400_BAD_REQUEST)
-            if last_name and user.last_name != last_name:
-                return Response({'error': 'Last name does not match'}, status=status.HTTP_400_BAD_REQUEST)
+            # Optional: Add name verification if required by security policy
+            # if first_name and user.first_name != first_name:
+            #     return Response({'error': 'First name does not match'}, status=status.HTTP_400_BAD_REQUEST)
+            # if last_name and user.last_name != last_name:
+            #     return Response({'error': 'Last name does not match'}, status=status.HTTP_400_BAD_REQUEST)
 
             new_password = secrets.token_hex(8)
             user.set_password(new_password)
@@ -245,25 +247,26 @@ class ForgotPasswordView(APIView):
         except User.DoesNotExist:
             return Response({'error': 'User not found or details do not match'}, status=status.HTTP_404_NOT_FOUND)
 
+# --- Simplified Dashboard ---
 class UserDashboardView(APIView):
-    """API endpoint for user dashboard data."""
+    """API endpoint for user dashboard data - Simplified."""
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        ongoing_elections = Election.objects.filter(is_active=True, has_ended=False).values('id', 'title', 'start_date', 'end_date')
-        upcoming_elections = Election.objects.filter(is_active=False, has_ended=False).values('id', 'title', 'start_date')
-        past_elections = Election.objects.filter(has_ended=True).values('id', 'title', 'end_date')
-        election_levels = ElectionLevel.objects.values('id', 'name', 'code')
-
-        serializer = UserSerializer(request.user)
+        # Return only a simple welcome message and basic user info
         return Response({
-            'ongoing_elections': list(ongoing_elections),
-            'upcoming_elections': list(upcoming_elections),
-            'past_elections': list(past_elections),
-            'election_levels': list(election_levels),
-            'user': serializer.data
+            'message': 'Welcome to the MWECAU Digital Voting System!',
+            'status': 'authenticated',
+            'user': {
+                'registration_number': request.user.registration_number,
+                'full_name': request.user.get_full_name(),
+                'role': request.user.role,
+                'course': request.user.course.name if request.user.course else None,
+                'state': request.user.state.name if request.user.state else None,
+            }
         }, status=status.HTTP_200_OK)
 
+# --- Contact Form ---
 class ContactCommissionerView(APIView):
     """API endpoint to contact commissioners."""
     permission_classes = [IsAuthenticated]
@@ -272,5 +275,6 @@ class ContactCommissionerView(APIView):
         message_content = request.data.get('message')
         if not message_content:
             return Response({'error': 'Message is required'}, status=status.HTTP_400_BAD_REQUEST)
+        # Send message via Celery task
         send_commissioner_contact_email.delay(request.user.id, message_content)
         return Response({'message': 'Message sent to commissioners'}, status=status.HTTP_200_OK)
