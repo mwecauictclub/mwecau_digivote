@@ -51,31 +51,46 @@ class UserLogoutView(APIView):
             logger.error(f"Logout error: {str(e)}")
             return Response({'error': 'Logout failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
-
 class UserRegisterView(APIView):
-    """API endpoint to validate registration number via CollegeData."""
     permission_classes = [AllowAny]
 
     def post(self, request):
         reg_number = request.data.get('registration_number', '').strip()
+        logger.debug(f"Register request for registration_number={reg_number}")
         try:
             college_data = CollegeData.objects.get(registration_number=reg_number)
+            logger.debug(f"CollegeData: {college_data.__dict__}")
             if User.objects.filter(registration_number=reg_number).exists():
+                logger.warning(f"Registration number {reg_number} already registered")
                 return Response({'error': 'Registration number already registered'}, status=status.HTTP_400_BAD_REQUEST)
             if college_data.is_used:
+                logger.warning(f"College data for {reg_number} already used")
                 return Response({'error': 'College data already used'}, status=status.HTTP_400_BAD_REQUEST)
-            # Return user data using serializer
-            serializer = UserSerializer(data={
+            if not college_data.course:
+                logger.error(f"No course associated with registration {reg_number}")
+                return Response({'error': 'No course associated with this registration'}, status=status.HTTP_400_BAD_REQUEST)
+            email = college_data.email if college_data.email and college_data.email.strip() else None
+            serializer_data = {
                 'registration_number': reg_number,
                 'first_name': college_data.first_name,
                 'last_name': college_data.last_name,
+                'email': email,
+                'is_verified': False,
+                'role': 'voter',
                 'course': college_data.course.pk
-            })
+            }
+            logger.debug(f"Serializer data: {serializer_data}")
+            serializer = UserSerializer(data=serializer_data)
             if serializer.is_valid():
+                logger.debug(f"Serializer valid, data: {serializer.data}")
                 return Response(serializer.data, status=status.HTTP_200_OK)
+            logger.error(f"Serializer errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except CollegeData.DoesNotExist:
+            logger.error(f"Registration number {reg_number} not found")
             return Response({'error': 'Registration number not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+
 
 class CompleteRegistrationView(APIView):
     """API endpoint to complete user registration with email, password, state, and course."""

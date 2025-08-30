@@ -149,3 +149,33 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'clevengodsontech@gmail.com'
 EMAIL_HOST_PASSWORD = 'ipx ihef eocq bceb'  # Ensure valid Gmail App Password
 EMAIL_TIMEOUT = 10
+
+# Logs
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}

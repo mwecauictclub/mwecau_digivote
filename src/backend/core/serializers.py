@@ -1,15 +1,35 @@
+import logging
 from rest_framework import serializers
 from core.models import User, State, Course
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 
+logger = logging.getLogger(__name__)
+
 class UserSerializer(serializers.ModelSerializer):
-    # Override course field to return name instead of ID
-    # course = serializers.CharField(source='course.name', read_only=True)
+    course = serializers.CharField(source='course.name', read_only=True, allow_null=True)
+
+    email = serializers.EmailField(allow_null=True, allow_blank=True, required=False)
+    is_verified = serializers.BooleanField(default=False)
+    role = serializers.CharField(default='voter')
 
     class Meta:
         model = User
         fields = ['registration_number', 'first_name', 'last_name', 'email', 'is_verified', 'role', 'course']
+
+    def to_internal_value(self, data):
+        """Handle course ID input and validate."""
+        data = data.copy()  # Make mutable copy of data
+        course_id = data.get('course')
+        if course_id:
+            try:
+                course = Course.objects.get(pk=course_id)
+                data['course'] = course.pk  # Ensure course ID is passed to model
+                logger.debug(f"to_internal_value: course_id={course_id}, course_name={course.name}")
+            except Course.DoesNotExist:
+                logger.error(f"Course with pk={course_id} does not exist")
+                raise serializers.ValidationError({'course': 'Invalid course ID'})
+        return super().to_internal_value(data)
 
 class ForgotPasswordSerializer(serializers.Serializer):
     registration_number = serializers.CharField(max_length=20)
