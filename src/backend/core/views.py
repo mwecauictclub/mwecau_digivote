@@ -53,7 +53,8 @@ class UserLogoutView(APIView):
         except Exception as e:
             logger.error(f"Logout error: {str(e)}")
             return Response({'error': 'Logout failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        
+
+# user Registration and Credential Validation
 class UserRegisterView(APIView):
     permission_classes = [AllowAny]
 
@@ -69,31 +70,57 @@ class UserRegisterView(APIView):
             if college_data.is_used:
                 logger.warning(f"College data for {reg_number} already used")
                 return Response({'error': 'College data already used'}, status=status.HTTP_400_BAD_REQUEST)
-            if not college_data.course:
-                logger.error(f"No course associated with registration {reg_number}")
-                return Response({'error': 'No course associated with this registration'}, status=status.HTTP_400_BAD_REQUEST)
-            
-            # Prepare data for UserSerializer (email can be optional initially)
+            # --- Key Change Here ---
+            # Fetch the course object to get its name for the response
+            try:
+                course = college_data.course # Get the related Course object
+                if not course:
+                     logger.error(f"No course associated with registration {reg_number}")
+                     return Response({'error': 'No course associated with this registration'}, status=status.HTTP_400_BAD_REQUEST)
+                course_name = course.name # Get the course name
+            except Course.DoesNotExist: # Handle case where course relation is broken
+                 logger.error(f"Course object for ID {college_data.course_id} not found")
+                 return Response({'error': 'Associated course data is invalid'}, status=status.HTTP_400_BAD_REQUEST)
+            # --- End Key Change ---
+
+            # Prepare data for UserSerializer validation (email can be optional initially)
             email = college_data.email if college_data.email and college_data.email.strip() else None
-            serializer_data = {
+            
+            # --- Key Change: Prepare data for the *response*, not just the serializer ---
+            # Use the fetched course_name directly in the response data
+            response_data = {
                 'registration_number': reg_number,
                 'first_name': college_data.first_name,
                 'last_name': college_data.last_name,
-                'email': email,
-                'is_verified': False,
-                'role': 'voter',
-                'course': college_data.course.pk # Pass course ID
+                # 'email': email, # Optional: Omit if null/empty as per desired response
+                # 'is_verified': False, # Not needed in pre-check response
+                # 'role': 'voter', # Not needed in pre-check response
+                'course': course_name # Use the fetched course name
             }
-            logger.debug(f"Serializer data: {serializer_data}")
-            serializer = UserSerializer(data=serializer_data)
+            
+            # Validate the data structure using the serializer (without saving)
+            serializer_data_for_validation = {
+                 'registration_number': reg_number,
+                 'first_name': college_data.first_name,
+                 'last_name': college_data.last_name,
+                 'email': email,
+                 'is_verified': False,
+                 'role': 'voter',
+                 'course': course.pk # Use course ID for validation
+            }
+            
+            logger.debug(f"Serializer data for validation: {serializer_data_for_validation}")
+            serializer = UserSerializer(data=serializer_data_for_validation)
             if serializer.is_valid():
-                logger.debug(f"Serializer valid, data: {serializer.data}")
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                logger.debug(f"Serializer valid")
+                # --- Key Change: Return the manually constructed response_data ---
+                return Response(response_data, status=status.HTTP_200_OK) 
             logger.error(f"Serializer errors: {serializer.errors}")
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except CollegeData.DoesNotExist:
             logger.error(f"Registration number {reg_number} not found")
             return Response({'error': 'Registration number not found'}, status=status.HTTP_404_NOT_FOUND)
+
         
 
 
