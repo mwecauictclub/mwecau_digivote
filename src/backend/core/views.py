@@ -78,6 +78,7 @@ class UserRegisterView(APIView):
                      logger.error(f"No course associated with registration {reg_number}")
                      return Response({'error': 'No course associated with this registration'}, status=status.HTTP_400_BAD_REQUEST)
                 course_name = course.name # Get the course name
+
             except Course.DoesNotExist: # Handle case where course relation is broken
                  logger.error(f"Course object for ID {college_data.course_id} not found")
                  return Response({'error': 'Associated course data is invalid'}, status=status.HTTP_400_BAD_REQUEST)
@@ -85,7 +86,7 @@ class UserRegisterView(APIView):
 
             # Prepare data for UserSerializer validation (email can be optional initially)
             email = college_data.email if college_data.email and college_data.email.strip() else None
-            
+            gender = college_data.gender
             # --- Key Change: Prepare data for the *response*, not just the serializer ---
             # Use the fetched course_name directly in the response data
             response_data = {
@@ -98,7 +99,8 @@ class UserRegisterView(APIView):
                 'course': {
                     'id': course.pk,       # Include Course ID
                     'name': course_name    # Include Course Name
-                }
+                },
+                'gender': gender
             }
 
             # Validate the data structure using the serializer (without saving)
@@ -111,27 +113,6 @@ class UserRegisterView(APIView):
                  'role': 'voter',
                  'course': course.pk # Use course ID for validation (as before)
             }
-            # v[01]
-            # response_data = {
-            #     'registration_number': reg_number,
-            #     'first_name': college_data.first_name,
-            #     'last_name': college_data.last_name,
-            #     # 'email': email, # Optional: Omit if null/empty as per desired response
-            #     # 'is_verified': False, # Not needed in pre-check response
-            #     # 'role': 'voter', # Not needed in pre-check response
-            #     'course': course_name # Use the fetched course name
-            # }
-            
-            # # Validate the data structure using the serializer (without saving)
-            # serializer_data_for_validation = {
-            #      'registration_number': reg_number,
-            #      'first_name': college_data.first_name,
-            #      'last_name': college_data.last_name,
-            #      'email': email,
-            #      'is_verified': False,
-            #      'role': 'voter',
-            #      'course': course.pk # Use course ID for validation
-            # }
             
             logger.debug(f"Serializer data for validation: {serializer_data_for_validation}")
             serializer = UserSerializer(data=serializer_data_for_validation)

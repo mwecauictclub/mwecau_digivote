@@ -404,3 +404,33 @@
 - **Logs**:
   - Check Django logs (`python manage.py runserver`).
   - Check Celery logs for task errors.
+
+
+
+
+
+
+
+
+  <!-- Testing 1 -->
+# 1. Detail Comp:
+ API Endpoint : http://localhost:8000/api/auth/register
+Body:
+{
+  "registration_number": "T/DEG/2020/0003"
+}
+ 
+# 2. Complete Reg:
+
+  API Endpoint : http://localhost:8000/api/auth/complete-registration/
+
+  Body:
+  {
+  "registration_number": "T/DEG/2020/0003",
+  "state": 1,
+  "email": "cleven2024@gmail.com",
+  "password": "password123",
+  "course": 2
+}
+
+  

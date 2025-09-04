@@ -1,0 +1,5 @@
+.env.example
+.python-version
+debug.log
+feeded\ data.py
+venv
