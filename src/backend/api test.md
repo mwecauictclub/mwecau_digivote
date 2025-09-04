@@ -413,6 +413,10 @@
 
 
   <!-- Testing 1 -->
+  >>Starting Celery Broker: 
+```bash
+celery -A mw_es.celery_app worker --loglevel=info -Q email_queue
+```
 # 1. Detail Comp:
  API Endpoint : http://localhost:8000/api/auth/register
 Body:
@@ -433,4 +437,18 @@ Body:
   "course": 2
 }
 
-  
+# 3. Login
+API Endpoint : http://localhost:8000/api/auth/login/
+Body: 
+```
+{
+  "registration_number": "T/DEG/2020/0003",
+  "password": "password123"
+}
+
+Response : 
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc1NzA3OTM3MCwiaWF0IjoxNzU2OTkyOTcwLCJqdGkiOiJjYTU3NWNmMzFmNmE0NTY0OGY5ODQ4MzVmMWY5NmJjOCIsInVzZXJfaWQiOiIzNCJ9.qkpEXA42gHhbs8wKLC_E0aCU-KZGPoWPo32nD03rO00",
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU2OTk2NTcwLCJpYXQiOjE3NTY5OTI5NzAsImp0aSI6IjUwYjU2ODc2YTZjZDQ5Y2Y5YWVlZjQ0ZmQwZDMyMzg5IiwidXNlcl9pZCI6IjM0In0.dbGIunEdJnArSAi7wzIglZYsHY-jlXdZqf_6m7PTrJI"
+}
+```
