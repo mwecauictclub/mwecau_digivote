@@ -5,3 +5,5 @@ feeded\ data.py
 venv
 venv_2
 docker learner.md
+data_backup.json
+data_backup.sql
