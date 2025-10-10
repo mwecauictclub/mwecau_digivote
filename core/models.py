@@ -90,7 +90,7 @@ class UserManager(BaseUserManager):
 
 # V[2]
     # ---- CORRECTION: Ensure this method starts at the same indentation level as other methods ----
-    # def create_from_college_data(self, college_data_id):
+    def create_from_college_data(self, college_data_id):
         """Create a User from CollegeData, generating a secure voter_id and password.
         Uses email from CollegeData if available and valid, otherwise defers email setting.
         Modified to use UUID for voter_id.
@@ -115,9 +115,6 @@ class UserManager(BaseUserManager):
             'is_verified': False
         }
 
-        # Only pass email if it's present and not just whitespace in CollegeData
-        # This prevents passing '' which causes the unique constraint error
-        # Check if college_data.email exists and is not just whitespace
         college_data_email = getattr(college_data, 'email', None) # Safer way to get attribute
         if college_data_email and college_data_email.strip():
             user_creation_kwargs['email'] = college_data_email.strip() # Use stripped email
@@ -413,71 +410,71 @@ class CollegeData(models.Model):
 
 # V[01]
 # class CollegeData(models.Model):
-    """Model for storing pre-uploaded college data by Class Leaders."""
-    registration_number = models.CharField(
-        max_length=20,
-        unique=True,
-        validators=[RegexValidator(
-            regex=r'^[A-Z0-9/]+$',
-            message='Registration number must contain only uppercase letters, numbers, or slashes.'
-        )]
-    )
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.EmailField(
-        help_text="Required email for user account creation",
-        blank=True
-    )
-    voter_id = models.CharField(
-        max_length=36,  # Increased to fit UUID format
-        unique=True,
-        null=True,
-        blank=True,
-        help_text="Unique voter ID for anonymous voting, auto-generated UUID"
-    )
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    uploaded_by = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        limit_choices_to={'role__in': [User.ROLE_CLASS_LEADER, User.ROLE_COMMISSIONER]},
-        help_text="Class leader or commissioner who uploaded this data"
-    )
-    is_used = models.BooleanField(
-        default=False,
-        help_text="Whether this data has been used to create a user account"
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(
-        max_length=20,
-        choices=[
-            ('pending', 'Pending'),
-            ('processed', 'Processed'),
-            ('failed', 'Failed'),
-        ],
-        default='pending',
-        help_text="Processing status for async tasks"
-    )
+#     """Model for storing pre-uploaded college data by Class Leaders."""
+#     registration_number = models.CharField(
+#         max_length=20,
+#         unique=True,
+#         validators=[RegexValidator(
+#             regex=r'^[A-Z0-9/]+$',
+#             message='Registration number must contain only uppercase letters, numbers, or slashes.'
+#         )]
+#     )
+#     first_name = models.CharField(max_length=50)
+#     last_name = models.CharField(max_length=50)
+#     email = models.EmailField(
+#         help_text="Required email for user account creation",
+#         blank=True
+#     )
+#     voter_id = models.CharField(
+#         max_length=36,  # Increased to fit UUID format
+#         unique=True,
+#         null=True,
+#         blank=True,
+#         help_text="Unique voter ID for anonymous voting, auto-generated UUID"
+#     )
+#     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+#     uploaded_by = models.ForeignKey(
+#         User,
+#         on_delete=models.CASCADE,
+#         limit_choices_to={'role__in': [User.ROLE_CLASS_LEADER, User.ROLE_COMMISSIONER]},
+#         help_text="Class leader or commissioner who uploaded this data"
+#     )
+#     is_used = models.BooleanField(
+#         default=False,
+#         help_text="Whether this data has been used to create a user account"
+#     )
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     status = models.CharField(
+#         max_length=20,
+#         choices=[
+#             ('pending', 'Pending'),
+#             ('processed', 'Processed'),
+#             ('failed', 'Failed'),
+#         ],
+#         default='pending',
+#         help_text="Processing status for async tasks"
+#     )
     
-    def __str__(self):
-        return f"{self.first_name} {self.last_name} ({self.registration_number})"
+#     def __str__(self):
+#         return f"{self.first_name} {self.last_name} ({self.registration_number})"
     
-    def mark_as_used(self):
-        """Mark this college data as used for user creation.
-        # Modified to set voter_id if not provided.
-        """
-        if not self.voter_id:
-            self.voter_id = str(uuid.uuid4())
-        self.is_used = True
-        self.status = 'processed'
-        self.save(update_fields=['is_used', 'status', 'voter_id'])
+#     def mark_as_used(self):
+#         """Mark this college data as used for user creation.
+#         # Modified to set voter_id if not provided.
+#         """
+#         if not self.voter_id:
+#             self.voter_id = str(uuid.uuid4())
+#         self.is_used = True
+#         self.status = 'processed'
+#         self.save(update_fields=['is_used', 'status', 'voter_id'])
     
-    class Meta:
-        db_table = 'college_data'
-        verbose_name = 'College Data'
-        verbose_name_plural = 'College Data'
-        indexes = [
-            models.Index(fields=['registration_number']),
-            models.Index(fields=['course', 'is_used']),
-            models.Index(fields=['status']),
-            models.Index(fields=['voter_id']),
-        ]
+#     class Meta:
+#         db_table = 'college_data'
+#         verbose_name = 'College Data'
+#         verbose_name_plural = 'College Data'
+#         indexes = [
+#             models.Index(fields=['registration_number']),
+#             models.Index(fields=['course', 'is_used']),
+#             models.Index(fields=['status']),
+#             models.Index(fields=['voter_id']),
+#         ]

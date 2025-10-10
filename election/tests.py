@@ -1,4 +1,3 @@
-from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
 from core.models import User
@@ -6,7 +5,6 @@ from .models import Election, ElectionLevel, VoterToken, Position
 import uuid
 from django.utils import timezone
 
-@shared_task(queue='email_queue')
 def notify_voters_of_active_election(election_id):
     election = Election.objects.get(id=election_id)
     if not election.is_ongoing():
@@ -49,7 +47,6 @@ def notify_voters_of_active_election(election_id):
                 fail_silently=True
             )
 
-@shared_task(queue='email_queue')
 def send_vote_confirmation_email(user_id, election_id, level_id):
     user = User.objects.get(id=user_id)
     election = Election.objects.get(id=election_id)

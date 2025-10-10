@@ -5,12 +5,12 @@ from dotenv import load_dotenv
 
 # Load environment variables
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(BASE_DIR / ".env.example")
+load_dotenv(BASE_DIR / ".env")
 
 # Security
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = ['127.0.0.1']
 
 # Applications
 DJANGO_APPS = [
@@ -21,15 +21,18 @@ DJANGO_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles'
 ]
+
 CUSTOM_APPS = [
     'core',
     'election',
 ]
+
 THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
 ]
+
 INSTALLED_APPS = DJANGO_APPS + CUSTOM_APPS + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
@@ -46,7 +49,7 @@ ROOT_URLCONF = 'mw_es.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -113,14 +116,6 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
 }
 
-# Celery
-CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
-CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_DEFAULT_QUEUE = 'email_queue'
-CELERY_TIMEZONE = 'Africa/Nairobi'
 
 # Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -132,27 +127,27 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_TIMEOUT = int(os.getenv("EMAIL_TIMEOUT", 10))
 
 # Logging
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {'class': 'logging.StreamHandler', 'formatter': 'verbose'},
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        '': {'handlers': ['console', 'file'], 'level': 'DEBUG', 'propagate': True},
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'verbose': {
+#             'format': '{levelname} {asctime} {module} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {'class': 'logging.StreamHandler', 'formatter': 'verbose'},
+#         'file': {
+#             'class': 'logging.FileHandler',
+#             'filename': BASE_DIR / 'debug.log',
+#             'formatter': 'verbose',
+#         },
+#     },
+#     'loggers': {
+#         '': {'handlers': ['console', 'file'], 'level': 'DEBUG', 'propagate': True},
+#     },
+# }
 
 
 

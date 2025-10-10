@@ -1,17 +1,16 @@
 
 from datetime import timezone
-from celery import shared_task
+import uuid
 from django.core.mail import send_mail
 from django.conf import settings
 from core.models import User
-from .models import Election, ElectionLevel, VoterToken
+from .models import Election, ElectionLevel, Position, VoterToken
 
-@shared_task(queue='email_queue')
 def notify_voters_of_active_election(election_id):
     """Send email notifications with per-level VoterTokens when an election is activated."""
     election = Election.objects.get(id=election_id)
     if not election.is_ongoing():
-        return  # Skip if election is not active
+        return
 
     # Get eligible voters (verified with voter_id)
     voters = User.objects.filter(is_verified=True, voter_id__isnull=False)
@@ -57,7 +56,6 @@ def notify_voters_of_active_election(election_id):
                 fail_silently=True
             )
 
-@shared_task(queue='email_queue')
 def send_vote_confirmation_email(user_id, election_id, level_id):
     """Send email confirmation after a user votes."""
     user = User.objects.get(id=user_id)

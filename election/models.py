@@ -2,7 +2,6 @@
 from django.db import models
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-# Import models from the 'core' app
 from core.models import User, State, Course
 import uuid
 
@@ -36,9 +35,9 @@ class ElectionLevel(models.Model):
         indexes = [
             models.Index(fields=['type']),
             models.Index(fields=['code']),
-            models.Index(fields=['course']), # Index for course lookups
-            models.Index(fields=['state']),  # Index for state lookups
-        ]
+            models.Index(fields=['course']),
+            models.Index(fields=['state']),
+            ]
 
     def __str__(self):
         # Provide a more descriptive string representation
@@ -105,10 +104,6 @@ class Election(models.Model):
 
     def save(self, *args, **kwargs):
         """Override save, potentially to trigger notifications (stub for now)."""
-        # Note: The notify_voters task logic needs careful consideration for M2M changes.
-        # It's often better handled in a view or signal after the M2M relation is fully set.
-        # The provided logic in the original code might not work as expected on creation.
-        # Placeholder for potential future logic or signal integration.
         super().save(*args, **kwargs)
 
 
@@ -130,10 +125,6 @@ class Position(models.Model):
         max_length=10, choices=GENDER_CHOICES, default=GENDER_ANY,
         help_text="Gender restriction for candidates (if any)"
     )
-    # Note: State/Course are now implied by the ElectionLevel's course/state fields.
-    # Storing them here again might be redundant unless positions can override level scope.
-    # For simplicity and based on the level design, we'll rely on ElectionLevel.
-    # If needed, these could be re-added as optional overrides.
 
     class Meta:
         db_table = 'positions'
@@ -160,9 +151,7 @@ class Candidate(models.Model):
     bio = models.TextField(blank=True, help_text="Biography or statement from the candidate")
     platform = models.TextField(blank=True, help_text="Campaign platform or key points")
     image = models.ImageField(upload_to='candidate_images/', null=True, blank=True, help_text="Profile image of the candidate")
-
-    # Consider if vote_count should be stored or calculated. Storing can be efficient for large datasets.
-    # vote_count = models.PositiveIntegerField(default=0, help_text="Cached count of votes received")
+    vote_count = models.PositiveIntegerField(default=0, help_text="Cached count of votes received")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -183,7 +172,7 @@ class Candidate(models.Model):
 
     def get_vote_count(self):
         """Calculate the current vote count for this candidate."""
-        return self.votes.count() # Uses the related_name 'votes' from Vote model
+        return self.votes.count()
 
     def get_vote_percentage(self, total_votes_for_position=None):
         """Calculate the vote percentage for this candidate."""
@@ -241,14 +230,11 @@ class VoterToken(models.Model):
 
 class Vote(models.Model):
     """Model representing a single vote cast by a user using a specific token for a candidate."""
-    # Link to the token used. This implicitly links to user, election, and level.
     token = models.ForeignKey(VoterToken, on_delete=models.CASCADE, related_name='votes', help_text="The token used to cast this vote")
     candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE, related_name='votes', help_text="The candidate voted for")
-    # Denormalized fields for easier querying and integrity checks
     election = models.ForeignKey(Election, on_delete=models.CASCADE, related_name='votes', help_text="The election")
     election_level = models.ForeignKey(ElectionLevel, on_delete=models.CASCADE, related_name='votes', help_text="The election level")
-    # Optional: Store the user directly if needed for quick lookups, though token.user is available
-    # voter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes', help_text="The user who voted")
+    voter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes', help_text="The user who voted")
 
     timestamp = models.DateTimeField(auto_now_add=True, help_text="Date and time the vote was cast")
 
@@ -256,9 +242,7 @@ class Vote(models.Model):
         db_table = 'votes'
         verbose_name = 'Vote'
         verbose_name_plural = 'Votes'
-        # Enforce one vote per token (per election/level, implicitly via token uniqueness)
         unique_together = ['token']
-        # Alternative if linking directly to user is preferred for this constraint:
         # unique_together = ['voter', 'election', 'election_level']
         indexes = [
             models.Index(fields=['token']),
@@ -288,14 +272,9 @@ class Vote(models.Model):
         # Check 4: Ensure Vote.election_level matches VoterToken.election_level
         if self.token and self.election_level != self.token.election_level:
             raise ValidationError("Vote level must match the token's election level.")
-
-        # --- Set Denormalized Fields ---
-        # These are set based on the token to ensure consistency and simplify queries.
+        
         if self.token:
             self.election = self.token.election
             self.election_level = self.token.election_level
-            # self.voter = self.token.user # If denormalizing voter
 
         super().save(*args, **kwargs)
-
-    # Consider adding a post-save signal to increment Candidate.vote_count if stored
