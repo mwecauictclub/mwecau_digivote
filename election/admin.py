@@ -135,5 +135,4 @@ class VoteAdmin(admin.ModelAdmin):
         'election__title'
     )
     ordering = ('-timestamp',)
-    # Make all fields readonly as votes should generally not be edited manually
     readonly_fields = [f.name for f in Vote._meta.get_fields()] 

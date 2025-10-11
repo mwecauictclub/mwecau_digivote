@@ -77,7 +77,6 @@ class Election(models.Model):
     end_date = models.DateTimeField(help_text="Date and time the election ends")
     is_active = models.BooleanField(default=False, help_text="Whether the election is currently active for voting")
     has_ended = models.BooleanField(default=False, help_text="Whether the election has officially ended and results are final")
-    # Many-to-Many relationship to ElectionLevel
     levels = models.ManyToManyField(ElectionLevel, related_name='elections', help_text="Election levels included in this election")
 
     created_at = models.DateTimeField(auto_now_add=True)

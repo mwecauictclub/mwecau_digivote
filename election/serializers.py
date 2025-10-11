@@ -28,7 +28,6 @@ class ElectionLevelListSerializer(serializers.ModelSerializer):
 
 class ElectionListSerializer(serializers.ModelSerializer):
     """Serializer for listing elections."""
-    # Use the simpler serializer for the list view
     levels = ElectionLevelListSerializer(many=True, read_only=True)
 
     class Meta:
@@ -54,20 +53,17 @@ class CandidateListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidate
         fields = ['id', 'user_full_name', 'user_registration_number', 'bio', 'platform', 'image_url']
-        # Note: vote_count is not a field, use get_vote_count method if needed in views
 
     def get_image_url(self, obj):
         """Generate the full URL for the candidate's image."""
         request = self.context.get('request')
         if obj.image and request:
-            # Use request.build_absolute_uri for correct domain/path
             return request.build_absolute_uri(obj.image.url)
-        return None # Return None if no image or request context
+        return None
 
 class VoterTokenSerializer(serializers.ModelSerializer):
     """Serializer for VoterToken, showing key details."""
-    # Optionally serialize related level details
-    # election_level_details = ElectionLevelListSerializer(source='election_level', read_only=True)
+    election_level_details = ElectionLevelListSerializer(source='election_level', read_only=True)
     
     class Meta:
         model = VoterToken
@@ -129,26 +125,21 @@ class VoteCreateSerializer(serializers.Serializer):
 
         return data
 
-# Serializer for Results (example structure)
+# Serializer for Results
 class ResultSerializer(serializers.Serializer):
     """Serializer for individual candidate results within a position."""
     candidate_id = serializers.IntegerField()
-    candidate_name = serializers.CharField() # Or use nested serializer
-    candidate_image_url = serializers.SerializerMethodField() # Or use nested serializer
+    candidate_name = serializers.CharField() 
+    candidate_image_url = serializers.SerializerMethodField() 
     vote_count = serializers.IntegerField()
     vote_percentage = serializers.FloatField()
 
-    # If Candidate object is passed, you can get image URL like this:
-    # def get_candidate_image_url(self, obj):
-    #     request = self.context.get('request')
-    #     if obj.image and request:
-    #         return request.build_absolute_uri(obj.image.url)
-    #     return None
+
 
 # Serializer for Position Results
 class PositionResultSerializer(serializers.Serializer):
     """Serializer aggregating results for a single position."""
     position_id = serializers.IntegerField()
     position_title = serializers.CharField()
-    total_votes_cast = serializers.IntegerField() # For this position/level
+    total_votes_cast = serializers.IntegerField() 
     candidates = ResultSerializer(many=True)
