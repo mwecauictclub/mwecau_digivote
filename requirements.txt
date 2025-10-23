@@ -1,6 +1,0 @@
-Django==5.2.5
-djangorestframework
-djangorestframework_simplejwt
-python-dotenv
-pillow
-gunicorn
