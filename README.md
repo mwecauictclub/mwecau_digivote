@@ -36,8 +36,8 @@ Backend development guide for the MWECAU Election Platform.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/mwecau-ict-club/mwecau_election_platform.git
-   cd mwecau_election_platform/src/backend
+   git clone <URL>
+   cd repo_name
    ```
 
 2. Set up virtual environment:
@@ -63,6 +63,7 @@ Backend development guide for the MWECAU Election Platform.
 5. Run migrations and create superuser:
 
    ```bash
+   cd src
    python manage.py migrate
    python manage.py createsuperuser
    ```
