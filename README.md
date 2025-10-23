@@ -28,7 +28,7 @@ Backend development guide for the MWECAU Election Platform.
 * **Django 4.2+**
 * **Django REST Framework**
 * **Python 3.8+**
-* **PostgreSQL/MySQL/SQLite**
+* **SQLite**
 * **Git**
 
 ## Getting Started
