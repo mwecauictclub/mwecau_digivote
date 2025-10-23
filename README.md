@@ -104,16 +104,54 @@ Backend development guide for the MWECAU Election Platform.
 
 ```
 /                        # Root directory
-├── manage.py            # Django management script
-├── requirements.txt     # Python dependencies
-├── .env.example         # Environment variables template
-├── mwecau_election/     # Project directory
-│   ├── settings.py      # Django settings
-│   └── urls.py          # URL routing
-├── apps/                # Application modules
-├── static/              # Static files
-├── media/               # User uploaded files
-└── templates/           # HTML templates
+├──src
+│   ├── core
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── __init__.py
+│   │   ├── migrations
+│   │   │   ├── 0001_initial.py
+│   │   │   └── __init__.py
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   │   └──....
+│   │   ├── serializers.py
+│   │   ├── tasks.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── election
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── __init__.py
+│   │   ├── migrations
+│   │   │   └── ...
+│   │   ├── models.py
+│   │   ├── __pycache__
+│   │   │   └── ... 
+│   │   ├── serializers.py
+│   │   ├── tasks.py
+│   │   ├── tests.py
+│   │   ├── urls.py
+│   │   └── views.py
+│   ├── __init__.py
+│   ├── manage.py
+│   ├── media
+│   │   └── candidate_images
+│   │       └── ...
+│   ├── mw_es
+│   │   ├── asgi.py
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── static
+│   └── templates
+│       └── index.html
+├── requirements.txt
+├── ...........
+├── ...........
+└── README.md
+
 ```
 
 ## Creating New Features
