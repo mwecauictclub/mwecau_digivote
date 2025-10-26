@@ -302,18 +302,132 @@ class UserDashboardView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Return only a simple welcome message and basic user info
+        from election.models import VoterToken
+        from election.serializers import VoterTokenSerializer
+        
+        # Get user's voting tokens
+        tokens = VoterToken.objects.filter(user=request.user).select_related(
+            'election', 'election_level'
+        )
+        tokens_data = VoterTokenSerializer(tokens, many=True, context={'request': request}).data
+        
+        # Return dashboard data with user info and tokens
         return Response({
             'message': 'Welcome to the MWECAU Digital Voting System!',
             'status': 'authenticated',
             'user': {
+                'id': request.user.id,
                 'registration_number': request.user.registration_number,
-                'full_name': request.user.get_full_name(),
+                'first_name': request.user.first_name,
+                'last_name': request.user.last_name,
+                'email': request.user.email,
                 'role': request.user.role,
-                'course': request.user.course.name if request.user.course else None,
-                'state': request.user.state.name if request.user.state else None,
-            }
+                'role_display': request.user.get_role_display(),
+                'is_verified': request.user.is_verified,
+                'is_commissioner': request.user.role == 'commissioner',
+                'voter_id': request.user.voter_id,
+                'course': {
+                    'id': request.user.course.id,
+                    'code': request.user.course.code,
+                    'name': request.user.course.name
+                } if request.user.course else None,
+                'state': {
+                    'id': request.user.state.id,
+                    'name': request.user.state.name
+                } if request.user.state else None,
+                'state_name': request.user.state.name if request.user.state else None,
+                'course_name': request.user.course.name if request.user.course else None,
+            },
+            'voting_tokens': tokens_data
         }, status=status.HTTP_200_OK)
+
+# --- Profile Management Views ---
+class UpdateProfileView(APIView):
+    """API endpoint to update user profile (state, email)."""
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        user = request.user
+        state_id = request.data.get('state')
+        email = request.data.get('email')
+
+        try:
+            if state_id:
+                state = State.objects.get(id=state_id)
+                user.state = state
+            
+            if email:
+                if User.objects.filter(email=email).exclude(id=user.id).exists():
+                    return Response({'error': 'Email already in use'}, status=status.HTTP_400_BAD_REQUEST)
+                user.email = email
+            
+            user.save()
+            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_200_OK)
+        except State.DoesNotExist:
+            return Response({'error': 'Invalid state'}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            logger.error(f"Profile update error: {str(e)}")
+            return Response({'error': 'Failed to update profile'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ChangePasswordView(APIView):
+    """API endpoint to change user password."""
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password')
+
+        if not old_password or not new_password:
+            return Response({'error': 'Both old and new passwords are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not user.check_password(old_password):
+            return Response({'error': 'Current password is incorrect'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if len(new_password) < 8:
+            return Response({'error': 'New password must be at least 8 characters'}, status=status.HTTP_400_BAD_REQUEST)
+
+        user.set_password(new_password)
+        user.save()
+        return Response({'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
+class PasswordResetConfirmView(APIView):
+    """API endpoint to confirm password reset with token."""
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        token = request.data.get('token')
+        new_password = request.data.get('new_password')
+
+        if not token or not new_password:
+            return Response({'error': 'Token and new password are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if len(new_password) < 8:
+            return Response({'error': 'Password must be at least 8 characters'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            from election.models import VoterToken
+            voter_token = VoterToken.objects.select_related('user').get(token=token)
+            
+            if not voter_token.user:
+                return Response({'error': 'Invalid reset token'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            voter_token.user.set_password(new_password)
+            voter_token.user.save()
+            
+            return Response({'message': 'Password reset successful'}, status=status.HTTP_200_OK)
+        except VoterToken.DoesNotExist:
+            user_found = False
+            for user in User.objects.all():
+                if user.registration_number == token or user.voter_id == token:
+                    user.set_password(new_password)
+                    user.save()
+                    user_found = True
+                    break
+            
+            if user_found:
+                return Response({'message': 'Password reset successful'}, status=status.HTTP_200_OK)
+            return Response({'error': 'Invalid or expired reset token'}, status=status.HTTP_400_BAD_REQUEST)
 
 # --- Contact Form ---
 class ContactCommissionerView(APIView):
@@ -348,3 +462,35 @@ class CourseListView(APIView):
         courses = Course.objects.all().order_by('code')
         data = [{'id': course.id, 'code': course.code, 'name': course.name} for course in courses]
         return Response(data, status=status.HTTP_200_OK)
+
+
+# --- Template Views for Frontend UI ---
+from django.views.generic import TemplateView
+
+class IndexView(TemplateView):
+    """Home page view."""
+    template_name = 'index.html'
+
+class LoginPageView(TemplateView):
+    """Login page view."""
+    template_name = 'core/login_api.html'
+
+class RegisterPageView(TemplateView):
+    """Registration page view."""
+    template_name = 'core/register_api.html'
+
+class DashboardPageView(TemplateView):
+    """Dashboard page view."""
+    template_name = 'core/dashboard_api.html'
+
+class ForgotPasswordPageView(TemplateView):
+    """Forgot password page view."""
+    template_name = 'core/forgot_password.html'
+
+class ResetPasswordPageView(TemplateView):
+    """Reset password page view."""
+    template_name = 'core/reset_password.html'
+
+class ProfilePageView(TemplateView):
+    """Profile settings page view."""
+    template_name = 'core/profile.html'
