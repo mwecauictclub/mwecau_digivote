@@ -1,0 +1,252 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - University Election System{% endblock %}
+
+{% block page_title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div id="loadingSpinner" class="text-center my-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading dashboard...</p>
+</div>
+
+<div id="dashboardContent" style="display: none;">
+    <!-- User Info Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-md-2 text-center">
+                            <i class="fas fa-user-circle fa-5x text-primary"></i>
+                        </div>
+                        <div class="col-md-7">
+                            <h3 class="mb-1" id="userName"></h3>
+                            <p class="mb-1"><strong>Registration Number:</strong> <span id="userRegNumber"></span></p>
+                            <p class="mb-1"><strong>Course:</strong> <span id="userCourse"></span></p>
+                            <p class="mb-1"><strong>State:</strong> <span id="userState"></span></p>
+                            <p class="mb-0">
+                                <span class="badge" id="verificationBadge"></span>
+                                <span class="badge bg-secondary ms-2" id="roleBadge"></span>
+                            </p>
+                        </div>
+                        <div class="col-md-3 text-center">
+                            <a href="/profile/" class="btn btn-outline-primary me-2">
+                                <i class="fas fa-user-cog me-1"></i>Profile
+                            </a>
+                            <button class="btn btn-danger" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt me-1"></i>Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verification Status Alert -->
+    <div id="verificationAlert" class="alert alert-warning" style="display: none;">
+        <i class="fas fa-exclamation-triangle me-2"></i>
+        <strong>Account Pending Verification</strong>
+        <p class="mb-0">Your account is awaiting admin verification. You will be able to vote once your account is approved.</p>
+    </div>
+
+    <!-- Active Elections Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0"><i class="fas fa-vote-yea me-2"></i>Active Elections</h4>
+                    <button class="btn btn-light btn-sm" id="refreshElections">
+                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div id="electionsLoading" class="text-center py-3">
+                        <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                        <span class="ms-2">Loading elections...</span>
+                    </div>
+                    <div id="electionsContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Voter Tokens Section -->
+    <div class="row" id="tokensSection" style="display: none;">
+        <div class="col-12">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0"><i class="fas fa-ticket-alt me-2"></i>Your Voting Tokens</h4>
+                </div>
+                <div class="card-body">
+                    <div id="tokensContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api.js' %}"></script>
+<script>
+// Require authentication
+requireAuth();
+
+let dashboardData = null;
+
+// Load dashboard data
+async function loadDashboard() {
+    try {
+        const response = await API.getDashboard();
+        
+        if (response && response.data) {
+            dashboardData = response.data;
+            displayUserInfo(dashboardData.user);
+            await loadElections();
+            
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('dashboardContent').style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Failed to load dashboard:', error);
+        showMessage('Failed to load dashboard data', 'danger');
+        setTimeout(() => {
+            TokenManager.clearTokens();
+            window.location.href = '/login/';
+        }, 2000);
+    }
+}
+
+function displayUserInfo(user) {
+    document.getElementById('userName').textContent = `${user.first_name} ${user.last_name}`;
+    document.getElementById('userRegNumber').textContent = user.registration_number;
+    document.getElementById('userCourse').textContent = user.course ? `${user.course.code} - ${user.course.name}` : 'Not assigned';
+    document.getElementById('userState').textContent = user.state ? user.state.name : 'Not assigned';
+    
+    // Verification badge
+    const verificationBadge = document.getElementById('verificationBadge');
+    if (user.is_verified) {
+        verificationBadge.className = 'badge bg-success';
+        verificationBadge.innerHTML = '<i class="fas fa-check-circle me-1"></i>Verified';
+    } else {
+        verificationBadge.className = 'badge bg-warning';
+        verificationBadge.innerHTML = '<i class="fas fa-clock me-1"></i>Pending Verification';
+        document.getElementById('verificationAlert').style.display = 'block';
+    }
+    
+    // Role badge
+    const roleBadge = document.getElementById('roleBadge');
+    roleBadge.textContent = user.role.charAt(0).toUpperCase() + user.role.slice(1);
+}
+
+async function loadElections() {
+    try {
+        const response = await API.getElections();
+        
+        document.getElementById('electionsLoading').style.display = 'none';
+        
+        if (response && response.data && response.data.length > 0) {
+            displayElections(response.data);
+        } else {
+            document.getElementById('electionsContainer').innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>No active elections at the moment.
+                </div>
+            `;
+        }
+    } catch (error) {
+        document.getElementById('electionsLoading').style.display = 'none';
+        document.getElementById('electionsContainer').innerHTML = `
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>Failed to load elections.
+            </div>
+        `;
+    }
+}
+
+function displayElections(elections) {
+    const container = document.getElementById('electionsContainer');
+    let html = '';
+    
+    elections.forEach(election => {
+        const startDate = new Date(election.start_date).toLocaleDateString();
+        const endDate = new Date(election.end_date).toLocaleDateString();
+        const isActive = election.is_active;
+        const hasEnded = election.has_ended;
+        
+        html += `
+            <div class="card mb-3 border-primary">
+                <div class="card-header bg-light">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">${election.name}</h5>
+                        ${isActive && !hasEnded ? '<span class="badge bg-success">Active</span>' : ''}
+                        ${hasEnded ? '<span class="badge bg-secondary">Ended</span>' : ''}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">${election.description || 'No description available'}</p>
+                    <p class="mb-2">
+                        <i class="fas fa-calendar-alt me-2"></i>
+                        <strong>Period:</strong> ${startDate} to ${endDate}
+                    </p>
+                    <p class="mb-3">
+                        <i class="fas fa-layer-group me-2"></i>
+                        <strong>Levels:</strong> ${election.levels_count} election levels
+                    </p>
+                    
+                    <div class="d-flex gap-2">
+                        ${isActive && !hasEnded ? `
+                            <a href="/vote/?election=${election.id}" class="btn btn-primary">
+                                <i class="fas fa-vote-yea me-2"></i>Vote Now
+                            </a>
+                        ` : ''}
+                        ${hasEnded || dashboardData.user.is_commissioner ? `
+                            <a href="/results/${election.id}/" class="btn btn-info">
+                                <i class="fas fa-chart-bar me-2"></i>View Results
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+
+// Logout functionality
+document.getElementById('logoutBtn').addEventListener('click', async function() {
+    const btn = this;
+    showLoading(btn);
+    
+    try {
+        const refreshToken = TokenManager.getRefreshToken();
+        if (refreshToken) {
+            await API.logout(refreshToken);
+        }
+    } catch (error) {
+        console.error('Logout error:', error);
+    } finally {
+        TokenManager.clearTokens();
+        window.location.href = '/login/';
+    }
+});
+
+// Refresh elections
+document.getElementById('refreshElections').addEventListener('click', function() {
+    document.getElementById('electionsLoading').style.display = 'block';
+    document.getElementById('electionsContainer').innerHTML = '';
+    loadElections();
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    loadDashboard();
+});
+</script>
+{% endblock %}

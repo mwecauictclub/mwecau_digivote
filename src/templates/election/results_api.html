@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Results - University Election System{% endblock %}
+
+{% block page_title %}Election Results{% endblock %}
+
+{% block content %}
+<div id="loadingSpinner" class="text-center my-5">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-3">Loading results...</p>
+</div>
+
+<div id="resultsContent" style="display: none;">
+    <!-- Election Info -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow border-success">
+                <div class="card-header bg-success text-white">
+                    <h4 class="mb-0" id="electionName"></h4>
+                </div>
+                <div class="card-body">
+                    <p id="electionDescription"></p>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <h5 class="text-primary" id="totalPositions">0</h5>
+                            <p class="text-muted mb-0">Positions</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="text-success" id="totalVotes">0</h5>
+                            <p class="text-muted mb-0">Total Votes Cast</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5 class="text-info" id="totalCandidates">0</h5>
+                            <p class="text-muted mb-0">Candidates</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results by Position -->
+    <div id="resultsContainer"></div>
+
+    <!-- Navigation -->
+    <div class="row mt-4">
+        <div class="col-12 text-center">
+            <a href="/dashboard/" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/api.js' %}"></script>
+<script>
+// Require authentication
+requireAuth();
+
+// Get election ID from URL
+const pathParts = window.location.pathname.split('/');
+const electionId = pathParts[pathParts.length - 2];
+
+if (!electionId) {
+    showMessage('No election specified', 'danger');
+    setTimeout(() => window.location.href = '/dashboard/', 2000);
+}
+
+async function loadResults() {
+    try {
+        // Load election details
+        const electionsResponse = await API.getElections();
+        const election = electionsResponse.data.find(e => e.id == electionId);
+        
+        if (!election) {
+            throw new Error('Election not found');
+        }
+        
+        document.getElementById('electionName').textContent = election.name;
+        document.getElementById('electionDescription').textContent = election.description || '';
+        
+        // Load results
+        const resultsResponse = await API.getResults(electionId);
+        
+        if (resultsResponse && resultsResponse.data) {
+            displayResults(resultsResponse.data);
+        }
+        
+        document.getElementById('loadingSpinner').style.display = 'none';
+        document.getElementById('resultsContent').style.display = 'block';
+    } catch (error) {
+        console.error('Failed to load results:', error);
+        const errorMessage = error.data?.error || error.message || 'Failed to load results';
+        showMessage(errorMessage, 'danger');
+        
+        if (error.status === 403) {
+            setTimeout(() => window.location.href = '/dashboard/', 3000);
+        }
+    }
+}
+
+function displayResults(results) {
+    const container = document.getElementById('resultsContainer');
+    
+    if (!results || results.length === 0) {
+        container.innerHTML = '<div class="alert alert-info">No results available yet.</div>';
+        return;
+    }
+    
+    let totalVotes = 0;
+    let totalCandidates = 0;
+    let html = '';
+    
+    results.forEach((position, index) => {
+        totalVotes += position.total_votes_cast || 0;
+        totalCandidates += position.candidates?.length || 0;
+        
+        // Sort candidates by vote count
+        const sortedCandidates = [...(position.candidates || [])].sort((a, b) => b.vote_count - a.vote_count);
+        const winner = sortedCandidates[0];
+        
+        html += `
+            <div class="card shadow mb-4">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-award me-2"></i>${position.position_title}
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="mb-3">
+                        <strong>Total Votes Cast:</strong> ${position.total_votes_cast || 0}
+                    </p>
+                    
+                    <!-- Winner -->
+                    ${winner && winner.vote_count > 0 ? `
+                        <div class="alert alert-success d-flex align-items-center mb-3">
+                            <i class="fas fa-trophy fa-2x me-3"></i>
+                            <div>
+                                <h6 class="mb-0">Winner: ${winner.candidate_name}</h6>
+                                <p class="mb-0">${winner.vote_count} votes (${winner.vote_percentage}%)</p>
+                            </div>
+                        </div>
+                    ` : ''}
+                    
+                    <!-- All Candidates -->
+                    <div class="row g-3">
+                        ${sortedCandidates.map((candidate, idx) => `
+                            <div class="col-md-6">
+                                <div class="card ${idx === 0 && candidate.vote_count > 0 ? 'border-success' : ''}">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <h6 class="mb-0">
+                                                ${idx === 0 && candidate.vote_count > 0 ? '<i class="fas fa-crown text-warning me-1"></i>' : ''}
+                                                ${candidate.candidate_name}
+                                            </h6>
+                                            <span class="badge bg-primary">${candidate.vote_count} votes</span>
+                                        </div>
+                                        <div class="progress" style="height: 25px;">
+                                            <div class="progress-bar ${idx === 0 && candidate.vote_count > 0 ? 'bg-success' : 'bg-primary'}" 
+                                                 role="progressbar" 
+                                                 style="width: ${candidate.vote_percentage}%"
+                                                 aria-valuenow="${candidate.vote_percentage}" 
+                                                 aria-valuemin="0" 
+                                                 aria-valuemax="100">
+                                                ${candidate.vote_percentage}%
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+    
+    // Update statistics
+    document.getElementById('totalPositions').textContent = results.length;
+    document.getElementById('totalVotes').textContent = totalVotes;
+    document.getElementById('totalCandidates').textContent = totalCandidates;
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    loadResults();
+});
+</script>
+{% endblock %}
