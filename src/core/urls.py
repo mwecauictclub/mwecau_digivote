@@ -8,6 +8,7 @@ app_name = "core"
 
 urlpatterns = [
     # API Endpoints
+    path('', views.APIHealthCheckView.as_view(),name="api-health"),
     path('api/auth/login/', views.UserLoginView.as_view(), name='api_login'),
     path('api/auth/logout/', views.UserLogoutView.as_view(), name='api_logout'),
     path('api/auth/refresh/', TokenRefreshView.as_view(), name='api_token_refresh'),
