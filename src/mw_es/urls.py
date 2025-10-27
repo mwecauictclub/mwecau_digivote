@@ -11,7 +11,7 @@ schema_view = get_schema_view(
         title="MWECAU Election System API",
         default_version='v1',
         description="REST API for MWECAU Digital Voting System",
-        contact=openapi.Contact(email="info@mwecau.ac.tz"),
+        contact=openapi.Contact(email="xyztempo12345@tutamail.com"),
         license=openapi.License(name="MIT License"),
     ),
     public=True,

@@ -28,12 +28,8 @@ class ElectionListView(APIView):
         serializer = ElectionListSerializer(elections, many=True, context={'request': request})
         return Response(serializer.data)
 
-
-
 class ElectionDetailView():
     pass
-
-
 
 class ElectionCreateView():
     pass
@@ -128,3 +124,13 @@ class ResultsView(APIView):
         return Response(serializer.data)
             # OR
         # return Response(results_data) #raw aggregated data for now
+
+
+# --- Template Views for Frontend UI ---
+class VotePageView(TemplateView):
+    """Voting page view."""
+    template_name = 'election/vote_api.html'
+
+class ResultsPageView(TemplateView):
+    """Results page view."""
+    template_name = 'election/results_api.html'

@@ -133,7 +133,7 @@ AUTHENTICATION_BACKENDS = [
 
 # Email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'noreply@mwecau.ac.tz'
+DEFAULT_FROM_EMAIL = 'xyztempo12345@tutamail.com'
 
 # Login URL
 LOGIN_URL = '/login/'
