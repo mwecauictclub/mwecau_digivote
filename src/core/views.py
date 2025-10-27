@@ -462,35 +462,3 @@ class CourseListView(APIView):
         courses = Course.objects.all().order_by('code')
         data = [{'id': course.id, 'code': course.code, 'name': course.name} for course in courses]
         return Response(data, status=status.HTTP_200_OK)
-
-
-# --- Template Views for Frontend UI ---
-from django.views.generic import TemplateView
-
-class IndexView(TemplateView):
-    """Home page view."""
-    template_name = 'index.html'
-
-class LoginPageView(TemplateView):
-    """Login page view."""
-    template_name = 'core/login_api.html'
-
-class RegisterPageView(TemplateView):
-    """Registration page view."""
-    template_name = 'core/register_api.html'
-
-class DashboardPageView(TemplateView):
-    """Dashboard page view."""
-    template_name = 'core/dashboard_api.html'
-
-class ForgotPasswordPageView(TemplateView):
-    """Forgot password page view."""
-    template_name = 'core/forgot_password.html'
-
-class ResetPasswordPageView(TemplateView):
-    """Reset password page view."""
-    template_name = 'core/reset_password.html'
-
-class ProfilePageView(TemplateView):
-    """Profile settings page view."""
-    template_name = 'core/profile.html'

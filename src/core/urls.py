@@ -4,16 +4,9 @@ from rest_framework_simplejwt.views import TokenRefreshView
 # Import your views
 from . import views
 
+app_name = "core"
+
 urlpatterns = [
-    # Frontend Pages
-    path('', views.IndexView.as_view(), name='index'),
-    path('login/', views.LoginPageView.as_view(), name='login'),
-    path('register/', views.RegisterPageView.as_view(), name='register'),
-    path('dashboard/', views.DashboardPageView.as_view(), name='dashboard'),
-    path('forgot-password/', views.ForgotPasswordPageView.as_view(), name='forgot_password'),
-    path('reset-password/', views.ResetPasswordPageView.as_view(), name='reset_password'),
-    path('profile/', views.ProfilePageView.as_view(), name='profile'),
-    
     # API Endpoints
     path('api/auth/login/', views.UserLoginView.as_view(), name='api_login'),
     path('api/auth/logout/', views.UserLogoutView.as_view(), name='api_logout'),

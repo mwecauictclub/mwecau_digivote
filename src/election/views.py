@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from django.utils import timezone
 from django.db.models import Count, Sum
+from django.views.generic import TemplateView
 from .models import Election, ElectionLevel, Position, Candidate, VoterToken, Vote
 from core.models import User
 from .tasks import send_vote_confirmation_email
@@ -27,8 +28,12 @@ class ElectionListView(APIView):
         serializer = ElectionListSerializer(elections, many=True, context={'request': request})
         return Response(serializer.data)
 
+
+
 class ElectionDetailView():
     pass
+
+
 
 class ElectionCreateView():
     pass

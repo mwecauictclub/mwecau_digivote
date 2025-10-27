@@ -631,4 +631,4 @@ For technical issues or questions:
 - Check the TESTING_GUIDE.md for examples
 - Review the ELECTION_BUSINESS_LOGIC.md for system behavior
 
-**Developed by MWECAU ICT Department**
+**Developed by cgm**

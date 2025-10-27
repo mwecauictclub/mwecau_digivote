@@ -1,23 +1,23 @@
 # MWECAU Digital Voting System - Testing Guide
 
-## 🎉 System Setup Complete!
+## System Setup Complete
 
 Your MWECAU Digital Voting System is now fully configured and ready for testing!
 
-## 📊 Database Summary
+## Database Summary
 
 ```
-✅ Core Data:
+ Core Data:
    • 6 States (KWACHANGE, KIFUMBU, ON-CAMPUS, MAWELA, WHITE HOUSE, MOSHI MJINI)
    • 14 Courses (BsChem, BsCS, BsMathStat, BsEd, BsBio, etc.)
    • 100 College Data Entries
 
-✅ Users:
+ Users:
    • 77 Total Users
    • 76 Verified Voters (all assigned to random states and courses)
    • 1 Admin User
 
-✅ Elections:
+ Elections:
    • 1 Active Election (University Elections 2025)
    • 21 Election Levels:
       - 1 President Level (university-wide)
@@ -26,7 +26,7 @@ Your MWECAU Digital Voting System is now fully configured and ready for testing!
    • 41 Positions (1 president + 2 per state + 2 per course)
 ```
 
-## 🔑 Login Credentials
+##  Login Credentials
 
 ### Admin Account
 ```
@@ -256,7 +256,7 @@ Response:
 3. Check election levels - you should only see course levels matching your course
 4. Attempt to vote for a candidate in a different course's level (should fail)
 
-## 🔒 Testing Token Security (Partial Blockchain)
+## Testing Token Security (Partial Blockchain)
 
 ### Test 1: Token Uniqueness
 ```sql
@@ -283,7 +283,7 @@ POST /api/election/vote/
 -- Should return: "Invalid token UUID provided"
 ```
 
-## 🎯 Complete Voting Flow Test
+## Complete Voting Flow Test
 
 ### 1. Student Registration
 ```http
@@ -361,7 +361,7 @@ Access the admin panel at: `http://localhost:5000/admin/`
 - Voter Tokens (view token status)
 - Votes (view anonymized vote records)
 
-## 📝 Management Commands
+## Management Commands
 
 ### Run all setup commands at once:
 ```bash
@@ -394,43 +394,14 @@ python manage.py create_elections
 python manage.py create_sample_election
 ```
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 1. **Celery Not Configured**: Email notifications run synchronously (not in background)
 2. **Token Distribution**: Currently, tokens must be retrieved from database. In production, they would be sent via email when elections are activated.
 3. **No Candidate Data Yet**: You'll need to create candidates via Django admin panel or API
 4. **Database**: Using SQLite for development. Migrate to PostgreSQL for production.
 
-## 🚀 Next Steps for Production
-
-1. **Configure Celery** for background email sending
-2. **Add Candidate Management** API endpoints
-3. **Migrate to PostgreSQL** database
-4. **Set up Email Service** (SendGrid, AWS SES, etc.)
-5. **Configure CORS** for frontend domain
-6. **Add Rate Limiting** for API endpoints
-7. **Set up Media Storage** (S3, GCS) for candidate images
-8. **Enable HTTPS** and set proper ALLOWED_HOSTS
-9. **Add Logging & Monitoring**
-10. **Write Integration Tests**
-
-## 📚 Documentation References
+## Documentation References
 
 - **Business Logic**: See `ELECTION_BUSINESS_LOGIC.md` for detailed explanation of the three-level system and token architecture
-- **System Architecture**: See `replit.md` for overall system design and rationale
-
-## ✅ System Status
-
-**Status**: ✅ **Production-Ready** (with the above production considerations)
-
-All three election levels (President, Course, State) are verified and working correctly:
-- ✅ VoterToken partial blockchain system functional
-- ✅ Eligibility filtering working for all three levels
-- ✅ Vote creation and validation working
-- ✅ Results aggregation working
-- ✅ Token immutability enforced
-- ✅ Data integrity validations in place
-
-**Server**: Running on `http://0.0.0.0:5000/`
-**Django Version**: 5.2.7
-**Python Version**: 3.11
+- **System Architecture**: See `README..md` for overall system design and rationale

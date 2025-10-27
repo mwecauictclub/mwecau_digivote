@@ -17,9 +17,7 @@ ALLOWED_HOSTS = ['*']
 
 # CSRF settings for Replit
 CSRF_TRUSTED_ORIGINS = [
-    'https://*.replit.dev',
-    'https://*.replit.app',
-    'https://*.repl.co',
+    'https://*.com',
 ]
 
 # Application definition
@@ -56,7 +54,7 @@ ROOT_URLCONF = 'mw_es.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [ ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -194,6 +192,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8000',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
+    'http://*.com'
 ]
 
 CORS_ALLOW_ALL_ORIGINS = DEBUG
