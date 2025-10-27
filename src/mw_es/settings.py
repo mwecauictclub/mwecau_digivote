@@ -74,8 +74,11 @@ WSGI_APPLICATION = 'mw_es.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'election_db',
+        'USER' : 'election_app',
+        'PASSWORD' : 'secret123',
+        'PORT' : 3306,
     }
 }
 
@@ -188,8 +191,10 @@ SIMPLE_JWT = {
 
 # CORS Settings
 CORS_ALLOWED_ORIGINS = [
+    'http://localhost:80',
     'http://localhost:3000',
     'http://localhost:8000',
+    'http://127.0.0.1:80',
     'http://127.0.0.1:3000',
     'http://127.0.0.1:8000',
     'http://*.com'
