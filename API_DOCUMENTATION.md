@@ -24,7 +24,7 @@ Authorization: Bearer <your_access_token>
 **Request Body:**
 ```json
 {
-  "registration_number": "REG-001",
+  "registration_number": "T/DEG/2020/0001",
   "password": "@2025"
 }
 ```
@@ -90,14 +90,14 @@ Authorization: Bearer <your_access_token>
 **Request Body:**
 ```json
 {
-  "registration_number": "REG-001"
+  "registration_number": "T/ADM/2020/0001"
 }
 ```
 
 **Success Response (200 OK):**
 ```json
 {
-  "registration_number": "REG-001",
+  "registration_number": "T/ADM/2020/0001",
   "first_name": "Paul",
   "last_name": "Mbise",
   "email": null,
@@ -117,8 +117,8 @@ Authorization: Bearer <your_access_token>
 **Request Body:**
 ```json
 {
-  "registration_number": "REG-001",
-  "email": "paul.mbise@university.edu",
+  "registration_number": "T/ADM/2020/0001",
+  "email": "paul.mbise@mail.com",
   "password": "@2025",
   "password_confirm": "@2025",
   "state": 1,
@@ -147,7 +147,7 @@ Authorization: Bearer <your_access_token>
 **Request Body:**
 ```json
 {
-  "registration_number": "REG-001"
+  "registration_number": "T/ADM/2020/0001"
 }
 ```
 
@@ -181,8 +181,8 @@ Authorization: Bearer <your_access_token>
 {
   "user": {
     "id": "2",
-    "registration_number": "REG-001",
-    "email": "paul.mbise@university.edu",
+    "registration_number": "T/ADM/2020/0001",
+    "email": "paul.mbise@mail.com",
     "first_name": "Paul",
     "last_name": "Mbise",
     "voter_id": "V1234567890",
@@ -403,7 +403,7 @@ Authorization: Bearer <your_access_token>
   "results": [
     {
       "id": "1",
-      "registration_number": "REG-001",
+      "registration_number": "T/ADM/2020/0001",
       "email": "user@example.com",
       "first_name": "John",
       "last_name": "Doe",
@@ -519,7 +519,7 @@ curl -X GET http://localhost:5000/api/courses/
 ```bash
 curl -X POST http://localhost:5000/api/auth/register/ \
   -H "Content-Type: application/json" \
-  -d '{"registration_number":"REG-001"}'
+  -d '{"registration_number":"T/ADM/2020/0001"}'
 ```
 
 3. **Complete Registration**
@@ -527,7 +527,7 @@ curl -X POST http://localhost:5000/api/auth/register/ \
 curl -X POST http://localhost:5000/api/auth/complete-registration/ \
   -H "Content-Type: application/json" \
   -d '{
-    "registration_number":"REG-001",
+    "registration_number":"T/ADM/2020/0001",
     "email":"user@example.com",
     "password":"SecurePass123",
     "password_confirm":"SecurePass123",
@@ -540,7 +540,7 @@ curl -X POST http://localhost:5000/api/auth/complete-registration/ \
 ```bash
 curl -X POST http://localhost:5000/api/auth/login/ \
   -H "Content-Type: application/json" \
-  -d '{"registration_number":"REG-001","password":"@2025"}'
+  -d '{"registration_number":"T/ADM/2020/0001","password":"@2025"}'
 ```
 
 5. **Access Protected Endpoint**
@@ -599,7 +599,7 @@ http://localhost:5000/admin/
 ```
 
 Default admin credentials (see TESTING_GUIDE.md):
-- Email: admin@university.edu
+- Email: admin@mail.com
 - Password: @12345678
 
 ---

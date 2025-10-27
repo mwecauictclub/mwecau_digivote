@@ -16,9 +16,9 @@ The MWECAU Digital Voting System is a comprehensive online platform for managing
 
 ## Recent Changes
 
-**October 23, 2025 - Replit Environment Setup Completed**
+**October 23, 2025 - Environment Setup Completed**
 
-**Replit Configuration:**
+**Cloud Configuration:**
 - Installed all Python dependencies via uv/pyproject.toml
 - Configured Django development server on port 5000 with host 0.0.0.0
 - Set up workflow for automatic server startup
@@ -195,7 +195,7 @@ Preferred communication style: Simple, everyday language.
 - Configured via `MEDIA_ROOT` and `MEDIA_URL`
 
 ### Future Considerations
-- Database migration path to PostgreSQL for production
+- Database migration path to PostgreSQL/MySQL for production
 - Redis for caching and session management
 - Celery for asynchronous task processing (email sending)
 - Cloud storage (S3/GCS) for media files in production

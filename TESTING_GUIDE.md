@@ -30,7 +30,7 @@ Your MWECAU Digital Voting System is now fully configured and ready for testing!
 
 ### Admin Account
 ```
-Email: admin@university.edu
+Email: admin@mail.com
 Password: @12345678
 Role: Admin/Superuser
 Access: Django Admin Panel + Full API Access
@@ -38,13 +38,13 @@ Access: Django Admin Panel + Full API Access
 
 ### Student Accounts
 ```
-Email Pattern: <registration-number>@university.edu
+Email Pattern: <registration-number>@mail.com
 Password: @2025 (all students)
 
 Examples:
-- reg-001@university.edu / @2025
-- reg-002@university.edu / @2025
-- reg-050@university.edu / @2025
+- reg-001@mail.com / @2025
+- reg-002@mail.com / @2025
+- reg-050@mail.com / @2025
 ```
 
 ## 🚀 API Endpoints
@@ -62,7 +62,7 @@ POST /api/auth/login/
 Content-Type: application/json
 
 {
-  "registration_number": "REG-001",
+  "registration_number": "T/ADM/2020/0001",
   "password": "@2025"
 }
 
@@ -86,8 +86,8 @@ POST /api/auth/register/
 Content-Type: application/json
 
 {
-  "registration_number": "REG-001",
-  "email": "paul.mbise@university.edu",
+  "registration_number": "T/ADM/2020/0001",
+  "email": "paul.mbise@mail.com",
   "password": "@2025",
   "password_confirm": "@2025",
   "first_name": "Paul",
@@ -218,7 +218,7 @@ Response:
 **Objective**: Verify all verified voters receive tokens for the President level
 
 **Steps**:
-1. Login as any student (e.g., `reg-001@university.edu` / `@2025`)
+1. Login as any student (e.g., `reg-001@mail.com` / `@2025`)
 2. Call `GET /api/election/list/` to see active elections
 3. Verify the response includes the President level
 4. **To get your voting token**: Tokens are generated when elections are activated via email
@@ -237,7 +237,7 @@ Response:
 **Steps**:
 1. Check which state a user is assigned to:
    ```sql
-   SELECT state_id FROM users WHERE registration_number = 'REG-001';
+   SELECT state_id FROM users WHERE registration_number = 'T/ADM/2020/0001';
    ```
 2. Login as that user
 3. Check election levels - you should only see state levels matching your state
@@ -250,7 +250,7 @@ Response:
 **Steps**:
 1. Check which course a user is assigned to:
    ```sql
-   SELECT course_id FROM users WHERE registration_number = 'REG-001';
+   SELECT course_id FROM users WHERE registration_number = 'T/ADM/2020/0001';
    ```
 2. Login as that user
 3. Check election levels - you should only see course levels matching your course
@@ -289,8 +289,8 @@ POST /api/election/vote/
 ```http
 POST /api/auth/register/
 {
-  "registration_number": "REG-001",
-  "email": "test@university.edu",
+  "registration_number": "T/ADM/2020/0001",
+  "email": "test@mail.com",
   "password": "@2025",
   "password_confirm": "@2025",
   "first_name": "Test",
@@ -304,7 +304,7 @@ POST /api/auth/register/
 ```http
 POST /api/auth/login/
 {
-  "registration_number": "REG-001",
+  "registration_number": "T/ADM/2020/0001",
   "password": "@2025"
 }
 -- Save the access_token from response
@@ -350,7 +350,7 @@ Authorization: Bearer <access_token>
 
 Access the admin panel at: `http://localhost:5000/admin/`
 
-**Login**: `admin@university.edu` / `@12345678`
+**Login**: `admin@mail.com` / `@12345678`
 
 **Available Admin Sections**:
 - Users (view/edit all user accounts)
