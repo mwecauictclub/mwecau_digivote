@@ -76,7 +76,7 @@ DATABASES = {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.mysql'),
         'NAME': os.getenv('DB_NAME', 'election_db'),
         'USER': os.getenv('DB_USER', 'election_app'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'secret123'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '123'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': int(os.getenv('DB_PORT', '3306')),
     }
