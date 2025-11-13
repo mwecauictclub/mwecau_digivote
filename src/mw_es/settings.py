@@ -138,40 +138,21 @@ LOGIN_URL = '/login/'
 LOGOUT_REDIRECT_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-# Django REST Framework Configuration (kept minimal for the election API endpoints)
+# Django REST Framework Configuration (minimal - only for voting submission and results API)
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
-    'DEFAULT_FILTER_BACKENDS': [
-        'rest_framework.filters.SearchFilter',
-        'rest_framework.filters.OrderingFilter',
     ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.MultiPartParser',
-        'rest_framework.parsers.FormParser',
     ],
-    'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler',
-    'DATETIME_FORMAT': '%Y-%m-%d %H:%M:%S',
 }
-
-# GPT-5 mini feature flag
-GPT5_MINI = {
-    'ENABLED': os.getenv('GPT5_MINI_ENABLED', 'True').lower() == 'true',
-    'MODE': os.getenv('GPT5_MINI_MODE', 'all_clients'),
-    'WHITELISTED_CLIENTS': [c.strip() for c in os.getenv('GPT5_MINI_WHITELIST', '').split(',') if c.strip()]
-}
-GPT5_MINI_ENABLED = GPT5_MINI['ENABLED'] and GPT5_MINI['MODE'] == 'all_clients'
 
 # Media Files
 MEDIA_URL = '/media/'

@@ -1,0 +1,56 @@
+Collecting django
+  Using cached django-5.2.8-py3-none-any.whl.metadata (4.1 kB)
+Collecting django-cors-headers
+  Using cached django_cors_headers-4.9.0-py3-none-any.whl.metadata (16 kB)
+Collecting djangorestframework
+  Using cached djangorestframework-3.16.1-py3-none-any.whl.metadata (11 kB)
+Collecting djangorestframework-simplejwt
+  Using cached djangorestframework_simplejwt-5.5.1-py3-none-any.whl.metadata (4.6 kB)
+Collecting drf-yasg
+  Using cached drf_yasg-1.21.11-py3-none-any.whl.metadata (17 kB)
+Collecting pillow
+  Using cached pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (8.8 kB)
+Collecting psycopg2-binary
+  Using cached psycopg2_binary-2.9.11-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+Collecting python-decouple
+  Using cached python_decouple-3.8-py3-none-any.whl.metadata (14 kB)
+Collecting asgiref>=3.8.1 (from django)
+  Downloading asgiref-3.10.0-py3-none-any.whl.metadata (9.3 kB)
+Collecting sqlparse>=0.3.1 (from django)
+  Downloading sqlparse-0.5.3-py3-none-any.whl.metadata (3.9 kB)
+Collecting pyjwt>=1.7.1 (from djangorestframework-simplejwt)
+  Downloading PyJWT-2.10.1-py3-none-any.whl.metadata (4.0 kB)
+Collecting inflection>=0.3.1 (from drf-yasg)
+  Downloading inflection-0.5.1-py2.py3-none-any.whl.metadata (1.7 kB)
+Collecting packaging>=21.0 (from drf-yasg)
+  Downloading packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pytz>=2021.1 (from drf-yasg)
+  Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting pyyaml>=5.1 (from drf-yasg)
+  Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+Collecting uritemplate>=3.0.0 (from drf-yasg)
+  Downloading uritemplate-4.2.0-py3-none-any.whl.metadata (2.6 kB)
+Downloading django-5.2.8-py3-none-any.whl (8.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.3/8.3 MB 37.6 MB/s eta 0:00:00
+Downloading django_cors_headers-4.9.0-py3-none-any.whl (12 kB)
+Downloading djangorestframework-3.16.1-py3-none-any.whl (1.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.1/1.1 MB 31.2 MB/s eta 0:00:00
+Downloading djangorestframework_simplejwt-5.5.1-py3-none-any.whl (107 kB)
+Downloading drf_yasg-1.21.11-py3-none-any.whl (4.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 49.2 MB/s eta 0:00:00
+Downloading pillow-12.0.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (7.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 47.3 MB/s eta 0:00:00
+Downloading psycopg2_binary-2.9.11-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 54.9 MB/s eta 0:00:00
+Downloading python_decouple-3.8-py3-none-any.whl (9.9 kB)
+Downloading asgiref-3.10.0-py3-none-any.whl (24 kB)
+Downloading inflection-0.5.1-py2.py3-none-any.whl (9.5 kB)
+Downloading packaging-25.0-py3-none-any.whl (66 kB)
+Downloading PyJWT-2.10.1-py3-none-any.whl (22 kB)
+Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 27.2 MB/s eta 0:00:00
+Downloading sqlparse-0.5.3-py3-none-any.whl (44 kB)
+Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+Installing collected packages: pytz, python-decouple, uritemplate, sqlparse, pyyaml, pyjwt, psycopg2-binary, pillow, packaging, inflection, asgiref, django, djangorestframework, django-cors-headers, drf-yasg, djangorestframework-simplejwt
+Successfully installed asgiref-3.10.0 django-5.2.8 django-cors-headers-4.9.0 djangorestframework-3.16.1 djangorestframework-simplejwt-5.5.1 drf-yasg-1.21.11 inflection-0.5.1 packaging-25.0 pillow-12.0.0 psycopg2-binary-2.9.11 pyjwt-2.10.1 python-decouple-3.8 pytz-2025.2 pyyaml-6.0.3 sqlparse-0.5.3 uritemplate-4.2.0

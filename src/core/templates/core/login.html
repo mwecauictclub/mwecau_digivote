@@ -1,0 +1,25 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Login - MWECAU Voting{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div>
+        <label for="registration_number">Registration Number:</label>
+        <input type="text" id="registration_number" name="registration_number" required>
+    </div>
+
+    <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+    </div>
+
+    <button type="submit">Login</button>
+</form>
+
+<p>Don't have an account? <a href="{% url 'core:register' %}">Register here</a></p>
+{% endblock %}

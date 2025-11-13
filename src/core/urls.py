@@ -1,31 +1,16 @@
 # core/urls.py
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-# Import your views
-from . import views
+from .views_ui import home, login_view, logout_view, register_view, dashboard_view
 
 app_name = "core"
 
 urlpatterns = [
-    # API Endpoints
-    path('', views.APIHealthCheckView.as_view(),name="api-health"),
-    path('api/auth/login/', views.UserLoginView.as_view(), name='api_login'),
-    path('api/auth/logout/', views.UserLogoutView.as_view(), name='api_logout'),
-    path('api/auth/refresh/', TokenRefreshView.as_view(), name='api_token_refresh'),
-    path('api/auth/register/', views.UserRegisterView.as_view(), name='api_register'),
-    path('api/auth/complete-registration/', views.CompleteRegistrationView.as_view(), name='api_complete_registration'),
-    path('api/auth/verify/request/', views.VerificationRequestView.as_view(), name='api_verification_request'),
-    path('api/auth/verify/', views.VerifyUserView.as_view(), name='api_verify_user'),
-    path('api/auth/verify/status/', views.VerificationStatusView.as_view(), name='api_verification_status'),
-    path('api/auth/forgot-password/', views.ForgotPasswordView.as_view(), name='api_forgot_password'),
-    path('api/auth/password-reset/request/', views.ForgotPasswordView.as_view(), name='api_password_reset_request'),
-    path('api/auth/password-reset/confirm/', views.PasswordResetConfirmView.as_view(), name='api_password_reset_confirm'),
-    path('api/auth/dashboard/', views.UserDashboardView.as_view(), name='api_dashboard'),
-    path('api/auth/update-profile/', views.UpdateProfileView.as_view(), name='api_update_profile'),
-    path('api/auth/change-password/', views.ChangePasswordView.as_view(), name='api_change_password'),
-    path('api/auth/contact-commissioner/', views.ContactCommissionerView.as_view(), name='api_contact_commissioner'),
+    # Home page
+    path('', home, name='home'),
     
-    # Reference data endpoints for dropdowns
-    path('api/states/', views.StateListView.as_view(), name='api_states'),
-    path('api/courses/', views.CourseListView.as_view(), name='api_courses'),
+    # Django session-based authentication
+    path('login/', login_view, name='login'),
+    path('logout/', logout_view, name='logout'),
+    path('register/', register_view, name='register'),
+    path('dashboard/', dashboard_view, name='dashboard'),
 ]

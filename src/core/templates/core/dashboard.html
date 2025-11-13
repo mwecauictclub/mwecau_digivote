@@ -1,0 +1,97 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Dashboard - MWECAU Voting{% endblock %}
+
+{% block content %}
+<h2>Dashboard</h2>
+
+<h3>User Information</h3>
+<table border="1">
+    <tr>
+        <td>Name:</td>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Registration Number:</td>
+        <td>{{ user.registration_number }}</td>
+    </tr>
+    <tr>
+        <td>Email:</td>
+        <td>{{ user.email }}</td>
+    </tr>
+    <tr>
+        <td>Voter ID:</td>
+        <td>{{ user.voter_id }}</td>
+    </tr>
+    <tr>
+        <td>Role:</td>
+        <td>{{ user.get_role_display }}</td>
+    </tr>
+    <tr>
+        <td>Verified:</td>
+        <td>{% if user.is_verified %}Yes{% else %}No{% endif %}</td>
+    </tr>
+    {% if user.state %}
+    <tr>
+        <td>State:</td>
+        <td>{{ user.state.name }}</td>
+    </tr>
+    {% endif %}
+    {% if user.course %}
+    <tr>
+        <td>Course:</td>
+        <td>{{ user.course.name }} ({{ user.course.code }})</td>
+    </tr>
+    {% endif %}
+</table>
+
+<h3>Active Elections</h3>
+{% if active_elections %}
+<ul>
+    {% for election in active_elections %}
+    <li>
+        <strong>{{ election.name }}</strong><br>
+        Start: {{ election.start_date }}<br>
+        End: {{ election.end_date }}<br>
+        <a href="/api/election/{{ election.id }}/results/">View Results (JSON)</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No active elections at this time.</p>
+{% endif %}
+
+<h3>Your Voting Tokens</h3>
+{% if voting_tokens %}
+<table border="1">
+    <thead>
+        <tr>
+            <th>Election</th>
+            <th>Level</th>
+            <th>Token</th>
+            <th>Used</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for token in voting_tokens %}
+        <tr>
+            <td>{{ token.election.name }}</td>
+            <td>{{ token.election_level.level_type }}</td>
+            <td>{{ token.token }}</td>
+            <td>{% if token.is_used %}Yes{% else %}No{% endif %}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p><strong>Note:</strong> Use the API endpoint <code>POST /api/election/{election_id}/submit/</code> with your token to vote.</p>
+{% else %}
+<p>No voting tokens available. Contact administrator if you should have access to elections.</p>
+{% endif %}
+
+<h3>API Endpoints</h3>
+<p>Use these endpoints for voting:</p>
+<ul>
+    <li><strong>Submit Vote:</strong> POST /api/election/{election_id}/submit/</li>
+    <li><strong>Get Results:</strong> GET /api/election/{election_id}/results/</li>
+</ul>
+{% endblock %}

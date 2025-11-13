@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MWECAU Digital Voting System{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>MWECAU Digital Voting System</h1>
+        {% if user.is_authenticated %}
+        <nav>
+            <a href="{% url 'core:dashboard' %}">Dashboard</a>
+            <a href="{% url 'core:logout' %}">Logout</a>
+            <span>Logged in as: {{ user.first_name }} {{ user.last_name }} ({{ user.registration_number }})</span>
+        </nav>
+        {% endif %}
+    </header>
+
+    <main>
+        {% if messages %}
+        <div>
+            {% for message in messages %}
+            <p><strong>{{ message }}</strong></p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 MWECAU Digital Voting System</p>
+    </footer>
+</body>
+</html>

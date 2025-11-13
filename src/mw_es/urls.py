@@ -3,30 +3,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework import permissions
-from drf_yasg.views import get_schema_view
-from drf_yasg import openapi
-from core.views import APIHealthCheckView  # Import the health check view
-
-schema_view = get_schema_view(
-    openapi.Info(
-        title="MWECAU Election System API",
-        default_version='v1',
-        description="REST API for MWECAU Digital Voting System",
-        contact=openapi.Contact(email="xyztempo12345@tutamail.com"),
-        license=openapi.License(name="MIT License"),
-    ),
-    public=True,
-    permission_classes=(permissions.AllowAny,),
-)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('api/election/', include('election.urls')),
-    path('api/health/', APIHealthCheckView.as_view(), name='api_health'),  # Health check endpoint
-    path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 ]
 
 if settings.DEBUG:

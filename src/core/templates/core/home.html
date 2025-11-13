@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Home - MWECAU Voting{% endblock %}
+
+{% block content %}
+<h2>Welcome to MWECAU Digital Voting System</h2>
+
+<p>A secure platform for student elections at Mwenge Catholic University.</p>
+
+<h3>Get Started</h3>
+<ul>
+    <li><a href="{% url 'core:login' %}">Login</a> - If you already have an account</li>
+    <li><a href="{% url 'core:register' %}">Register</a> - Create a new account</li>
+</ul>
+
+<h3>Features</h3>
+<ul>
+    <li>Multi-level election voting (President, State Leaders, Course Leaders)</li>
+    <li>Secure token-based voting system</li>
+    <li>Real-time results</li>
+    <li>Anonymous voting</li>
+</ul>
+{% endblock %}

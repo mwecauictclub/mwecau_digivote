@@ -1,4 +1,7 @@
 # core/views.py
+# NOTE: These old API views are kept for reference but are no longer used
+# The app now uses function-based views in views_ui.py with Django session authentication
+# Only the minimal election API endpoints remain active
 import logging
 import secrets
 from django.utils import timezone
@@ -7,8 +10,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from django.conf import settings
 from core import serializers
 from .models import User, CollegeData, State, Course
@@ -674,17 +675,7 @@ class APIHealthCheckView(APIView):
             expected_status=status.HTTP_401_UNAUTHORIZED  # Expect failure without auth
         )
 
-        # Documentation Endpoints (from mw_es/urls.py)
-        health_data["endpoints"]["swagger_ui"] = check_endpoint(
-            method="GET",
-            url=reverse("schema-swagger-ui"),
-            expected_status=status.HTTP_200_OK  # Public endpoint
-        )
-        health_data["endpoints"]["redoc"] = check_endpoint(
-            method="GET",
-            url=reverse("schema-redoc"),
-            expected_status=status.HTTP_200_OK  # Public endpoint
-        )
+        # Documentation Endpoints removed (no longer using Swagger/drf-yasg)
 
         # Check overall health
         if any(endpoint_data["status"] == "unhealthy" for endpoint_data in health_data["endpoints"].values()):
