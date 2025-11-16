@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Results - {{ election.title }}{% endblock %}
+
+{% block content %}
+<h2>{{ election.title }} - Results</h2>
+
+{% if results %}
+    {% for level_data in results %}
+    <div class="card">
+        <h3>{{ level_data.level.name }}</h3>
+        
+        {% for position_data in level_data.positions %}
+        <div style="margin-top: 2rem;">
+            <h4>{{ position_data.position.title }}</h4>
+            <p><strong>Total Votes:</strong> {{ position_data.total_votes }}</p>
+            
+            {% if position_data.candidates %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Candidate</th>
+                            <th>Votes</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for candidate_result in position_data.candidates %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                {{ candidate_result.candidate.user.get_full_name }}<br>
+                                <small>{{ candidate_result.candidate.user.registration_number }}</small>
+                            </td>
+                            <td>{{ candidate_result.vote_count }}</td>
+                            <td>{{ candidate_result.percentage }}%</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No votes cast for this position.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="card">
+        <p>No results available yet.</p>
+    </div>
+{% endif %}
+
+<a href="{% url 'election:elections_list' %}" style="margin-top: 2rem; display: inline-block;">← Back to Elections</a>
+{% endblock %}

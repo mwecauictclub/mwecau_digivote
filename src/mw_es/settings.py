@@ -14,10 +14,15 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-$fv(2c9i=uh84+@-_)hbnd=%p+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,http://*.dev,http://*.com').split(',')
+ALLOWED_HOSTS = ['*']
 
 # CSRF settings
-CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'http://localhost:8000,http://127.0.0.1:8000,http://*.dev,https://*.dev').split(',')
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.replit.dev',
+    'https://*.repl.co',
+    'http://localhost:5000',
+    'http://127.0.0.1:5000',
+]
 
 # Application definition
 
@@ -70,11 +75,7 @@ WSGI_APPLICATION = 'mw_es.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.getenv('DB_NAME', '.db'),
-        # 'USER': os.getenv('DB_USER', 'election_app'),
-        # 'PASSWORD': os.getenv('DB_PASSWORD', 'secret123'),
-        # 'HOST': os.getenv('DB_HOST', 'localhost'),
-        # 'PORT': int(os.getenv('DB_PORT', '3306')),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
