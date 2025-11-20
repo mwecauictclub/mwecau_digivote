@@ -78,7 +78,7 @@ class CandidateInline(admin.TabularInline): # Or StackedInline
     model = Candidate
     extra = 1
     # Consider readonly fields for election if it's set by the parent view
-    # readonly_fields = ('election',) # If election is passed from Election admin
+    # readonly_fields = ('election',) # If election is passed from apps.election admin
 
 
 @admin.register(Candidate)
