@@ -113,7 +113,7 @@ The MWECAU Digital Voting Platform revolutionizes student elections by enabling 
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/mwecau_election_platform.git
+   git clone https://github.com/cleven12/mwecau_election_platform.git
    cd mwecau_election_platform
    ```
 
@@ -408,7 +408,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **⭐ Star this repo if you find it helpful!**
 
-[Report Bug](https://github.com/yourusername/mwecau_election_platform/issues) · [Request Feature](https://github.com/yourusername/mwecau_election_platform/issues) · [Documentation](docs/)
+[Report Bug](https://github.com/cleven12/mwecau_election_platform/issues) · [Request Feature](https://github.com/cleven12/mwecau_election_platform/issues) · [Documentation](docs/)
 
 Made with ❤️ by MWECAU ICT Club
 
