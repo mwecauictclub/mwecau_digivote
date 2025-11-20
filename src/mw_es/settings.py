@@ -146,7 +146,7 @@ LOGGING = {
         'console': {'class': 'logging.StreamHandler', 'formatter': 'verbose'},
         'file': {
             'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'debug.log',
+            'filename': BASE_DIR / 'logs/debug.log',
             'formatter': 'verbose',
         },
     },
