@@ -1,7 +1,6 @@
 # core/urls.py
 from django.urls import path
 from rest_framework_simplejwt.views import TokenRefreshView
-# Import your views
 from . import views
 
 urlpatterns = [
@@ -16,6 +15,5 @@ urlpatterns = [
     path('api/auth/verify/status/', views.VerificationStatusView.as_view(), name='api_verification_status'),
     path('api/auth/forgot-password/', views.ForgotPasswordView.as_view(), name='api_forgot_password'),
     path('api/auth/dashboard/', views.UserDashboardView.as_view(), name='api_dashboard'),
-    # --- Fixed URL mapping ---
     path('api/auth/contact-commissioner/', views.ContactCommissionerView.as_view(), name='api_contact_commissioner'),
 ]
