@@ -3,7 +3,7 @@ from datetime import timezone
 from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
-from core.models import User
+from apps.core .models import User
 from .models import Election, ElectionLevel, VoterToken
 
 @shared_task(queue='email_queue')
@@ -83,7 +83,7 @@ def send_vote_confirmation_email(user_id, election_id, level_id):
 # from celery import shared_task
 # from django.core.mail import send_mail
 # from django.conf import settings
-# from core.models import User
+# from apps.core .models import User
 # import uuid
 # from .models import Election, VoterToken, Position, ElectionLevel
 
