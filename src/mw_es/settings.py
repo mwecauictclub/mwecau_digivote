@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env.example")
 
+SITE_URL = os.getenv("SITE_URL", "http://localhost:8000")
 # Security
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False").lower() == "true"
@@ -22,8 +23,8 @@ DJANGO_APPS = [
     'django.contrib.staticfiles'
 ]
 CUSTOM_APPS = [
-    'core',
-    'election',
+    'apps.core',
+    'apps.election',
 ]
 THIRD_PARTY_APPS = [
     'rest_framework',

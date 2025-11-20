@@ -14,7 +14,7 @@ from .serializers import (
     VoteCreateSerializer,
     PositionResultSerializer #  results serializer
 )
-from core.models import User
+from apps.core .models import User
 # Import the Celery task
 # from .tasks import send_voter_token_email
 from .tasks import send_vote_confirmation_email
