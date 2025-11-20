@@ -8,7 +8,7 @@ from rest_framework.exceptions import ValidationError # Import ValidationError c
 from django.contrib.auth import authenticate
 # --- End added imports ---
 
-from core.models import User, State, Course # Make sure User, State, Course are imported
+from apps.core.models import User, State, Course # Make sure User, State, Course are imported
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +70,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 # V[0] 
 # import logging
 # from rest_framework import serializers
-# from core.models import User, State, Course
+# from apps.core.models import User, State, Course
 # from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 # from django.contrib.auth import authenticate
 
