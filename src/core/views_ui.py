@@ -13,10 +13,8 @@ logger = logging.getLogger(__name__)
 
 
 def home(request):
-    """Home page view."""
-    if request.user.is_authenticated:
-        return redirect('core:dashboard')
-    return render(request, 'core/home.html')
+    """Home/landing page view."""
+    return render(request, 'core/landing.html')
 
 
 @require_http_methods(["GET", "POST"])
@@ -218,3 +216,63 @@ def dashboard_view(request):
     }
     
     return render(request, 'core/dashboard.html', context)
+
+
+@login_required
+@require_http_methods(["GET", "POST"])
+def profile_edit_view(request):
+    """User profile edit view - allows editing email and gender during active elections."""
+    user = request.user
+    
+    # Check if there are active elections
+    active_elections = Election.objects.filter(is_active=True, has_ended=False)
+    can_edit_email_gender = active_elections.exists()
+    
+    if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        gender = request.POST.get('gender', '').strip()
+        
+        # Validate email if provided
+        if email and email != user.email:
+            # Check if email already exists
+            if User.objects.filter(email=email.lower()).exclude(id=user.id).exists():
+                messages.error(request, 'Email already registered.')
+            else:
+                # Only allow email/gender edits during active elections
+                if can_edit_email_gender:
+                    user.email = email.lower()
+                    if gender and gender in dict(User.GENDER_CHOICES):
+                        user.gender = gender
+                    user.save()
+                    messages.success(request, 'Profile updated successfully!')
+                    return redirect('core:dashboard')
+                else:
+                    messages.error(request, 'Profile editing is only available during active elections.')
+        elif gender and gender != user.gender:
+            if can_edit_email_gender:
+                if gender in dict(User.GENDER_CHOICES):
+                    user.gender = gender
+                    user.save()
+                    messages.success(request, 'Profile updated successfully!')
+                    return redirect('core:dashboard')
+                else:
+                    messages.error(request, 'Invalid gender selected.')
+            else:
+                messages.error(request, 'Profile editing is only available during active elections.')
+        else:
+            messages.info(request, 'No changes made.')
+    
+    # Get available courses and states for reference
+    states = State.objects.all()
+    courses = Course.objects.all()
+    
+    context = {
+        'user': user,
+        'states': states,
+        'courses': courses,
+        'can_edit_email_gender': can_edit_email_gender,
+        'active_elections': active_elections,
+        'gender_choices': User.GENDER_CHOICES,
+    }
+    
+    return render(request, 'core/profile_edit.html', context)
