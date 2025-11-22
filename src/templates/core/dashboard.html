@@ -72,7 +72,7 @@
 </div>
 
 <div class="card">
-    <h3>Your Voting Tokens</h3>
+    <h3>Your Elections & Voting Status</h3>
     {% if voting_tokens %}
     <table>
         <thead>
@@ -88,10 +88,10 @@
             <tr>
                 <td>{{ token.election.name }}</td>
                 <td>{{ token.election_level.name }}</td>
-                <td>{% if token.is_used %}<span style="color: red;">✓ Voted</span>{% else %}<span style="color: green;">Ready to Vote</span>{% endif %}</td>
+                <td>{% if token.is_used %}<span style="color: green;">✓ Voted</span>{% else %}<span style="color: blue;">Ready to Vote</span>{% endif %}</td>
                 <td>
                     {% if not token.is_used %}
-                        <a href="{% url 'election:vote' token.election.id %}">Vote Now</a>
+                        <a href="{% url 'election:vote' token.election.id %}">Cast Your Vote</a>
                     {% else %}
                         <a href="{% url 'election:results' token.election.id %}">View Results</a>
                     {% endif %}
@@ -101,7 +101,7 @@
         </tbody>
     </table>
     {% else %}
-    <p>No voting tokens available. Contact administrator if you should have access to elections.</p>
+    <p>You are eligible to participate in all active elections! Check back during election periods to cast your vote.</p>
     {% endif %}
 </div>
 
