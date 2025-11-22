@@ -1,3 +1,4 @@
+from celery import shared_task
 from django.core.mail import send_mail
 from django.conf import settings
 from .models import User
@@ -5,6 +6,7 @@ from election.models import Election, VoterToken
 import uuid
 
 
+@shared_task(queue='email_queue')
 def send_verification_email(user_id):
     """Send verification/welcome email. 
        Includes VoterTokens only if active elections exist.
@@ -60,6 +62,7 @@ def send_verification_email(user_id):
         )
 
 
+@shared_task(queue='email_queue')
 def send_password_reset_email(user_id, new_password):
     """Send password reset email with new password."""
     try:
@@ -88,6 +91,7 @@ def send_password_reset_email(user_id, new_password):
     )
 
 
+@shared_task(queue='email_queue')
 def send_commissioner_contact_email(user_id, message_content):
     """Send contact message to commissioners."""
     try:
