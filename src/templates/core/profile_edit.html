@@ -1,0 +1,162 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Edit Profile - MWECAU Voting{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-edit"></i> Edit Your Profile</h3>
+                </div>
+                <div class="card-body">
+                    
+                    {% if not can_edit_email_gender %}
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Note:</strong> Email and gender can only be edited during active elections. There are currently no active elections.
+                    </div>
+                    {% else %}
+                    <div class="alert alert-success" role="alert">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>Active Elections:</strong> You can edit your email and gender because there are active elections.
+                        <ul class="mt-2 mb-0">
+                            {% for election in active_elections %}
+                            <li>{{ election.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <h5 class="mt-4">Account Information</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Read-only fields -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="registration_number" class="form-label">Registration Number</label>
+                                    <input type="text" class="form-control" id="registration_number" value="{{ user.registration_number }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="voter_id" class="form-label">Voter ID</label>
+                                    <input type="text" class="form-control" id="voter_id" value="{{ user.voter_id|default:'N/A' }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="first_name" value="{{ user.first_name }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="last_name" value="{{ user.last_name }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="course" class="form-label">Course</label>
+                                    <input type="text" class="form-control" id="course" value="{{ user.course|default:'Not assigned' }}" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="state" class="form-label">State</label>
+                                    <input type="text" class="form-control" id="state" value="{{ user.state|default:'Not assigned' }}" disabled>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <h5>Editable Information</h5>
+                        
+                        <!-- Email (editable during elections) -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                Email Address
+                                {% if can_edit_email_gender %}
+                                <span class="badge bg-success">Editable</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Not editable now</span>
+                                {% endif %}
+                            </label>
+                            <input 
+                                type="email" 
+                                class="form-control" 
+                                id="email" 
+                                name="email" 
+                                value="{{ user.email }}"
+                                {% if not can_edit_email_gender %}disabled{% endif %}
+                            >
+                            <small class="form-text text-muted">Your contact email for election notifications</small>
+                        </div>
+                        
+                        <!-- Gender (editable during elections) -->
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">
+                                Gender
+                                {% if can_edit_email_gender %}
+                                <span class="badge bg-success">Editable</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Not editable now</span>
+                                {% endif %}
+                            </label>
+                            <select class="form-select" id="gender" name="gender" {% if not can_edit_email_gender %}disabled{% endif %}>
+                                <option value="">Select Gender</option>
+                                {% for value, label in gender_choices %}
+                                <option value="{{ value }}" {% if user.gender == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <small class="form-text text-muted">Some positions may have gender restrictions</small>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            {% if can_edit_email_gender %}
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                            {% else %}
+                            <button type="button" class="btn btn-primary" disabled>
+                                <i class="fas fa-save"></i> Save Changes (Not available)
+                            </button>
+                            {% endif %}
+                            <a href="{% url 'core:dashboard' %}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    }
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .d-flex {
+        display: flex;
+    }
+    .gap-2 {
+        gap: 0.5rem;
+    }
+</style>
+{% endblock %}
