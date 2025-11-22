@@ -16,6 +16,49 @@ The MWECAU Digital Voting System is a comprehensive online platform for managing
 
 ## Recent Changes
 
+**November 21, 2025 - Backend Improvements with Celery & Email Notifications**
+
+**Asynchronous Task Processing:**
+- Integrated Celery for background task processing using Django database as broker
+- Configured `django-celery-beat` for scheduled task management  
+- Configured `django-celery-results` for task result tracking
+- All email notifications now run asynchronously to improve performance
+
+**Automatic Token Generation:**
+- Tokens automatically generated when users are verified (via signals)
+- Tokens automatically generated when elections are activated
+- Automatic voter_id generation for all new users
+- Email notifications sent with tokens upon verification
+
+**Email Notification System:**
+- Verification emails with voting tokens for active elections
+- Password reset emails
+- Commissioner contact emails
+- Election activation notifications with level-specific tokens
+- Vote confirmation emails
+- 5-minute pre-start election reminders
+- 30-minute pre-end reminders for non-voters
+- Custom admin notifications from admin panel
+
+**Commissioner Dashboard:**
+- Comprehensive analytics dashboard at `/commissioner/`
+- Real-time statistics for users, elections, votes
+- State and course participation tracking
+- Pending user verification management
+- Election analytics API endpoints
+- Quick access to all administrative functions
+
+**Admin Panel Enhancements:**
+- "Activate and Notify" action to activate elections and send notifications
+- "Send Custom Notification" action for admin-initiated voter communications
+- "Schedule Reminders" action for automated reminder emails
+- Custom notification form for personalized messages to voters
+
+**JWT Authentication:**
+- Integrated `djangorestframework-simplejwt` for secure API access
+- Token refresh and blacklist support
+- 60-minute access tokens, 1-day refresh tokens
+
 **October 23, 2025 - Environment Setup Completed**
 
 **Cloud Configuration:**
@@ -125,15 +168,20 @@ Preferred communication style: Simple, everyday language.
 **Rationale:** REST API design separates frontend and backend, enabling future mobile app development. DRF provides robust serialization, validation, and browsable API for development.
 
 ### Email Integration
-**Django Email System** with background task functions
+**Django Email System** with Celery background tasks
 
 **Email Workflows:**
-- Account verification with voter tokens (if elections active)
-- Election activation notifications with level-specific tokens
-- Password reset emails
-- Commissioner contact form notifications
+- Account verification with voter tokens (if elections active) - automated
+- Election activation notifications with level-specific tokens - automated
+- Password reset emails - automated
+- Commissioner contact form notifications - automated
+- 5-minute pre-start election reminders - scheduled
+- 30-minute pre-end reminders for non-voters - scheduled
+- Custom admin notifications - on-demand from admin panel
 
-**Rationale:** Email serves as the primary communication channel for credentials and election notifications, ensuring users can access the system even if they forget login details.
+**Task Queue:** Celery with Django database broker (easily upgradeable to Redis for production)
+
+**Rationale:** Email serves as the primary communication channel for credentials and election notifications. Celery ensures emails don't block request/response cycle and enables scheduled notifications.
 
 ### Security Features
 
