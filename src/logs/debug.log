@@ -414,3 +414,89 @@ ValueError: The annotation 'votes' conflicts with a field on the model.
 ERROR 2025-11-22 07:20:03,657 basehttp "GET /elections/2/results/ HTTP/1.1" 500 90769
 INFO 2025-11-22 07:21:27,292 autoreload /home/nevelc/Private/repo/university_elec_api/src/mw_es/settings.py changed, reloading.
 INFO 2025-11-22 07:21:28,222 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 20:43:56,934 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 20:44:25,007 basehttp "GET / HTTP/1.1" 200 14794
+INFO 2025-12-07 20:44:25,126 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 20:44:25,176 basehttp "GET /static/css/style.css HTTP/1.1" 200 3729
+INFO 2025-12-07 20:44:25,480 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4187
+INFO 2025-12-07 20:44:39,873 basehttp "GET /login/ HTTP/1.1" 200 2826
+INFO 2025-12-07 20:44:44,383 basehttp "GET /login/ HTTP/1.1" 200 2826
+INFO 2025-12-07 20:44:48,816 basehttp "POST /login/ HTTP/1.1" 200 3062
+INFO 2025-12-07 20:44:56,022 basehttp "POST /login/ HTTP/1.1" 200 3062
+INFO 2025-12-07 20:45:00,686 basehttp "POST /login/ HTTP/1.1" 200 3062
+INFO 2025-12-07 20:46:05,506 basehttp "GET / HTTP/1.1" 200 14794
+INFO 2025-12-07 21:05:41,590 basehttp "GET /login/ HTTP/1.1" 200 2826
+INFO 2025-12-07 21:16:06,188 basehttp "GET /login/ HTTP/1.1" 200 2826
+INFO 2025-12-07 21:16:07,348 basehttp "GET / HTTP/1.1" 200 14794
+INFO 2025-12-07 21:16:07,394 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:16:07,413 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4187
+INFO 2025-12-07 21:17:46,469 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:17:50,373 basehttp "GET /login/ HTTP/1.1" 200 2826
+INFO 2025-12-07 21:18:08,645 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:18:08,714 basehttp "GET /dashboard/ HTTP/1.1" 200 6202
+INFO 2025-12-07 21:18:16,435 basehttp "GET /profile/edit/ HTTP/1.1" 200 9335
+INFO 2025-12-07 21:18:19,980 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:18:22,167 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 21:18:22,258 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:18:22,370 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 21:18:23,690 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+ERROR 2025-12-07 21:18:32,445 log Internal Server Error: /elections/2/results/
+Traceback (most recent call last):
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py", line 74, in election_results
+    candidates = Candidate.objects.filter(position=position).annotate(
+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        votes=Count('vote')
+        ^^^^^^^^^^^^^^^^^^^
+    ).order_by('-votes')
+    ^
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/db/models/query.py", line 1654, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/db/models/query.py", line 1699, in _annotate
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: The annotation 'votes' conflicts with a field on the model.
+ERROR 2025-12-07 21:18:32,448 basehttp "GET /elections/2/results/ HTTP/1.1" 500 89226
+INFO 2025-12-07 21:19:40,611 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-07 21:19:41,456 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:19:51,105 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-07 21:19:51,997 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:21:16,853 basehttp "GET /elections/2/results/ HTTP/1.1" 200 6282
+INFO 2025-12-07 21:21:32,244 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:21:41,727 basehttp "GET /elections/2/results/ HTTP/1.1" 200 6282
+INFO 2025-12-07 21:21:55,611 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 21:21:55,716 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:21:55,756 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 21:21:56,370 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:21:57,100 basehttp "GET /profile/edit/ HTTP/1.1" 200 9335
+INFO 2025-12-07 21:24:33,062 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-07 21:24:33,894 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:24:38,282 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-07 21:24:39,153 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:24:47,606 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-07 21:24:48,470 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:24:51,958 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-07 21:24:52,794 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:25:41,274 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:25:44,483 basehttp "GET /profile/edit/ HTTP/1.1" 200 9277
+INFO 2025-12-07 21:26:03,941 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:26:04,997 basehttp "GET /profile/edit/ HTTP/1.1" 200 9277
+INFO 2025-12-07 21:26:14,398 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+INFO 2025-12-07 21:26:24,282 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 21:26:24,381 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:26:24,415 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 21:26:24,982 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+INFO 2025-12-07 21:26:29,973 basehttp "GET /elections/2/vote/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:26:30,000 basehttp "GET /elections/ HTTP/1.1" 200 3868
+INFO 2025-12-07 21:26:32,683 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613
+INFO 2025-12-07 21:27:18,758 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:30:31,084 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613
+INFO 2025-12-07 21:30:45,587 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:30:48,113 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613

@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.views.decorators.http import require_http_methods
+from django.utils import timezone
+from datetime import timedelta
 from .models import User, CollegeData, State, Course
 from election.models import VoterToken, Election
 
@@ -221,12 +223,34 @@ def dashboard_view(request):
 @login_required
 @require_http_methods(["GET", "POST"])
 def profile_edit_view(request):
-    """User profile edit view - allows editing email and gender during active elections."""
+    """User profile edit view - allows editing email and gender when no election is active or 24 hours before start."""
     user = request.user
+    now = timezone.now()
     
-    # Check if there are active elections
+    # Check active elections (currently ongoing)
     active_elections = Election.objects.filter(is_active=True, has_ended=False)
-    can_edit_email_gender = active_elections.exists()
+    
+    # Check upcoming elections (within 24 hours before start)
+    upcoming_soon = Election.objects.filter(
+        start_date__lte=now + timedelta(hours=24),
+        start_date__gte=now,
+        is_active=False,
+        has_ended=False
+    )
+    
+    # Can edit if:
+    # 1. There are NO active elections AND
+    # 2. Either there are no upcoming elections within 24 hours OR within the 24-hour window
+    can_edit_email_gender = not active_elections.exists()
+    edit_reason = None
+    
+    if can_edit_email_gender:
+        if upcoming_soon.exists():
+            edit_reason = "pre_election"  # Within 24 hours before election
+        else:
+            edit_reason = "no_election"  # No elections active or coming soon
+    else:
+        edit_reason = "election_active"  # Election is currently active
     
     if request.method == 'POST':
         email = request.POST.get('email', '').strip()
@@ -238,7 +262,7 @@ def profile_edit_view(request):
             if User.objects.filter(email=email.lower()).exclude(id=user.id).exists():
                 messages.error(request, 'Email already registered.')
             else:
-                # Only allow email/gender edits during active elections
+                # Only allow email/gender edits when allowed
                 if can_edit_email_gender:
                     user.email = email.lower()
                     if gender and gender in dict(User.GENDER_CHOICES):
@@ -247,7 +271,7 @@ def profile_edit_view(request):
                     messages.success(request, 'Profile updated successfully!')
                     return redirect('core:dashboard')
                 else:
-                    messages.error(request, 'Profile editing is only available during active elections.')
+                    messages.error(request, 'Profile editing is not available while an election is active.')
         elif gender and gender != user.gender:
             if can_edit_email_gender:
                 if gender in dict(User.GENDER_CHOICES):
@@ -258,7 +282,7 @@ def profile_edit_view(request):
                 else:
                     messages.error(request, 'Invalid gender selected.')
             else:
-                messages.error(request, 'Profile editing is only available during active elections.')
+                messages.error(request, 'Profile editing is not available while an election is active.')
         else:
             messages.info(request, 'No changes made.')
     
@@ -271,7 +295,9 @@ def profile_edit_view(request):
         'states': states,
         'courses': courses,
         'can_edit_email_gender': can_edit_email_gender,
+        'edit_reason': edit_reason,
         'active_elections': active_elections,
+        'upcoming_elections': upcoming_soon,
         'gender_choices': User.GENDER_CHOICES,
     }
     

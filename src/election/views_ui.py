@@ -72,17 +72,17 @@ def election_results(request, election_id):
         
         for position in positions:
             candidates = Candidate.objects.filter(position=position).annotate(
-                votes=Count('vote')
-            ).order_by('-votes')
+                vote_total=Count('votes')
+            ).order_by('-vote_total')
             
-            total_votes = sum(c.votes for c in candidates)
+            total_votes = sum(c.vote_total for c in candidates)
             
             candidate_results = []
             for candidate in candidates:
-                percentage = (candidate.votes / total_votes * 100) if total_votes > 0 else 0
+                percentage = (candidate.vote_total / total_votes * 100) if total_votes > 0 else 0
                 candidate_results.append({
                     'candidate': candidate,
-                    'vote_count': candidate.votes,
+                    'vote_count': candidate.vote_total,
                     'percentage': round(percentage, 2)
                 })
             

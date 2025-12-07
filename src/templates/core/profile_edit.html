@@ -13,19 +13,29 @@
                 <div class="card-body">
                     
                     {% if not can_edit_email_gender %}
+                    <div class="alert alert-warning" role="alert">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <strong>Note:</strong> Email and gender cannot be edited while an election is active. There are currently active elections:
+                        <ul class="mt-2 mb-0">
+                            {% for election in active_elections %}
+                            <li><strong>{{ election.title }}</strong> - Active until {{ election.end_date|date:"M d, Y H:i" }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% elif edit_reason == "pre_election" %}
                     <div class="alert alert-info" role="alert">
                         <i class="fas fa-info-circle"></i>
-                        <strong>Note:</strong> Email and gender can only be edited during active elections. There are currently no active elections.
+                        <strong>Pre-Election Window:</strong> You can edit your email and gender right now because an election is starting within the next 24 hours.
+                        <ul class="mt-2 mb-0">
+                            {% for election in upcoming_elections %}
+                            <li><strong>{{ election.title }}</strong> - Starting {{ election.start_date|date:"M d, Y H:i" }}</li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     {% else %}
                     <div class="alert alert-success" role="alert">
                         <i class="fas fa-check-circle"></i>
-                        <strong>Active Elections:</strong> You can edit your email and gender because there are active elections.
-                        <ul class="mt-2 mb-0">
-                            {% for election in active_elections %}
-                            <li>{{ election.title }}</li>
-                            {% endfor %}
-                        </ul>
+                        <strong>Profile Editing Available:</strong> You can edit your email and gender. There are no active elections at this time.
                     </div>
                     {% endif %}
                     
