@@ -24,7 +24,7 @@ def commissioner_dashboard(request):
     # Check if user is commissioner
     if request.user.role != User.ROLE_COMMISSIONER:
         messages.error(request, 'Access denied. Commissioners only.')
-        return redirect('home')
+        return redirect('core:home')
     
     # Get overall statistics
     total_users = User.objects.count()
@@ -220,3 +220,247 @@ def pending_verifications_api(request):
         })
     
     return Response({'pending_users': users_data, 'count': len(users_data)})
+
+
+# ========================
+# Election Observer Views
+# ========================
+
+@login_required
+def observer_dashboard(request):
+    """Main dashboard view for election observers - read-only view of all election data."""
+    # Check if user is observer
+    if request.user.role != User.ROLE_OBSERVER:
+        messages.error(request, 'Access denied. Election observers only.')
+        return redirect('core:home')
+    
+    now = timezone.now()
+    
+    # Get overall statistics with filtered results
+    total_users = User.objects.count()
+    verified_users = User.objects.filter(is_verified=True).count()
+    
+    # Filter elections by status
+    active_elections = Election.objects.filter(is_active=True, has_ended=False).count()
+    completed_elections = Election.objects.filter(has_ended=True).count()
+    total_elections = Election.objects.count()
+    upcoming_elections = Election.objects.filter(
+        is_active=False,
+        has_ended=False,
+        start_date__gt=now
+    ).count()
+    
+    # Get voting statistics
+    total_votes = Vote.objects.count()
+    total_candidates = Candidate.objects.count()
+    total_tokens = VoterToken.objects.count()
+    used_tokens = VoterToken.objects.filter(is_used=True).count()
+    unused_tokens = total_tokens - used_tokens
+    
+    # Get recent elections with details, ordered by status
+    active_election_objs = Election.objects.filter(is_active=True, has_ended=False).order_by('-start_date')[:5]
+    completed_election_objs = Election.objects.filter(has_ended=True).order_by('-end_date')[:5]
+    upcoming_election_objs = Election.objects.filter(
+        is_active=False,
+        has_ended=False,
+        start_date__gt=now
+    ).order_by('start_date')[:5]
+    
+    recent_elections = list(active_election_objs) + list(completed_election_objs) + list(upcoming_election_objs)
+    
+    # Get voter participation statistics
+    state_stats = State.objects.annotate(
+        total_voters=Count('user'),
+        verified_voters=Count('user', filter=Q(user__is_verified=True))
+    ).values('name', 'total_voters', 'verified_voters').order_by('name')
+    
+    # Get course statistics
+    course_stats = Course.objects.annotate(
+        total_voters=Count('user'),
+        verified_voters=Count('user', filter=Q(user__is_verified=True))
+    ).values('name', 'code', 'total_voters', 'verified_voters').order_by('name')
+    
+    # Get recent votes with full details - only from active/completed elections
+    recent_votes = Vote.objects.filter(
+        election__is_active=True
+    ) | Vote.objects.filter(
+        election__has_ended=True
+    )
+    recent_votes = recent_votes.select_related(
+        'candidate', 'election', 'election_level', 'voter'
+    ).order_by('-timestamp')[:50]
+    
+    context = {
+        'total_users': total_users,
+        'verified_users': verified_users,
+        'unverified_users': total_users - verified_users,
+        
+        'active_elections': active_elections,
+        'completed_elections': completed_elections,
+        'total_elections': total_elections,
+        'upcoming_elections': upcoming_elections,
+        
+        'total_votes': total_votes,
+        'total_candidates': total_candidates,
+        'total_tokens': total_tokens,
+        'used_tokens': used_tokens,
+        'unused_tokens': unused_tokens,
+        
+        'recent_elections': recent_elections,
+        'state_stats': state_stats,
+        'course_stats': course_stats,
+        'recent_votes': recent_votes,
+    }
+    
+    return render(request, 'core/observer_dashboard.html', context)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def observer_election_details_api(request, election_id):
+    """Get detailed election information including all votes - for observers."""
+    from .permissions import IsCommissionerOrObserver
+    
+    # Check permission
+    if request.user.role not in [User.ROLE_COMMISSIONER, User.ROLE_OBSERVER]:
+        return Response(
+            {'error': 'Only commissioners and observers can view election details'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    try:
+        election = Election.objects.get(id=election_id)
+    except Election.DoesNotExist:
+        return Response({'error': 'Election not found'}, status=status.HTTP_404_NOT_FOUND)
+    
+    # Get all votes for this election
+    votes = Vote.objects.filter(election=election).select_related(
+        'candidate', 'election_level', 'voter'
+    ).order_by('-timestamp')
+    
+    votes_data = []
+    for vote in votes:
+        votes_data.append({
+            'id': vote.id,
+            'candidate': vote.candidate.user.get_full_name(),
+            'position': vote.candidate.position.title if vote.candidate.position else 'N/A',
+            'election_level': vote.election_level.name,
+            'voter_id': str(vote.voter.voter_id),
+            'timestamp': vote.timestamp.isoformat(),
+        })
+    
+    # Get election statistics
+    levels_data = []
+    for level in election.levels.all():
+        positions = Position.objects.filter(election_level=level)
+        level_votes = Vote.objects.filter(election=election, election_level=level).count()
+        
+        positions_data = []
+        for position in positions:
+            candidates = Candidate.objects.filter(position=position)
+            position_votes = Vote.objects.filter(
+                election=election,
+                election_level=level,
+                candidate__position=position
+            ).count()
+            
+            positions_data.append({
+                'title': position.title,
+                'votes': position_votes,
+            })
+        
+        levels_data.append({
+            'name': level.name,
+            'type': level.type,
+            'total_votes': level_votes,
+            'positions': positions_data,
+        })
+    
+    return Response({
+        'election': {
+            'id': election.id,
+            'title': election.title,
+            'description': election.description,
+            'start_date': election.start_date.isoformat(),
+            'end_date': election.end_date.isoformat(),
+            'is_active': election.is_active,
+            'has_ended': election.has_ended,
+        },
+        'statistics': {
+            'total_votes': len(votes_data),
+            'levels': levels_data,
+        },
+        'votes': votes_data,
+    })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def observer_votes_api(request):
+    """Get all votes in the system - for observers."""
+    # Check permission
+    if request.user.role not in [User.ROLE_COMMISSIONER, User.ROLE_OBSERVER]:
+        return Response(
+            {'error': 'Only commissioners and observers can view votes'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    # Get all votes
+    votes = Vote.objects.select_related(
+        'candidate', 'election', 'election_level', 'voter'
+    ).order_by('-timestamp')
+    
+    votes_data = []
+    for vote in votes:
+        votes_data.append({
+            'id': vote.id,
+            'election': vote.election.title,
+            'level': vote.election_level.name,
+            'candidate': vote.candidate.user.get_full_name(),
+            'position': vote.candidate.position.title if vote.candidate.position else 'N/A',
+            'voter_id': str(vote.voter.voter_id),
+            'timestamp': vote.timestamp.isoformat(),
+        })
+    
+    return Response({
+        'total_votes': len(votes_data),
+        'votes': votes_data,
+    })
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def observer_tokens_api(request):
+    """Get token statistics - for observers."""
+    # Check permission
+    if request.user.role not in [User.ROLE_COMMISSIONER, User.ROLE_OBSERVER]:
+        return Response(
+            {'error': 'Only commissioners and observers can view token data'},
+            status=status.HTTP_403_FORBIDDEN
+        )
+    
+    # Get token statistics by election
+    elections = Election.objects.all()
+    
+    elections_data = []
+    for election in elections:
+        tokens = VoterToken.objects.filter(election=election)
+        used = tokens.filter(is_used=True).count()
+        unused = tokens.filter(is_used=False).count()
+        
+        elections_data.append({
+            'id': election.id,
+            'title': election.title,
+            'total_tokens': tokens.count(),
+            'used_tokens': used,
+            'unused_tokens': unused,
+            'usage_percentage': round((used / tokens.count() * 100) if tokens.count() > 0 else 0, 2),
+        })
+    
+    return Response({
+        'total_tokens': VoterToken.objects.count(),
+        'used_tokens': VoterToken.objects.filter(is_used=True).count(),
+        'unused_tokens': VoterToken.objects.filter(is_used=False).count(),
+        'by_election': elections_data,
+    })
+

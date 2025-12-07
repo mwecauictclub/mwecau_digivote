@@ -57,6 +57,34 @@ class IsCommissioner(permissions.BasePermission):
         )
 
 
+class IsObserver(permissions.BasePermission):
+    """Permission class to check if user is an election observer."""
+    
+    message = "Only election observers can perform this action."
+    
+    def has_permission(self, request, view):
+        """Check if user is authenticated and is an observer."""
+        return (
+            request.user and
+            request.user.is_authenticated and
+            request.user.role == request.user.ROLE_OBSERVER
+        )
+
+
+class IsCommissionerOrObserver(permissions.BasePermission):
+    """Permission class to allow commissioners and observers read-only access."""
+    
+    message = "Only commissioners and observers can view this resource."
+    
+    def has_permission(self, request, view):
+        """Check if user is commissioner or observer."""
+        return (
+            request.user and
+            request.user.is_authenticated and
+            request.user.role in [request.user.ROLE_COMMISSIONER, request.user.ROLE_OBSERVER]
+        )
+
+
 class IsCommissionerOrReadOnly(permissions.BasePermission):
     """
     Permission class to allow commissioners full access

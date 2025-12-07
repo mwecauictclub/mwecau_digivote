@@ -200,21 +200,56 @@ def register_view(request):
 
 @login_required
 def dashboard_view(request):
-    """User dashboard view."""
+    """User dashboard view with filtered elections and tokens."""
     user = request.user
+    now = timezone.now()
     
-    # Get user's voting tokens
+    # Get user's voting tokens with election details
     tokens = VoterToken.objects.filter(user=user).select_related(
         'election', 'election_level'
-    )
+    ).order_by('-election__start_date')
     
-    # Get active elections
-    active_elections = Election.objects.filter(is_active=True)
+    # Get elections status
+    active_elections = Election.objects.filter(is_active=True, has_ended=False).order_by('end_date')
+    completed_elections = Election.objects.filter(has_ended=True).order_by('-end_date')
+    upcoming_elections = Election.objects.filter(
+        is_active=False,
+        has_ended=False,
+        start_date__gt=now
+    ).order_by('start_date')[:5]
+    
+    # Process tokens to show status
+    active_tokens = []
+    completed_tokens = []
+    
+    for token in tokens:
+        token_data = {
+            'token': token,
+            'status': 'used' if token.is_used else 'available',
+            'is_active': token.election.is_active,
+            'election_ended': token.election.has_ended,
+        }
+        
+        if token.election.is_active:
+            active_tokens.append(token_data)
+        elif token.election.has_ended:
+            completed_tokens.append(token_data)
+    
+    # Check profile edit eligibility
+    can_edit_profile = not active_elections.exists()
+    edit_status = 'restricted' if active_elections.exists() else 'allowed'
     
     context = {
         'user': user,
-        'voting_tokens': tokens,
+        'active_tokens': active_tokens,
+        'completed_tokens': completed_tokens,
         'active_elections': active_elections,
+        'completed_elections': completed_elections[:5],
+        'upcoming_elections': upcoming_elections,
+        'can_edit_profile': can_edit_profile,
+        'profile_edit_status': edit_status,
+        'total_tokens': tokens.count(),
+        'used_tokens': tokens.filter(is_used=True).count(),
     }
     
     return render(request, 'core/dashboard.html', context)

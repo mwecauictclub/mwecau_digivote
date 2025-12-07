@@ -513,3 +513,301 @@ INFO 2025-12-07 21:39:33,665 basehttp "POST /login/ HTTP/1.1" 302 0
 INFO 2025-12-07 21:39:33,683 basehttp "GET /dashboard/ HTTP/1.1" 200 6202
 INFO 2025-12-07 21:39:43,654 basehttp "GET /elections/2/vote/ HTTP/1.1" 302 0
 INFO 2025-12-07 21:39:43,679 basehttp "GET /elections/ HTTP/1.1" 200 3868
+INFO 2025-12-07 21:45:03,657 basehttp "GET /elections/2/results/ HTTP/1.1" 200 6282
+INFO 2025-12-07 21:45:03,714 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+INFO 2025-12-07 21:45:08,836 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 21:45:08,907 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:45:08,999 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+WARNING 2025-12-07 21:45:09,144 log Not Found: /favicon.ico
+INFO 2025-12-07 21:45:14,521 basehttp "GET /elections/ HTTP/1.1" 200 3634
+WARNING 2025-12-07 21:45:14,588 log Not Found: /favicon.ico
+INFO 2025-12-07 21:52:35,203 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/signals.py changed, reloading.
+INFO 2025-12-07 21:52:36,183 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:52:50,907 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/signals.py changed, reloading.
+INFO 2025-12-07 21:52:51,683 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:54:12,885 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/tasks.py changed, reloading.
+INFO 2025-12-07 21:54:14,272 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:54:46,717 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/tasks.py changed, reloading.
+INFO 2025-12-07 21:54:47,640 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 21:55:09,601 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/tasks.py changed, reloading.
+INFO 2025-12-07 21:55:10,703 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:00:16,380 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/tasks.py changed, reloading.
+INFO 2025-12-07 22:00:17,105 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:17:26,194 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 22:17:27,936 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+INFO 2025-12-07 22:18:02,144 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 22:18:03,057 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 22:18:03,216 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:18:03,259 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 22:50:38,085 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 22:50:38,153 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+INFO 2025-12-07 22:50:38,819 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 22:50:38,891 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:50:38,909 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 22:50:39,599 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+INFO 2025-12-07 22:50:40,486 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 22:50:40,559 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:50:40,585 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 22:50:41,349 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 22:50:42,294 basehttp "GET /profile/edit/ HTTP/1.1" 200 9277
+INFO 2025-12-07 22:50:43,610 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:50:43,620 basehttp "GET /login/ HTTP/1.1" 200 3062
+INFO 2025-12-07 22:51:14,232 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:51:14,258 basehttp "GET /dashboard/ HTTP/1.1" 200 4494
+INFO 2025-12-07 22:51:33,726 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12618
+INFO 2025-12-07 22:51:50,437 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-07 22:51:53,916 basehttp "GET /profile/edit/ HTTP/1.1" 200 9276
+INFO 2025-12-07 22:52:18,137 basehttp "POST /profile/edit/ HTTP/1.1" 302 0
+INFO 2025-12-07 22:52:18,150 basehttp "GET /dashboard/ HTTP/1.1" 200 4503
+INFO 2025-12-07 22:52:21,941 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-07 22:52:23,205 basehttp "GET / HTTP/1.1" 200 14941
+INFO 2025-12-07 22:52:23,391 basehttp "GET /admin/ HTTP/1.1" 200 20379
+INFO 2025-12-07 22:52:24,229 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+WARNING 2025-12-07 22:52:37,077 log Not Found: /cammissioner/
+WARNING 2025-12-07 22:52:37,078 basehttp "GET /cammissioner/ HTTP/1.1" 404 5741
+WARNING 2025-12-07 22:52:47,776 log Not Found: / commissioner
+WARNING 2025-12-07 22:52:47,777 basehttp "GET /%20commissioner HTTP/1.1" 404 5743
+WARNING 2025-12-07 22:52:49,914 log Not Found: / commissioner/
+WARNING 2025-12-07 22:52:49,915 basehttp "GET /%20commissioner/ HTTP/1.1" 404 5746
+WARNING 2025-12-07 22:53:02,339 log Not Found: /ommissioner/
+WARNING 2025-12-07 22:53:02,341 basehttp "GET /ommissioner/ HTTP/1.1" 404 5738
+INFO 2025-12-07 22:53:07,220 basehttp "GET /commissioner/ HTTP/1.1" 200 20370
+INFO 2025-12-07 22:53:23,172 basehttp "GET /admin/core/user/ HTTP/1.1" 200 81900
+INFO 2025-12-07 22:53:23,322 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-12-07 22:53:23,322 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-12-07 22:53:23,327 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-12-07 22:53:23,328 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-12-07 22:53:23,329 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-12-07 22:53:23,378 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-12-07 22:53:23,378 basehttp "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-12-07 22:53:23,379 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-12-07 22:53:23,380 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-12-07 22:53:23,380 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-12-07 22:53:23,403 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-07 22:53:23,447 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-12-07 22:53:23,512 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-12-07 22:53:23,559 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-12-07 22:53:23,568 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-12-07 22:53:23,598 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-12-07 22:53:23,598 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-12-07 22:53:23,609 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-12-07 22:53:23,624 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-12-07 22:53:23,689 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-12-07 22:53:23,734 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-12-07 22:53:23,734 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-12-07 22:53:23,735 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-12-07 22:53:23,735 basehttp "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-12-07 22:54:31,375 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-07 22:54:38,744 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12618
+INFO 2025-12-07 22:57:59,246 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/models.py changed, reloading.
+INFO 2025-12-07 22:58:00,412 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:58:12,170 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/models.py changed, reloading.
+INFO 2025-12-07 22:58:13,022 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:58:27,740 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/permissions.py changed, reloading.
+INFO 2025-12-07 22:58:28,639 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:58:42,513 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/models.py changed, reloading.
+INFO 2025-12-07 22:58:43,470 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:58:54,089 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/permissions.py changed, reloading.
+INFO 2025-12-07 22:58:55,114 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:59:19,146 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-07 22:59:20,202 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 22:59:28,078 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-07 22:59:29,061 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 23:00:12,884 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+INFO 2025-12-07 23:00:18,176 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/urls.py changed, reloading.
+INFO 2025-12-07 23:00:18,921 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 23:00:20,430 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-07 23:00:22,747 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12618
+INFO 2025-12-07 23:00:27,568 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/urls.py changed, reloading.
+INFO 2025-12-07 23:00:28,383 autoreload Watching for file changes with StatReloader
+INFO 2025-12-07 23:00:31,830 basehttp "GET /commissioner/ HTTP/1.1" 200 20370
+INFO 2025-12-07 23:00:50,927 basehttp "GET /admin/core/user/1/change/ HTTP/1.1" 200 47025
+INFO 2025-12-07 23:00:51,015 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-07 23:00:51,101 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2025-12-07 23:00:51,104 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-12-07 23:00:51,105 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-12-07 23:00:51,105 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-12-07 23:00:51,124 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-12-07 23:00:51,173 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-12-07 23:00:51,174 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-12-07 23:00:51,179 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 200 11973
+INFO 2025-12-07 23:00:51,209 basehttp "GET /static/admin/js/SelectBox.js HTTP/1.1" 200 4530
+INFO 2025-12-07 23:00:51,210 basehttp "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 200 15845
+WARNING 2025-12-07 23:00:51,360 log Not Found: /favicon.ico
+INFO 2025-12-07 23:00:51,381 basehttp "GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2025-12-07 23:00:51,402 basehttp "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-12-07 23:00:51,425 basehttp "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-12-07 23:01:27,501 basehttp "GET / HTTP/1.1" 200 14941
+INFO 2025-12-07 23:01:27,707 basehttp "GET /admin/ HTTP/1.1" 200 20379
+WARNING 2025-12-07 23:01:27,925 log Not Found: /favicon.ico
+INFO 2025-12-07 23:01:31,492 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-07 23:01:50,402 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/urls.py changed, reloading.
+INFO 2025-12-07 23:01:51,384 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:40:01,268 basehttp "GET /elections/2/results/ HTTP/1.1" 200 6287
+INFO 2025-12-08 00:40:01,330 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:40:02,691 basehttp "GET /elections/ HTTP/1.1" 200 3639
+INFO 2025-12-08 00:40:03,348 basehttp "GET /profile/edit/ HTTP/1.1" 200 9284
+INFO 2025-12-08 00:40:07,523 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+INFO 2025-12-08 00:43:08,796 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+INFO 2025-12-08 00:43:09,545 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+INFO 2025-12-08 00:43:10,071 basehttp "GET /dashboard/ HTTP/1.1" 200 4276
+INFO 2025-12-08 00:43:18,738 basehttp "GET /profile/edit/ HTTP/1.1" 200 9284
+INFO 2025-12-08 00:43:49,010 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:43:49,947 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:43:57,494 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:43:58,326 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:43:59,763 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:00,738 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:07,293 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:08,147 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:11,654 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:12,552 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:17,019 autoreload /home/nevelc/Private/repo/university_elec_api/src/election/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:18,106 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:22,544 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:23,535 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:36,286 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-08 00:44:37,174 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:44:40,670 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_ui.py changed, reloading.
+INFO 2025-12-08 00:44:41,537 autoreload Watching for file changes with StatReloader
+ERROR 2025-12-08 00:44:54,773 log Internal Server Error: /observer/
+Traceback (most recent call last):
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py", line 235, in observer_dashboard
+    return redirect('home')
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 51, in redirect
+    resolve_url(to, *args, **kwargs),
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 184, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-12-08 00:44:54,777 basehttp "GET /observer/ HTTP/1.1" 500 96461
+INFO 2025-12-08 00:45:40,833 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-08 00:45:41,519 autoreload Watching for file changes with StatReloader
+ERROR 2025-12-08 00:45:44,327 log Internal Server Error: /observer/
+Traceback (most recent call last):
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py", line 235, in observer_dashboard
+    return redirect('home')
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 51, in redirect
+    resolve_url(to, *args, **kwargs),
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 184, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'home' not found. 'home' is not a valid view function or pattern name.
+ERROR 2025-12-08 00:45:44,330 basehttp "GET /observer/ HTTP/1.1" 500 96734
+INFO 2025-12-08 00:45:58,389 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-08 00:45:59,383 autoreload Watching for file changes with StatReloader
+ERROR 2025-12-08 00:46:03,110 log Internal Server Error: /observer/
+Traceback (most recent call last):
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/contrib/auth/decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py", line 235, in observer_dashboard
+    return redirect('homepage')
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 51, in redirect
+    resolve_url(to, *args, **kwargs),
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/shortcuts.py", line 184, in resolve_url
+    return reverse(to, args=args, kwargs=kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "/home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/urls/resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'homepage' not found. 'homepage' is not a valid view function or pattern name.
+ERROR 2025-12-08 00:46:03,113 basehttp "GET /observer/ HTTP/1.1" 500 96703
+INFO 2025-12-08 00:46:58,675 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-08 00:46:59,548 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:47:08,200 autoreload /home/nevelc/Private/repo/university_elec_api/src/core/views_commissioner.py changed, reloading.
+INFO 2025-12-08 00:47:09,041 autoreload Watching for file changes with StatReloader
+INFO 2025-12-08 00:47:11,439 basehttp "GET /observer/ HTTP/1.1" 302 0
+INFO 2025-12-08 00:47:11,460 basehttp "GET / HTTP/1.1" 200 15677
+INFO 2025-12-08 00:47:11,653 basehttp "GET /admin/ HTTP/1.1" 200 20379
+INFO 2025-12-08 00:47:30,761 basehttp "GET /admin/ HTTP/1.1" 200 20379
+INFO 2025-12-08 00:47:30,815 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:30,816 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:30,820 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:30,821 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:30,822 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:30,840 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-12-08 00:47:30,877 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-12-08 00:47:30,927 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-12-08 00:47:30,929 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-12-08 00:47:38,796 basehttp "GET /admin/core/user/ HTTP/1.1" 200 81975
+INFO 2025-12-08 00:47:38,861 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-12-08 00:47:38,861 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-12-08 00:47:38,872 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-12-08 00:47:38,874 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,872 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-12-08 00:47:38,878 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,872 basehttp "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-12-08 00:47:38,873 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,883 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,883 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,886 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:47:38,888 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,917 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:38,981 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-12-08 00:47:39,002 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-12-08 00:47:39,004 basehttp "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-12-08 00:47:39,011 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-12-08 00:47:42,572 basehttp "GET /admin/core/user/1/change/ HTTP/1.1" 200 47025
+INFO 2025-12-08 00:47:42,641 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:47:42,644 basehttp "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-12-08 00:47:42,652 basehttp "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,655 basehttp "GET /static/admin/js/calendar.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,656 basehttp "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,659 basehttp "GET /static/admin/js/SelectBox.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,659 basehttp "GET /static/admin/js/SelectFilter2.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,665 basehttp "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,668 basehttp "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,702 basehttp "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+INFO 2025-12-08 00:47:42,834 basehttp "GET /static/admin/img/selector-icons.svg HTTP/1.1" 200 3291
+INFO 2025-12-08 00:47:42,838 basehttp "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-12-08 00:47:42,839 basehttp "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-12-08 00:47:54,856 basehttp "GET /admin/core/state/4/change/?_to_field=id&_popup=1 HTTP/1.1" 200 4366
+INFO 2025-12-08 00:47:54,950 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:48:10,880 basehttp "POST /admin/core/user/1/change/ HTTP/1.1" 200 47312
+INFO 2025-12-08 00:48:10,956 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:48:21,321 basehttp "POST /admin/core/user/1/change/ HTTP/1.1" 302 0
+INFO 2025-12-08 00:48:21,395 basehttp "GET /admin/core/user/1/change/ HTTP/1.1" 200 47264
+INFO 2025-12-08 00:48:21,496 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:48:25,792 basehttp "GET / HTTP/1.1" 200 14941
+INFO 2025-12-08 00:48:25,883 basehttp "GET /admin/ HTTP/1.1" 200 20771
+INFO 2025-12-08 00:48:39,849 basehttp "GET /observer/ HTTP/1.1" 302 0
+INFO 2025-12-08 00:48:39,873 basehttp "GET / HTTP/1.1" 200 15176
+INFO 2025-12-08 00:48:39,988 basehttp "GET /admin/ HTTP/1.1" 200 20771
+INFO 2025-12-08 00:48:48,776 basehttp "GET /admin/ HTTP/1.1" 200 20771
+INFO 2025-12-08 00:48:58,141 basehttp "GET /admin/election/candidate/ HTTP/1.1" 200 30965
+INFO 2025-12-08 00:48:58,208 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:49:02,127 basehttp "GET /admin/core/course/ HTTP/1.1" 200 26720
+INFO 2025-12-08 00:49:02,188 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:49:04,583 basehttp "GET /admin/core/user/ HTTP/1.1" 200 81987
+INFO 2025-12-08 00:49:04,639 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:49:15,196 basehttp "GET /admin/election/vote/ HTTP/1.1" 200 25101
+INFO 2025-12-08 00:49:15,258 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:49:28,238 basehttp "GET /admin/election/votertoken/ HTTP/1.1" 200 35001
+INFO 2025-12-08 00:49:28,298 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 00:49:46,681 basehttp "GET /admin/election/election/ HTTP/1.1" 200 24093
+INFO 2025-12-08 00:49:46,750 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342

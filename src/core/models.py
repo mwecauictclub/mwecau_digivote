@@ -140,12 +140,14 @@ class User(AbstractUser):
     ROLE_CANDIDATE = 'candidate'
     ROLE_CLASS_LEADER = 'class_leader'
     ROLE_COMMISSIONER = 'commissioner'
+    ROLE_OBSERVER = 'observer'
     
     ROLE_CHOICES = [
         (ROLE_VOTER, 'Voter'),
         (ROLE_CANDIDATE, 'Candidate'),
         (ROLE_CLASS_LEADER, 'Class Leader'),
         (ROLE_COMMISSIONER, 'Commissioner'),
+        (ROLE_OBSERVER, 'Election Observer'),
     ]
     
     GENDER_MALE = 'male'
@@ -246,6 +248,9 @@ class User(AbstractUser):
     
     def is_commissioner(self):
         return self.role == self.ROLE_COMMISSIONER
+    
+    def is_observer(self):
+        return self.role == self.ROLE_OBSERVER
     
     def can_vote(self):
         """Check if user can participate in voting."""
