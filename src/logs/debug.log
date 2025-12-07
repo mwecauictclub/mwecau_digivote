@@ -500,3 +500,16 @@ INFO 2025-12-07 21:27:18,758 basehttp "GET /elections/ HTTP/1.1" 200 3634
 INFO 2025-12-07 21:30:31,084 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613
 INFO 2025-12-07 21:30:45,587 basehttp "GET /elections/ HTTP/1.1" 200 3634
 INFO 2025-12-07 21:30:48,113 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613
+INFO 2025-12-07 21:39:22,233 basehttp "GET /elections/1/results/ HTTP/1.1" 200 12613
+INFO 2025-12-07 21:39:23,817 basehttp "GET /dashboard/ HTTP/1.1" 200 5984
+INFO 2025-12-07 21:39:24,643 basehttp "GET / HTTP/1.1" 200 14936
+INFO 2025-12-07 21:39:24,709 basehttp "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:39:24,762 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3709
+INFO 2025-12-07 21:39:25,490 basehttp "GET /elections/ HTTP/1.1" 200 3634
+INFO 2025-12-07 21:39:26,418 basehttp "GET /profile/edit/ HTTP/1.1" 200 9277
+INFO 2025-12-07 21:39:27,980 basehttp "GET /logout/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:39:27,991 basehttp "GET /login/ HTTP/1.1" 200 3062
+INFO 2025-12-07 21:39:33,665 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:39:33,683 basehttp "GET /dashboard/ HTTP/1.1" 200 6202
+INFO 2025-12-07 21:39:43,654 basehttp "GET /elections/2/vote/ HTTP/1.1" 302 0
+INFO 2025-12-07 21:39:43,679 basehttp "GET /elections/ HTTP/1.1" 200 3868
