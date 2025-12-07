@@ -1,6 +1,5 @@
 # election/admin.py
 from django.contrib import admin
-from django.utils import timezone
 from .models import Election, ElectionLevel, Position, Candidate, VoterToken, Vote
 
 @admin.register(ElectionLevel)

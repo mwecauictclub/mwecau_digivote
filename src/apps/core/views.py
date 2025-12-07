@@ -10,7 +10,6 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 from django.conf import settings
-from apps.core  import serializers
 from .models import User, CollegeData, State, Course
 from .serializers import UserSerializer, ForgotPasswordSerializer
 from .tasks import send_verification_email, send_password_reset_email, send_commissioner_contact_email

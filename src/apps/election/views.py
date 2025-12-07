@@ -7,16 +7,14 @@ from django.utils import timezone
 from django.db.models import Count, Sum
 from .models import Election, ElectionLevel, Position, Candidate, VoterToken, Vote
 from .serializers import (
-    ElectionListSerializer, 
-    PositionDetailSerializer, 
-    CandidateListSerializer, 
-    VoterTokenSerializer, 
+    ElectionListSerializer,
+    PositionDetailSerializer,
+    CandidateListSerializer,
+    VoterTokenSerializer,
     VoteCreateSerializer,
-    PositionResultSerializer #  results serializer
+    PositionResultSerializer
 )
-from apps.core .models import User
-# Import the Celery task
-# from .tasks import send_voter_token_email
+from apps.core.models import User
 from .tasks import send_vote_confirmation_email
 # --- Election Views ---
 class ElectionListView(APIView):
