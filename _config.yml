@@ -1,0 +1,25 @@
+theme: minima
+title: "MWECAU Election Platform Documentation"
+description: "Modern digital voting system for Mwenge Catholic University"
+url: "https://mwecauictclub.github.io"
+baseurl: "/mwecau_election_platform"
+
+# GitHub Pages settings
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Navigation
+header_pages:
+  - docs/index.html
+
+# Social media
+github_username: mwecauictclub
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
