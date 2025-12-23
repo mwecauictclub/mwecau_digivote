@@ -19,7 +19,7 @@ The backbone of our technical implementation.
 
 | Name | Role | Contributions | GitHub | Contact |
 |------|------|---------------|--------|---------|
-| **Cleven** | Lead Developer | Project architecture, backend development, Django implementation, API design | [@cleven12](https://github.com/cleven12) | cleven12@example.com |
+| **Cleven** | Project Manager | Project architecture, backend development, Django implementation, API design | [@cleven12](https://github.com/cleven12) | cleven12@example.com |
 | | | | | |
 
 ---
@@ -70,6 +70,7 @@ Coordinating efforts and keeping the team organized.
 
 | Name | Role | Contributions | LinkedIn | Contact |
 |------|------|---------------|----------|---------|
+| **Lajokjohn** | Project Manager | Backend development support, team coordination, project planning | [@Lajokjohn](https://github.com/Lajokjohn) | - |
 | | | | | |
 
 ---
@@ -79,8 +80,7 @@ Coordinating efforts and keeping the team organized.
 Individual contributors who have made valuable contributions.
 
 | Name | Contribution Type | Description | Date | GitHub |
-|------|------------------|-------------|------|--------|
-| **Lajokjohn** | Code Contributions | Backend development support and feature implementation | Dec 2025 | [@Lajokjohn](https://github.com/Lajokjohn) |
+|------|------------------|-------------|------|---------|
 | **Faustine** | Code Contributions | Frontend development and UI improvements | Dec 2025 | [@FaustineEmmanuel](https://github.com/FaustineEmmanuel) |
 | | | | | |
 
@@ -132,12 +132,13 @@ People who have provided guidance, mentorship, or resources.
 
 | Category | Contributors | Total Contributions |
 |----------|-------------|---------------------|
-| Development | 3 | 50+ |
+| Development | 2 | 50+ |
 | Design | 1 | 10+ |
 | Documentation | 2 | 20+ |
 | Testing | 2 | 15+ |
+| Management | 2 | 30+ |
 | Community | 1 | 5+ |
-| **Total** | **4** | **100+** |
+| **Total** | **4** | **120+** |
 
 *Last Updated: December 2025*
 
@@ -148,7 +149,7 @@ People who have provided guidance, mentorship, or resources.
 ### Gold Contributors
 Made major contributions (50+ commits or equivalent non-code work)
 
-**🥇 Cleven** - Project founder, lead developer, architecture design
+**🥇 Cleven** - Project founder, project manager, architecture design
 
 ### Silver Contributors
 Made significant contributions (20-49 commits or equivalent)
@@ -158,7 +159,7 @@ Made significant contributions (20-49 commits or equivalent)
 ### Bronze Contributors
 Made valuable contributions (5-19 commits or equivalent)
 
-**🥉 Lajokjohn** - Backend development support  
+**🥉 Lajokjohn** - Project management and backend development support  
 **🥉 Faustine** - Frontend development and UI improvements
 
 ### Rising Stars
@@ -229,8 +230,8 @@ New contributors making their first contributions
 
 | Rank | Name | Contributions | Category |
 |------|------|---------------|----------|
-| 🥇 | Cleven | 50+ commits, architecture | Development |
-| 🥈 | Lajokjohn | 10+ commits, backend | Development |
+| 🥇 | Cleven | 50+ commits, architecture | Management |
+| 🥈 | Lajokjohn | 10+ commits, project coordination | Management |
 | 🥉 | Faustine | 10+ commits, frontend | Development |
 
 ---
