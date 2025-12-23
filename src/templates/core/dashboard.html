@@ -5,7 +5,7 @@
 {% block content %}
 <h2>Dashboard</h2>
 
-<div class="card">
+<div >
     <h3>User Information</h3>
     <table>
         <tr>
@@ -51,7 +51,7 @@
     </table>
 </div>
 
-<div class="card">
+<div >
     <h3>Active Elections</h3>
     {% if active_elections %}
     <ul>
@@ -64,14 +64,14 @@
         </li>
         {% endfor %}
     </ul>
-    <a href="{% url 'election:elections_list' %}" class="btn" style="margin-top: 1rem;">View All Elections</a>
+    <a href="{% url 'election:elections_list' %}"  style="margin-top: 1rem;">View All Elections</a>
     {% else %}
     <p>No active elections at this time.</p>
-    <a href="{% url 'election:elections_list' %}" class="btn" style="margin-top: 1rem;">Browse Elections</a>
+    <a href="{% url 'election:elections_list' %}"  style="margin-top: 1rem;">Browse Elections</a>
     {% endif %}
 </div>
 
-<div class="card">
+<div >
     <h3>Your Elections & Voting Status</h3>
     {% if voting_tokens %}
     <table>

@@ -16,7 +16,7 @@
     <form method="post">
         {% csrf_token %}
         
-        <div class="form-group">
+        <div >
             <label for="{{ form.message.id_for_label }}">Custom Message:</label>
             {{ form.message }}
             {% if form.message.help_text %}
@@ -27,7 +27,7 @@
             {% endif %}
         </div>
         
-        <div class="submit-row">
+        <div >
             <input type="submit" value="Send Notification" class="default" name="apply">
             <a href="{% url 'admin:election_election_changelist' %}" class="button cancel-link">Cancel</a>
         </div>

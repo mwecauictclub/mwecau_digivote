@@ -290,23 +290,23 @@
     <p>Your Voice Matters - Secure, Transparent, and Fair Student Government Elections</p>
     <div class="cta-buttons">
         {% if user.is_authenticated %}
-        <a href="{% url 'election:elections_list' %}" class="btn-primary">
+        <a href="{% url 'election:elections_list' %}" >
             <i class="fas fa-poll"></i> View Elections
         </a>
         {% else %}
-        <a href="{% url 'core:login' %}" class="btn-primary">
+        <a href="{% url 'core:login' %}" >
             <i class="fas fa-sign-in-alt"></i> Login to Vote
         </a>
-        <a href="{% url 'core:register' %}" class="btn-secondary">
+        <a href="{% url 'core:register' %}" >
             <i class="fas fa-user-plus"></i> Create Account
         </a>
         {% endif %}
     </div>
 </div>
 
-<div class="container">
+<div >
     <!-- Logo Section -->
-    <div class="section logo-container">
+    <div >
         <h2 class="section-title">About MWECAUSO</h2>
         <img src="https://via.placeholder.com/200x200?text=MWECAUSO+Logo" alt="MWECAUSO Logo">
         <p style="font-weight: 600; color: #667eea;">Mwenge Catholic University Student Government Organization</p>
@@ -357,18 +357,18 @@
     <!-- Reviews Section -->
     <div class="section">
         <h2 class="section-title">What Students Say</h2>
-        <div class="reviews-container">
-            <div class="review-card">
+        <div >
+            <div >
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"This voting system is very user-friendly and secure. I felt confident casting my vote!"</p>
                 <p class="reviewer-name">- Sarah M., 2nd Year</p>
             </div>
-            <div class="review-card">
+            <div >
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"Transparent and fair elections. MWECAUSO did an amazing job implementing this platform."</p>
                 <p class="reviewer-name">- James K., 3rd Year</p>
             </div>
-            <div class="review-card">
+            <div >
                 <div class="stars">★★★★★</div>
                 <p class="review-text">"Quick, reliable, and easy to use. Best student election system I've experienced."</p>
                 <p class="reviewer-name">- Diana L., 1st Year</p>

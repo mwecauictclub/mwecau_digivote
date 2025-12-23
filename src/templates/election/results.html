@@ -7,7 +7,7 @@
 
 {% if results %}
     {% for level_data in results %}
-    <div class="card">
+    <div >
         <h3>{{ level_data.level.name }}</h3>
         
         {% for position_data in level_data.positions %}
@@ -47,7 +47,7 @@
     </div>
     {% endfor %}
 {% else %}
-    <div class="card">
+    <div >
         <p>No results available yet.</p>
     </div>
 {% endif %}

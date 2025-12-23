@@ -4,47 +4,47 @@
 {% block title %}Election Observer Dashboard{% endblock %}
 
 {% block content %}
-<div class="container-fluid mt-4">
-    <div class="row mb-4">
-        <div class="col-md-12">
+<div >
+    <div >
+        <div >
             <h1>Election Observer Dashboard</h1>
-            <p class="text-muted">Comprehensive view of all election data and voting activity</p>
+            <p >Comprehensive view of all election data and voting activity</p>
         </div>
     </div>
 
     <!-- Statistics Row 1: Users -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Users</h5>
+    <div >
+        <div >
+            <div >
+                <div >
+                    <h5 >Total Users</h5>
                     <h2>{{ total_users }}</h2>
                     <small>Verified: {{ verified_users }}</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Verified Users</h5>
+        <div >
+            <div >
+                <div >
+                    <h5 >Verified Users</h5>
                     <h2>{{ verified_users }}</h2>
                     <small>Unverified: {{ unverified_users }}</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Active Elections</h5>
+        <div >
+            <div >
+                <div >
+                    <h5 >Active Elections</h5>
                     <h2>{{ active_elections }}</h2>
                     <small>Completed: {{ completed_elections }}</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Elections</h5>
+        <div >
+            <div >
+                <div >
+                    <h5 >Total Elections</h5>
                     <h2>{{ total_elections }}</h2>
                     <small>Total ever created</small>
                 </div>
@@ -53,53 +53,53 @@
     </div>
 
     <!-- Statistics Row 2: Voting & Candidates -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Votes</h5>
-                    <h2 class="text-primary">{{ total_votes }}</h2>
-                    <small class="text-muted">Votes cast</small>
+    <div >
+        <div >
+            <div >
+                <div >
+                    <h5 >Total Votes</h5>
+                    <h2 >{{ total_votes }}</h2>
+                    <small >Votes cast</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Total Candidates</h5>
-                    <h2 class="text-info">{{ total_candidates }}</h2>
-                    <small class="text-muted">Running candidates</small>
+        <div >
+            <div >
+                <div >
+                    <h5 >Total Candidates</h5>
+                    <h2 >{{ total_candidates }}</h2>
+                    <small >Running candidates</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Voter Tokens</h5>
-                    <h2 class="text-success">{{ used_tokens }}/{{ total_tokens }}</h2>
-                    <small class="text-muted">Used/Total tokens</small>
+        <div >
+            <div >
+                <div >
+                    <h5 >Voter Tokens</h5>
+                    <h2 >{{ used_tokens }}/{{ total_tokens }}</h2>
+                    <small >Used/Total tokens</small>
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Unused Tokens</h5>
-                    <h2 class="text-danger">{{ unused_tokens }}</h2>
-                    <small class="text-muted">Not yet used</small>
+        <div >
+            <div >
+                <div >
+                    <h5 >Unused Tokens</h5>
+                    <h2 >{{ unused_tokens }}</h2>
+                    <small >Not yet used</small>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Statistics by State -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
+    <div >
+        <div >
+            <div >
+                <div >
                     <h5>Voter Statistics by State</h5>
                 </div>
-                <div class="card-body">
+                <div >
                     {% if state_stats %}
                         <div class="table-responsive">
                             <table class="table table-sm table-striped">
@@ -116,27 +116,27 @@
                                         <tr>
                                             <td>{{ state.name }}</td>
                                             <td>{{ state.total_voters }}</td>
-                                            <td><span class="badge bg-success">{{ state.verified_voters }}</span></td>
-                                            <td><span class="badge bg-warning">{{ state.total_voters|add:"-state.verified_voters" }}</span></td>
+                                            <td><span >{{ state.verified_voters }}</span></td>
+                                            <td><span >{{ state.total_voters|add:"-state.verified_voters" }}</span></td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     {% else %}
-                        <p class="text-muted">No state data available</p>
+                        <p >No state data available</p>
                     {% endif %}
                 </div>
             </div>
         </div>
 
         <!-- Statistics by Course -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">
+        <div >
+            <div >
+                <div >
                     <h5>Voter Statistics by Course</h5>
                 </div>
-                <div class="card-body">
+                <div >
                     {% if course_stats %}
                         <div class="table-responsive">
                             <table class="table table-sm table-striped">
@@ -154,14 +154,14 @@
                                             <td>{{ course.name }}</td>
                                             <td><code>{{ course.code }}</code></td>
                                             <td>{{ course.total_voters }}</td>
-                                            <td><span class="badge bg-success">{{ course.verified_voters }}</span></td>
+                                            <td><span >{{ course.verified_voters }}</span></td>
                                         </tr>
                                     {% endfor %}
                                 </tbody>
                             </table>
                         </div>
                     {% else %}
-                        <p class="text-muted">No course data available</p>
+                        <p >No course data available</p>
                     {% endif %}
                 </div>
             </div>
@@ -169,13 +169,13 @@
     </div>
 
     <!-- Recent Elections -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+    <div >
+        <div >
+            <div >
+                <div >
                     <h5>Recent Elections</h5>
                 </div>
-                <div class="card-body">
+                <div >
                     {% if recent_elections %}
                         <div class="table-responsive">
                             <table class="table table-hover">
@@ -194,22 +194,22 @@
                                             <td>
                                                 <strong>{{ election.title }}</strong>
                                                 {% if election.description %}
-                                                    <br><small class="text-muted">{{ election.description|truncatewords:10 }}</small>
+                                                    <br><small >{{ election.description|truncatewords:10 }}</small>
                                                 {% endif %}
                                             </td>
                                             <td>{{ election.start_date|date:"M d, Y H:i" }}</td>
                                             <td>{{ election.end_date|date:"M d, Y H:i" }}</td>
                                             <td>
                                                 {% if election.has_ended %}
-                                                    <span class="badge bg-danger">Ended</span>
+                                                    <span >Ended</span>
                                                 {% elif election.is_active %}
-                                                    <span class="badge bg-success">Active</span>
+                                                    <span >Active</span>
                                                 {% else %}
-                                                    <span class="badge bg-secondary">Pending</span>
+                                                    <span >Pending</span>
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                <a href="{% url 'election:election_results' election.id %}" class="btn btn-sm btn-info">
+                                                <a href="{% url 'election:election_results' election.id %}" >
                                                     View Results
                                                 </a>
                                             </td>
@@ -219,7 +219,7 @@
                             </table>
                         </div>
                     {% else %}
-                        <p class="text-muted">No elections found</p>
+                        <p >No elections found</p>
                     {% endif %}
                 </div>
             </div>
@@ -227,13 +227,13 @@
     </div>
 
     <!-- Recent Votes -->
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
+    <div >
+        <div >
+            <div >
+                <div >
                     <h5>Recent Votes (Last 50)</h5>
                 </div>
-                <div class="card-body">
+                <div >
                     {% if recent_votes %}
                         <div class="table-responsive">
                             <table class="table table-hover table-sm">
@@ -251,13 +251,13 @@
                                     {% for vote in recent_votes %}
                                         <tr>
                                             <td>{{ vote.election.title }}</td>
-                                            <td><span class="badge bg-light text-dark">{{ vote.election_level.name }}</span></td>
+                                            <td><span >{{ vote.election_level.name }}</span></td>
                                             <td>{{ vote.candidate.user.get_full_name }}</td>
                                             <td>
                                                 {% if vote.candidate.position %}
                                                     {{ vote.candidate.position.title }}
                                                 {% else %}
-                                                    <span class="text-muted">-</span>
+                                                    <span >-</span>
                                                 {% endif %}
                                             </td>
                                             <td><code>{{ vote.voter.voter_id }}</code></td>
@@ -268,7 +268,7 @@
                             </table>
                         </div>
                     {% else %}
-                        <p class="text-muted">No votes recorded yet</p>
+                        <p >No votes recorded yet</p>
                     {% endif %}
                 </div>
             </div>
@@ -276,23 +276,23 @@
     </div>
 
     <!-- API Access Info -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card border-info">
-                <div class="card-header bg-info text-white">
+    <div >
+        <div >
+            <div >
+                <div >
                     <h5>API Endpoints (JSON)</h5>
                 </div>
-                <div class="card-body">
+                <div >
                     <p class="mb-2"><strong>View election details with all votes:</strong></p>
-                    <code class="bg-light p-2 d-block mb-3">/api/observer/election/&lt;election_id&gt;/</code>
+                    <code >/api/observer/election/&lt;election_id&gt;/</code>
 
                     <p class="mb-2"><strong>View all votes in system:</strong></p>
-                    <code class="bg-light p-2 d-block mb-3">/api/observer/votes/</code>
+                    <code >/api/observer/votes/</code>
 
                     <p class="mb-2"><strong>View token statistics:</strong></p>
-                    <code class="bg-light p-2 d-block mb-3">/api/observer/tokens/</code>
+                    <code >/api/observer/tokens/</code>
 
-                    <p class="text-muted small">These endpoints provide JSON data for programmatic access to election data.</p>
+                    <p >These endpoints provide JSON data for programmatic access to election data.</p>
                 </div>
             </div>
         </div>

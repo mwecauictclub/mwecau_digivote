@@ -8,7 +8,7 @@
 
 {% if voting_levels %}
     {% for level_data in voting_levels %}
-    <div class="card">
+    <div >
         <h3>{{ level_data.level.name }}</h3>
         
         {% if level_data.has_voted %}
@@ -24,7 +24,7 @@
                 {% if position.candidates.all %}
                     <div class="candidates-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; margin-top: 1rem;">
                         {% for candidate in position.candidates.all %}
-                        <div class="card" style="text-align: center; padding: 1.5rem;">
+                        <div  style="text-align: center; padding: 1.5rem;">
                             <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
                                 <div>
                                     {% if candidate.image %}
@@ -70,7 +70,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="token_id" value="{{ level_data.token.id }}">
                                 <input type="hidden" name="candidate_id" value="{{ candidate.id }}">
-                                <button type="submit" class="btn" onclick="return confirm('Are you sure you want to vote for {{ candidate.user.get_full_name }}{% if candidate.running_mate %} & {{ candidate.running_mate.get_full_name }}{% endif %}? This action cannot be undone.');">
+                                <button type="submit"  onclick="return confirm('Are you sure you want to vote for {{ candidate.user.get_full_name }}{% if candidate.running_mate %} & {{ candidate.running_mate.get_full_name }}{% endif %}? This action cannot be undone.');">
                                     Vote for this Team
                                 </button>
                             </form>
@@ -86,7 +86,7 @@
     </div>
     {% endfor %}
 {% else %}
-    <div class="card">
+    <div >
         <p>You don't have voting tokens for this election. Please contact the election commissioner.</p>
     </div>
 {% endif %}

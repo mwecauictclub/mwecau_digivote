@@ -8,7 +8,7 @@
 {% if elections %}
     <div class="elections-grid">
         {% for election in elections %}
-        <div class="card">
+        <div >
             <h3>{{ election.title }}</h3>
             <p>{{ election.description }}</p>
             <p><strong>Start:</strong> {{ election.start_date|date:"F d, Y g:i A" }}</p>
@@ -16,7 +16,7 @@
             
             {% if election.is_ongoing %}
                 <p style="color: green;">✓ Voting is open!</p>
-                <a href="{% url 'election:vote' election.id %}" class="btn">Cast Your Vote</a>
+                <a href="{% url 'election:vote' election.id %}" >Cast Your Vote</a>
             {% else %}
                 <p style="color: orange;">Voting has not started yet</p>
             {% endif %}
@@ -28,7 +28,7 @@
         {% endfor %}
     </div>
 {% else %}
-    <div class="card">
+    <div >
         <p>No active elections at this time. Check back later!</p>
     </div>
 {% endif %}
