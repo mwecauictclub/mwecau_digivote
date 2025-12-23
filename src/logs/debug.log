@@ -849,3 +849,57 @@ INFO 2025-12-08 05:38:31,344 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1
 INFO 2025-12-08 05:38:31,366 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
 INFO 2025-12-08 05:38:31,479 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
 INFO 2025-12-08 05:40:29,259 basehttp "GET / HTTP/1.1" 200 14794
+INFO 2025-12-08 23:13:49,386 autoreload Watching for file changes with StatReloader
+WARNING 2025-12-08 23:14:57,248 base Session data corrupted
+INFO 2025-12-08 23:14:57,281 basehttp "GET / HTTP/1.1" 200 14794
+WARNING 2025-12-08 23:14:57,434 base Session data corrupted
+INFO 2025-12-08 23:14:57,466 basehttp "GET /admin/ HTTP/1.1" 302 0
+WARNING 2025-12-08 23:14:57,473 base Session data corrupted
+INFO 2025-12-08 23:14:57,574 basehttp "GET /static/css/style.css HTTP/1.1" 304 0
+WARNING 2025-12-08 23:14:58,146 log Not Found: /favicon.ico
+INFO 2025-12-08 23:14:58,756 basehttp "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4187
+WARNING 2025-12-08 23:15:02,087 base Session data corrupted
+INFO 2025-12-08 23:15:02,171 basehttp "GET /login/ HTTP/1.1" 200 2826
+WARNING 2025-12-08 23:15:10,594 base Session data corrupted
+INFO 2025-12-08 23:15:11,628 basehttp "POST /login/ HTTP/1.1" 302 0
+INFO 2025-12-08 23:15:11,813 basehttp "GET /dashboard/ HTTP/1.1" 200 3927
+INFO 2025-12-08 23:15:20,172 basehttp "GET /profile/edit/ HTTP/1.1" 200 9284
+INFO 2025-12-08 23:15:24,487 basehttp "GET /admin/ HTTP/1.1" 200 20771
+INFO 2025-12-08 23:15:24,572 basehttp "GET /static/admin/css/base.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,586 basehttp "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,591 basehttp "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,592 basehttp "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,593 basehttp "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,652 basehttp "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,719 basehttp "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:24,757 basehttp "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-12-08 23:15:24,778 basehttp "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-12-08 23:15:31,642 basehttp "GET /admin/core/collegedata/ HTTP/1.1" 200 22769
+INFO 2025-12-08 23:15:31,711 basehttp "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,717 basehttp "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-12-08 23:15:31,717 basehttp "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,718 basehttp "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,719 basehttp "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,721 basehttp "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,724 basehttp "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:31,883 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:15:31,999 basehttp "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:32,000 basehttp "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:32,001 basehttp "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-12-08 23:15:32,126 basehttp "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-12-08 23:15:32,247 basehttp "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-12-08 23:15:32,269 basehttp "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-12-08 23:15:35,782 basehttp "GET /admin/core/course/ HTTP/1.1" 200 31452
+INFO 2025-12-08 23:15:35,843 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:15:35,962 basehttp "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-12-08 23:15:48,466 basehttp "GET /admin/core/state/ HTTP/1.1" 200 21304
+INFO 2025-12-08 23:15:48,516 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:15:51,300 basehttp "GET /admin/core/user/ HTTP/1.1" 200 81987
+INFO 2025-12-08 23:15:51,357 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:15:51,383 basehttp "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-12-08 23:15:51,384 basehttp "GET /static/admin/img/icon-no.svg HTTP/1.1" 200 560
+INFO 2025-12-08 23:29:14,623 basehttp "GET /admin/core/collegedata/ HTTP/1.1" 200 22769
+INFO 2025-12-08 23:29:14,697 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:29:17,150 basehttp "GET /admin/core/collegedata/ HTTP/1.1" 200 22769
+INFO 2025-12-08 23:29:17,201 basehttp "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-12-08 23:31:52,403 autoreload /home/nevelc/Private/repo/university_elec_api/venv/lib/python3.13/site-packages/django/conf/global_settings.py changed, reloading.
