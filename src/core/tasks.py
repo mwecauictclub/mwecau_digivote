@@ -15,11 +15,11 @@ def send_verification_email(user_id):
     try:
         user = User.objects.get(id=user_id)
     except User.DoesNotExist:
-        print(f"User with ID {user_id} not found for verification email.")
+        logger.error(f"User with ID {user_id} not found for verification email.")
         return
 
     if not user.email:
-        print(f"User {user_id} has no email, skipping verification email")
+        logger.warning(f"User {user_id} has no email, skipping verification email")
         return
     
     if not user.is_verified:

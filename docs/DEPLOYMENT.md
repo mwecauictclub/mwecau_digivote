@@ -152,6 +152,48 @@ python manage.py loaddata backup.json
 - [ ] Database credentials secured
 - [ ] Admin interface access restricted
 - [ ] Regular backups scheduled
+- [ ] ALLOWED_HOSTS properly configured
+- [ ] DEBUG=False in production
+- [ ] Security headers enabled
+
+## Troubleshooting Common Issues
+
+### Database Connection Errors
+```bash
+# Check database connectivity
+python manage.py dbshell
+
+# Verify migrations
+python manage.py showmigrations
+```
+
+### Static Files Not Loading
+```bash
+# Collect static files
+python manage.py collectstatic --noinput
+
+# Verify STATIC_ROOT setting
+python manage.py diffsettings | grep STATIC
+```
+
+### Email Configuration Issues
+```bash
+# Test email configuration
+python manage.py shell
+>>> from django.core.mail import send_mail
+>>> send_mail('Test', 'Test message', 'from@example.com', ['to@example.com'])
+```
+
+### Performance Issues
+```bash
+# Check database queries
+python manage.py shell
+>>> from django.db import connection
+>>> print(len(connection.queries))
+
+# Monitor log files
+tail -f logs/django.log
+```
 
 ## Club Customization
 

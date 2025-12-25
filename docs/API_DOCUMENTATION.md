@@ -1,5 +1,25 @@
 # MWECAU Digital Voting System - API Documentation
 
+## Error Handling
+
+All API endpoints return standardized error responses:
+
+```json
+{
+  "error": "Error type",
+  "message": "Detailed error description",
+  "status": 400
+}
+```
+
+Common HTTP status codes:
+- `200`: Success
+- `400`: Bad Request (invalid data)
+- `401`: Unauthorized (authentication required)
+- `403`: Forbidden (insufficient permissions)
+- `404`: Not Found (resource doesn't exist)
+- `500`: Internal Server Error
+
 ## Base URL
 ```
 Production: https://your-repl-name.repl.co

@@ -119,7 +119,15 @@ def election_analytics_api(request, election_id):
     try:
         election = Election.objects.get(id=election_id)
     except Election.DoesNotExist:
-        return Response({'error': 'Election not found'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({
+            'error': 'Election not found',
+            'message': f'No election exists with ID {election_id}'
+        }, status=status.HTTP_404_NOT_FOUND)
+    except ValueError:
+        return Response({
+            'error': 'Invalid election ID',
+            'message': 'Election ID must be a valid integer'
+        }, status=status.HTTP_400_BAD_REQUEST)
     
     # Get election levels and their statistics
     levels_data = []
