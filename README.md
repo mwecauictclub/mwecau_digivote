@@ -1,4 +1,4 @@
-# 🗳️ MWECAU Election Platform
+#  MWECAU Election Platform
 **Modern Digital Voting System for Mwenge Catholic University**
 
 [![Python](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/)
@@ -8,28 +8,28 @@
 [![Status](https://img.shields.io/badge/status-Production%20Ready-success.svg)]()
 [![Security](https://img.shields.io/badge/security-JWT%20%2B%20HTTPS-yellow.svg)]()
 
----
 
-## 🏛️ Bringing Democracy to the Digital Age
+
+##  Bringing Democracy to the Digital Age
 
 Transform student elections at **Mwenge Catholic University** with this cutting-edge, secure digital voting platform. Developed by the **MWECAU ICT Club** to modernize student democracy - making it more accessible, transparent, and efficient than ever before.
 
 > **No more queues, no more paper ballots, no more delays.** Just secure, instant, democratic participation from anywhere in the world.
 
----
 
-## ✨ Why This Matters
 
-🌍 **Global Access** - Students abroad can vote from anywhere  
-⚡ **Lightning Fast** - Complete voting in under 5 minutes  
-🔒 **Bank-Level Security** - Your vote is protected and anonymous  
-📊 **Real-Time Results** - Instant counting, no human error  
-🏠 **Multi-Level Elections** - Presidential, Residential, and Course leadership  
-📱 **Mobile First** - Vote from your phone, tablet, or computer  
+##  Why This Matters
 
----
+ **Global Access** - Students abroad can vote from anywhere  
+ **Lightning Fast** - Complete voting in under 5 minutes  
+ **Bank-Level Security** - Your vote is protected and anonymous  
+ **Real-Time Results** - Instant counting, no human error  
+ **Multi-Level Elections** - Presidential, Residential, and Course leadership  
+ **Mobile First** - Vote from your phone, tablet, or computer  
 
-## 🚀 Quick Start
+
+
+##  Quick Start
 
 ### For Developers
 ```bash
@@ -49,9 +49,9 @@ python manage.py createsuperuser
 
 # Launch development server
 python manage.py runserver
-```
 
-🌐 **Access**: http://localhost:8000
+
+ **Access**: http://localhost:8000
 
 ### For Users
 1. **Visit** the election portal
@@ -60,9 +60,9 @@ python manage.py runserver
 4. **Vote** for your preferred candidates
 5. **Confirm** your choices are recorded
 
----
 
-## 🏗️ System Architecture
+
+##  System Architecture
 
 ### **Tech Stack**
 - **Backend**: Django 5.2.7 with custom User model
@@ -72,23 +72,23 @@ python manage.py runserver
 - **Security**: HTTPS + JWT tokens + Session management
 
 ### **Key Features**
-- ✅ **One-Click Registration** with student ID
-- ✅ **Multi-Election Support** (Presidential, Residential, Course)
-- ✅ **Real-Time Analytics** for administrators
-- ✅ **Audit Trail** for complete transparency
-- ✅ **Mobile Responsive** design
-- ✅ **Offline Capability** (coming soon)
+-  **One-Click Registration** with student ID
+-  **Multi-Election Support** (Presidential, Residential, Course)
+-  **Real-Time Analytics** for administrators
+-  **Audit Trail** for complete transparency
+-  **Mobile Responsive** design
+-  **Offline Capability** (coming soon)
 
----
 
-## 🗺️ Election Types Supported
 
-### 🎓 **Presidential Elections**
+##  Election Types Supported
+
+###  **Presidential Elections**
 Vote for university-wide student leadership
 - **Scope**: All MWECAU students
 - **Access**: Every registered student
 
-### 🏘️ **Residential Area Leadership**
+###  **Residential Area Leadership**
 Elect representatives for your housing area
 - **KIFUMBU** (Residential)
 - **MAWELA** (Residential) 
@@ -97,16 +97,16 @@ Elect representatives for your housing area
 - **MOSHI MJINI** (Urban)
 - **ON-CAMPUS** (Campus)
 
-### 📚 **Course Leadership**
+###  **Course Leadership**
 Choose class representatives for your program
 - **Undergraduate**: Bachelor programs (MW001-MW015)
 - **Postgraduate**: Master programs (MWM02-MWM07)
 - **Doctoral**: PhD programs (MWPH01)
 - **Diploma/Certificate**: Professional programs
 
----
 
-## 🔧 Key URLs & Navigation
+
+##  Key URLs & Navigation
 
 | Feature | URL | Description |
 |---------|-----|-------------|
@@ -118,83 +118,83 @@ Choose class representatives for your program
 | **Admin** | `/admin/` | System administration |
 | **API Stats** | `/api/commissioner/stats/` | Election analytics |
 
----
 
-## 📋 User Roles & Permissions
+
+##  User Roles & Permissions
 
 | Role | Capabilities | Access Level |
 |------|-------------|--------------|
-| **👨‍🎓 Student** | Vote, view results | Basic |
-| **🏃 Candidate** | Campaign, view personal stats | Enhanced |
-| **👥 Class Leader** | Manage course data | Course Level |
-| **⚖️ Commissioner** | Full election management | System Admin |
+| ** Student** | Vote, view results | Basic |
+| ** Candidate** | Campaign, view personal stats | Enhanced |
+| ** Class Leader** | Manage course data | Course Level |
+| ** Commissioner** | Full election management | System Admin |
 
----
 
-## 🛡️ Security & Privacy
+
+##  Security & Privacy
 
 ### **Data Protection**
-- 🔐 **Encrypted Connections** (HTTPS/TLS)
-- 🗝️ **JWT Token Authentication**
-- 🔒 **Anonymous Voting** (votes cannot be traced back)
-- 📝 **Audit Logging** (activity tracking without vote content)
-- 🛡️ **Permission-Based Access** (users see only what they should)
+-  **Encrypted Connections** (HTTPS/TLS)
+-  **JWT Token Authentication**
+-  **Anonymous Voting** (votes cannot be traced back)
+-  **Audit Logging** (activity tracking without vote content)
+-  **Permission-Based Access** (users see only what they should)
 
 ### **Vote Integrity**
-- ✅ **One Vote Per Election** (duplicate prevention)
-- ✅ **Tamper-Proof Records** (cryptographic verification)
-- ✅ **Real-Time Monitoring** (suspicious activity detection)
+-  **One Vote Per Election** (duplicate prevention)
+-  **Tamper-Proof Records** (cryptographic verification)
+-  **Real-Time Monitoring** (suspicious activity detection)
 
----
 
-## 📚 Documentation
+
+##  Documentation
 
 | Document | Purpose | Audience |
 |----------|---------|----------|
-| **[📖 PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** | Complete project details | All Users |
-| **[🛠️ docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** | Production setup guide | System Admins |
-| **[🔧 docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)** | API reference | Developers |
-| **[🏗️ docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System architecture | Technical Team |
-| **[🤝 CONTRIBUTING.md](CONTRIBUTING.md)** | How to contribute | Contributors |
-| **[👥 CONTRIBUTORS.md](CONTRIBUTORS.md)** | Project contributors | Community |
+| **[ PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)** | Complete project details | All Users |
+| **[ docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** | Production setup guide | System Admins |
+| **[ docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)** | API reference | Developers |
+| **[ docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System architecture | Technical Team |
+| **[ CONTRIBUTING.md](CONTRIBUTING.md)** | How to contribute | Contributors |
+| **[ CONTRIBUTORS.md](CONTRIBUTORS.md)** | Project contributors | Community |
 
----
 
-## 🎨 Design Philosophy
+
+##  Design Philosophy
 
 ### **User Experience**
-- **🎯 Simplicity First** - Easy for all skill levels
-- **📱 Mobile Optimized** - Works perfectly on phones
-- **⚡ Speed Focused** - Pages load in under 2 seconds
-- **♿ Accessible** - WCAG 2.1 compliant
+- ** Simplicity First** - Easy for all skill levels
+- ** Mobile Optimized** - Works perfectly on phones
+- ** Speed Focused** - Pages load in under 2 seconds
+- ** Accessible** - WCAG 2.1 compliant
 
 ### **Visual Design**
-- **🎨 MWECAU Branding** - Deep purple university colors
-- **🧹 Clean Interface** - No clutter, just what you need
-- **🔤 Clear Typography** - Easy to read on all devices
-- **📐 Consistent Layout** - Familiar patterns throughout
+- ** MWECAU Branding** - Deep purple university colors
+- ** Clean Interface** - No clutter, just what you need
+- ** Clear Typography** - Easy to read on all devices
+- ** Consistent Layout** - Familiar patterns throughout
 
----
 
-## 🌟 Project Impact
+
+##  Project Impact
 
 ### **By The Numbers**
-- 🎓 **1000+** Students supported
-- ⚡ **99.9%** System availability
-- 📊 **100%** Vote accuracy
-- 🌍 **24/7** Global access
-- 📱 **Cross-Platform** compatibility
+-  **1000+** Students supported
+-  **99.9%** System availability
+-  **100%** Vote accuracy
+-  **24/7** Global access
+-  **Cross-Platform** compatibility
 
 ### **Real Benefits**
-- **💰 Cost Savings** - No physical polling infrastructure
-- **⏰ Time Efficiency** - Elections complete in hours, not days
-- **🌍 Inclusivity** - Students abroad can participate
-- **📈 Higher Turnout** - Easier voting increases participation
-- **🔍 Transparency** - Complete audit trail available
+- ** Cost Savings** - No physical polling infrastructure
+- ** Time Efficiency** - Elections complete in hours, not days
+- ** Inclusivity** - Students abroad can participate
+- ** Higher Turnout** - Easier voting increases participation
+- ** Transparency** - Complete audit trail available
 
----
 
-## 🤝 Contributing to Democracy
+
+##  Contributing to Democracy
 
 We welcome contributions from the MWECAU community! This is a **plain HTML/CSS** project (no Bootstrap) to encourage community styling and customization.
 
@@ -207,62 +207,62 @@ We welcome contributions from the MWECAU community! This is a **plain HTML/CSS**
 
 See **[CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines.
 
----
 
-## 👥 Development Team
+
+##  Development Team
 
 ### **Project Management**
-- **[👨‍💼 Cleven](https://github.com/cleven12)** - Project Manager & Lead Developer
-- **[👨‍💼 Lajokjohn](https://github.com/Lajokjohn)** - Project Manager & Technical Lead
+- **[ Cleven](https://github.com/cleven12)** - Project Manager & Lead Developer
+- **[ Lajokjohn](https://github.com/Lajokjohn)** - Project Manager & Technical Lead
 
 ### **Core Contributors**
-- **[👩‍💻 Faustine Emmanuel](https://github.com/FaustineEmmanuel)** - Feature Developer
-- **[🏛️ MWECAU ICT Club](https://github.com/mwecauictclub)** - Institution & Community
+- **[ Faustine Emmanuel](https://github.com/FaustineEmmanuel)** - Feature Developer
+- **[ MWECAU ICT Club](https://github.com/mwecauictclub)** - Institution & Community
 
 *Full contributor details in **[CONTRIBUTORS.md](CONTRIBUTORS.md)***
 
----
 
-## 📞 Support & Contact
+
+##  Support & Contact
 
 ### **For Students**
-- 🆘 **Election Support** - Available during voting periods
-- 📚 **User Guides** - Complete documentation provided
-- 🐛 **Issue Reporting** - Report problems via official channels
+-  **Election Support** - Available during voting periods
+-  **User Guides** - Complete documentation provided
+-  **Issue Reporting** - Report problems via official channels
 
 ### **For Developers**
-- 📁 **GitHub Repository** - [mwecauictclub/mwecau_election_platform](https://github.com/mwecauictclub/mwecau_election_platform)
-- 📧 **Technical Support** - Through MWECAU ICT Club
-- 🤝 **Collaboration** - Pull requests welcome
+-  **GitHub Repository** - [mwecauictclub/mwecau_election_platform](https://github.com/mwecauictclub/mwecau_election_platform)
+-  **Technical Support** - Through MWECAU ICT Club
+-  **Collaboration** - Pull requests welcome
 
----
 
-## 📜 License & Legal
+
+##  License & Legal
 
 This project is licensed under the **MIT License** - see the **[LICENSE](LICENSE)** file for details.
 
 **© 2024 MWECAU ICT Club & Contributors**  
 *Developed for Mwenge Catholic University student democracy*
 
----
 
-## 🔮 Future Vision
+
+##  Future Vision
 
 ### **Upcoming Features**
-- 🌐 **Offline Voting** capability
-- 📊 **Advanced Analytics** dashboard  
-- 🔔 **Push Notifications** for election updates
-- 🎯 **Candidate Profiles** with photos and manifestos
-- 📱 **Mobile App** for iOS and Android
+-  **Offline Voting** capability
+-  **Advanced Analytics** dashboard  
+-  **Push Notifications** for election updates
+-  **Candidate Profiles** with photos and manifestos
+-  **Mobile App** for iOS and Android
 
 ### **Long-term Goals**
-- 🌍 **Multi-University** platform
-- 🤖 **AI-Powered** fraud detection
-- 🔗 **Blockchain** vote verification
-- 📈 **Predictive Analytics** for engagement
+-  **Multi-University** platform
+-  **AI-Powered** fraud detection
+-  **Blockchain** vote verification
+-  **Predictive Analytics** for engagement
 
----
 
-**🎯 Ready to modernize student democracy? [Get started now!](https://github.com/mwecauictclub/mwecau_election_platform)**
+
+** Ready to modernize student democracy? [Get started now!](https://github.com/mwecauictclub/mwecau_election_platform)**
 
 *Empowering every MWECAU student voice, one vote at a time.*
