@@ -16,8 +16,6 @@ Transform student elections at **Mwenge Catholic University** with this cutting-
 
 > **No more queues, no more paper ballots, no more delays.** Just secure, instant, democratic participation from anywhere in the world.
 
-
-
 ##  Why This Matters
 
  **Global Access** - Students abroad can vote from anywhere  
@@ -50,9 +48,8 @@ python manage.py createsuperuser
 # Launch development server
 python manage.py runserver
 
-
  **Access**: http://localhost:8000
-
+```
 ### For Users
 1. **Visit** the election portal
 2. **Enter** your MWECAU registration number
@@ -124,10 +121,10 @@ Choose class representatives for your program
 
 | Role | Capabilities | Access Level |
 |------|-------------|--------------|
-| ** Student** | Vote, view results | Basic |
-| ** Candidate** | Campaign, view personal stats | Enhanced |
-| ** Class Leader** | Manage course data | Course Level |
-| ** Commissioner** | Full election management | System Admin |
+| **Student** | Vote, view results | Basic |
+| **Candidate** | Campaign, view personal stats | Enhanced |
+| **Class Leader** | Manage course data | Course Level |
+| **Commissioner** | Full election management | System Admin |
 
 
 
@@ -145,8 +142,6 @@ Choose class representatives for your program
 -  **Tamper-Proof Records** (cryptographic verification)
 -  **Real-Time Monitoring** (suspicious activity detection)
 
-
-
 ##  Documentation
 
 | Document | Purpose | Audience |
@@ -163,16 +158,16 @@ Choose class representatives for your program
 ##  Design Philosophy
 
 ### **User Experience**
-- ** Simplicity First** - Easy for all skill levels
-- ** Mobile Optimized** - Works perfectly on phones
-- ** Speed Focused** - Pages load in under 2 seconds
-- ** Accessible** - WCAG 2.1 compliant
+- **Simplicity First** - Easy for all skill levels
+- **Mobile Optimized** - Works perfectly on phones
+- **Speed Focused** - Pages load in under 2 seconds
+- **Accessible** - WCAG 2.1 compliant
 
 ### **Visual Design**
-- ** MWECAU Branding** - Deep purple university colors
-- ** Clean Interface** - No clutter, just what you need
-- ** Clear Typography** - Easy to read on all devices
-- ** Consistent Layout** - Familiar patterns throughout
+- **MWECAU Branding** - Deep purple university colors
+- **Clean Interface** - No clutter, just what you need
+- **Clear Typography** - Easy to read on all devices
+- **Consistent Layout** - Familiar patterns throughout
 
 
 
@@ -186,11 +181,11 @@ Choose class representatives for your program
 -  **Cross-Platform** compatibility
 
 ### **Real Benefits**
-- ** Cost Savings** - No physical polling infrastructure
-- ** Time Efficiency** - Elections complete in hours, not days
-- ** Inclusivity** - Students abroad can participate
-- ** Higher Turnout** - Easier voting increases participation
-- ** Transparency** - Complete audit trail available
+- **Cost Savings** - No physical polling infrastructure
+- **Time Efficiency** - Elections complete in hours, not days
+- **Inclusivity** - Students abroad can participate
+- **Higher Turnout** - Easier voting increases participation
+- **Transparency** - Complete audit trail available
 
 
 
@@ -241,10 +236,8 @@ See **[CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines.
 
 This project is licensed under the **MIT License** - see the **[LICENSE](LICENSE)** file for details.
 
-**© 2024 MWECAU ICT Club & Contributors**  
+**© 2026 MWECAU ICT Club & Contributors**  
 *Developed for Mwenge Catholic University student democracy*
-
-
 
 ##  Future Vision
 
@@ -263,6 +256,6 @@ This project is licensed under the **MIT License** - see the **[LICENSE](LICENSE
 
 
 
-** Ready to modernize student democracy? [Get started now!](https://github.com/mwecauictclub/mwecau_election_platform)**
+>>**Ready to modernize student democracy? [Get started now!](https://github.com/mwecauictclub/mwecau_election_platform)**
 
 *Empowering every MWECAU student voice, one vote at a time.*
