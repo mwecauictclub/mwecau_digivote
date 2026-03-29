@@ -58,7 +58,7 @@ class Migration(migrations.Migration):
                 ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
                 ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
                 ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('registration_number', models.CharField(help_text='University registration number (e.g., T/XXX/202X/XXX)', max_length=20, unique=True, validators=[django.core.validators.RegexValidator(message='Registration number must contain only uppercase letters, numbers, or slashes.', regex='^[A-Z0-9/]+$')])),
+                ('registration_number', models.CharField(help_text='University registration number (e.g , T/XXX/202X/XXX)', max_length=20, unique=True, validators=[django.core.validators.RegexValidator(message='Registration number must contain only uppercase letters, numbers, or slashes.', regex='^[A-Z0-9/]+$')])),
                 ('email', models.EmailField(blank=True, help_text='Required email for notifications and password resets', max_length=254, null=True, unique=True, verbose_name='email address')),
                 ('voter_id', models.CharField(blank=True, help_text='Unique voter ID for anonymous voting, auto-generated UUID', max_length=36, null=True, unique=True)),
                 ('gender', models.CharField(blank=True, choices=[('male', 'Male'), ('female', 'Female'), ('other', 'Other')], help_text="User's gender for position eligibility", max_length=10, null=True)),
