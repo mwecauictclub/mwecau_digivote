@@ -152,12 +152,10 @@ class User(AbstractUser):
     
     GENDER_MALE = 'male'
     GENDER_FEMALE = 'female'
-    GENDER_OTHER = 'other'
     
     GENDER_CHOICES = [
         (GENDER_MALE, 'Male'),
         (GENDER_FEMALE, 'Female'),
-        (GENDER_OTHER, 'Other'),
     ]
     
     username = None
@@ -169,7 +167,7 @@ class User(AbstractUser):
             regex=r'^[A-Z0-9/]+$',
             message='Registration number must contain only uppercase letters, numbers, or slashes.'
         )],
-        help_text="University registration number (e.g , T/XXX/20XX/XXX)"
+        help_text="University registration number (e.g., T/XXX/20XX/XXX)"
     )
     email = models.EmailField(
         _('email address'),
