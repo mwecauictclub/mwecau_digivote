@@ -189,6 +189,7 @@ class Candidate(models.Model):
     running_mate_bio = models.TextField(blank=True, help_text="Biography of the running mate")
     running_mate_image = models.ImageField(upload_to='candidate_images/', null=True, blank=True, help_text="Profile image of the running mate")
     vote_count = models.PositiveIntegerField(default=0, help_text="Cached count of votes received")
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
