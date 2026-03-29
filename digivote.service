@@ -1,0 +1,25 @@
+[Unit]
+Description=MWECAU DigiVote Gunicorn Service
+After=network.target
+
+[Service]
+Type=notify
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/mwecau_digivote/src
+Environment="PATH=/var/www/mwecau_digivote/src/venv/bin"
+ExecStart=/var/www/mwecau_digivote/src/venv/bin/gunicorn \
+          --workers 3 \
+          --bind unix:/var/www/mwecau_digivote/src/gunicorn.sock \
+          --timeout 120 \
+          --access-logfile /var/www/mwecau_digivote/logs/gunicorn-access.log \
+          --error-logfile /var/www/mwecau_digivote/logs/gunicorn-error.log \
+          mw_es.wsgi:application
+
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
